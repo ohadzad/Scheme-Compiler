@@ -798,6 +798,22 @@ POP(FP);
 RETURN;
 "))
 
+(define vector_set_code
+	(sa "
+VECTOR_SET:
+PUSH(FP);
+MOV(FP,SP);
+MOV(R0, FPARG(3));
+MOV(R1, FPARG(4));
+MOV(R2, FPARG(5));
+MOV(R1,(INDD(R1, IMM(1))));
+ADD(R1, IMM(2));
+MOV(INDD(R0,R1),R2);
+MOV(R0, " void-loc ");
+POP(FP);
+RETURN;
+"))
+
 (define primitive_procedures 
 	(sa 
 		string->symbol_code
@@ -836,6 +852,7 @@ RETURN;
 		EQ_CODE
 		EQ2_CODE
 		EQUAL_CODE
+		vector_set_code
 		))
 
 
@@ -885,6 +902,7 @@ MOV(INDD(R1, 1), R0);
 			(string?  "IS_STRING")
 			(char?  "IS_CHAR")
 			(number?  "IS_NUMBER")
+			(integer? "IS_NUMBER")
 			(boolean?  "IS_BOOLEAN")
 			(pair?  "IS_PAIR")
 			(null? "IS_NULL")
@@ -899,20 +917,19 @@ MOV(INDD(R1, 1), R0);
 			(set-cdr! "SET_CDR")
 			(cons "CONS")
 			(string-set! "STRING_SET")
+			(vector-set! "VECTOR_SET")
 			(string-ref "STRING_REF")
 			(vector-ref "VECTOR_REF")
 			(eq? "EQ2")
-			(equal? "EQUAL")
 			)
 			))))
 
-(define builtin_Scheme_procedures '(bin+ bin- bin* bin/ > < = bin<? bin=? bin< bin= bin> apply remainder procedure? car cdr string->symbol 
-					vector? symbol? string? char? number? boolean? pair? null? integer->char char->integer string-length
-					symbol->string set-car! set-cdr! cons make-string vector-length string-set! make-vector string-ref vector-ref
-					eq? equal?
-					;+ - / *  - 
-;make-vector  string-ref string-set! 
-;vector-ref vector-set! vector? zero?
+(define builtin_Scheme_procedures 	'(bin+ bin- bin* bin/ > < = bin<? bin=? bin< bin= bin> apply
+					remainder procedure? car cdr string->symbol vector? symbol?
+					string? char? number? boolean? pair? null? integer->char
+					char->integer string-length symbol->string set-car! set-cdr!
+					cons make-string vector-length string-set! make-vector string-ref
+					vector-ref eq? integer? vector-set!
 ))
  
 
