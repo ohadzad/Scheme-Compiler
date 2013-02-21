@@ -785,6 +785,52 @@ DROP(IMM(1));
 POP(FP);
 RETURN;
 
+EQ2:
+  //SHOW("Equal?", R0);
+  PUSH(FP);
+  MOV(FP, SP);
+  MOV(R0, FPARG(3));
+  MOV(R1, FPARG(4));
+  //SHOW("R0", R0);
+  //SHOW("R1", R1);
+  MOV(R2, INDD(R0, 0));
+  MOV(R3, INDD(R1, 0));
+  //First compare data types, not equal here is enough.
+  CMP(R2, R3);
+  JUMP_NE(EQ2_NOT_EQUAL);
+  //check if it's T_CHAR
+  CMP(R2, IMM(181048));
+  JUMP_EQ(EQ2_T_BOOL_CHAR_INTEGER);
+  //check if it's T_INTEGER
+  CMP(R2, IMM(945311));
+  JUMP_EQ(EQ2_T_BOOL_CHAR_INTEGER);
+  JUMP(EQ2_ELSE_TYPE);
+EQ2_T_BOOL_CHAR_INTEGER:
+  MOV(R0, INDD(R0, 1));
+  MOV(R1, INDD(R1, 1));
+  CMP(R0, R1);
+  JUMP_EQ(EQ2_EQUAL);
+  JUMP(EQ2_NOT_EQUAL);
+  
+EQ2_ELSE_TYPE:
+  CMP(R0, R1);
+  JUMP_NE(EQ2_NOT_EQUAL);
+  JUMP(EQ2_EQUAL);
+
+
+EQ2_EQUAL:
+MOV(R0, IMM(1));
+JUMP(EQ2_END);
+EQ2_NOT_EQUAL:
+MOV(R0, IMM(0));
+EQ2_END:
+PUSH(R0);
+CALL(MAKE_SOB_BOOL);
+DROP(IMM(1));
+POP(FP);
+RETURN;
+
+
 EQUAL:
   //SHOW("Equal?", R0);
   PUSH(FP);
@@ -973,6 +1019,16 @@ L_END_DEFS:
 
 PUSH(R0);
 POP(R0);
+<<<<<<< HEAD
+int arr[458] = {937610, 722689, 741553, 0, 741553, 1, 799345, 3, 101, 113, 63, 368031, 0, 945311, 2, 799345, 4, 98, 105, 110, 43, 368031, 0, 945311, 1, 799345, 4, 98, 105, 110, 45, 368031, 0, 799345, 4, 98, 105, 110, 42, 368031, 0, 799345, 4, 98, 105, 110, 47, 368031, 0, 799345, 1, 62, 368031, 0, 799345, 1, 60, 368031, 0, 799345, 1, 61, 368031, 0, 799345, 5, 98, 105, 110, 60, 63, 368031, 0, 799345, 5, 98, 105, 110, 61, 63, 368031, 0, 799345, 4, 98, 105, 110, 60, 368031, 0, 799345, 4, 98, 105, 110, 61, 368031, 0, 799345, 4, 98, 105, 110, 62, 368031, 0, 799345, 5, 97, 112, 112, 108, 121, 368031, 0, 799345, 9, 114, 101, 109, 97, 105, 110, 100, 101, 114, 368031, 0, 799345, 10, 112, 114, 111, 99, 101, 100, 117, 114, 101, 63, 368031, 0, 799345, 3, 99, 97, 114, 368031, 0, 799345, 3, 99, 100, 114, 368031, 0, 799345, 14, 115, 116, 114, 105, 110, 103, 45, 62, 115, 121, 109, 98, 111, 108, 368031, 0, 799345, 7, 118, 101, 99, 116, 111, 114, 63, 368031, 0, 799345, 7, 115, 121, 109, 98, 111, 108, 63, 368031, 0, 799345, 7, 115, 116, 114, 105, 110, 103, 63, 368031, 0, 799345, 5, 99, 104, 97, 114, 63, 368031, 0, 799345, 7, 110, 117, 109, 98, 101, 114, 63, 368031, 0, 799345, 8, 98, 111, 111, 108, 101, 97, 110, 63, 368031, 0, 799345, 5, 112, 97, 105, 114, 63, 368031, 0, 799345, 5, 110, 117, 108, 108, 63, 368031, 0, 799345, 13, 105, 110, 116, 101, 103, 101, 114, 45, 62, 99, 104, 97, 114, 368031, 0, 799345, 13, 99, 104, 97, 114, 45, 62, 105, 110, 116, 101, 103, 101, 114, 368031, 0, 799345, 13, 115, 116, 114, 105, 110, 103, 45, 108, 101, 110, 103, 116, 104, 368031, 0, 799345, 14, 115, 121, 109, 98, 111, 108, 45, 62, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 8, 115, 101, 116, 45, 99, 97, 114, 33, 368031, 0, 799345, 8, 115, 101, 116, 45, 99, 100, 114, 33, 368031, 0, 799345, 4, 99, 111, 110, 115, 368031, 0, 799345, 11, 109, 97, 107, 101, 45, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 13, 118, 101, 99, 116, 111, 114, 45, 108, 101, 110, 103, 116, 104, 368031, 0, 799345, 11, 115, 116, 114, 105, 110, 103, 45, 115, 101, 116, 33, 368031, 0, 799345, 11, 109, 97, 107, 101, 45, 118, 101, 99, 116, 111, 114, 368031, 0, 799345, 10, 115, 116, 114, 105, 110, 103, 45, 114, 101, 102, 368031, 0, 799345, 10, 118, 101, 99, 116, 111, 114, 45, 114, 101, 102, 368031, 0, 799345, 6, 101, 113, 117, 97, 108, 63, 368031, 0};
+void *a = &arr;
+memcpy(&((*machine).mem[10]), a, 458*4);
+MOV(ADDR(0), IMM(468));
+
+ //generating symbol table
+MOV(R1, IMM(1));
+//creating bucket for eq?
+=======
 int arr[1727] = {937610, 722689, 741553, 0, 741553, 1, 799345, 3, 110, 111, 116, 368031, 0, 799345, 4, 108, 105, 115, 116, 368031, 0, 799345, 4, 97, 100, 100, 49, 368031, 0, 799345, 4, 115, 117, 98, 49, 368031, 0, 799345, 5, 98, 105, 110, 62, 63, 368031, 0, 799345, 6, 98, 105, 110, 60, 61, 63, 368031, 0, 799345, 6, 98, 105, 110, 62, 61, 63, 368031, 0, 799345, 5, 122, 101, 114, 111, 63, 368031, 0, 799345, 6, 108, 101, 110, 103, 116, 104, 368031, 0, 799345, 5, 108, 105, 115, 116, 63, 368031, 0, 799345, 5, 101, 118, 101, 110, 63, 368031, 0, 799345, 4, 111, 100, 100, 63, 368031, 0, 799345, 3, 109, 97, 112, 368031, 0, 799345, 2, 121, 110, 368031, 0, 799345, 1, 43, 368031, 0, 799345, 1, 42, 368031, 0, 799345, 1, 45, 368031, 0, 799345, 1, 47, 368031, 0, 799345, 5, 111, 114, 100, 101, 114, 368031, 0, 799345, 6, 97, 110, 100, 109, 97, 112, 368031, 0, 799345, 2, 60, 62, 368031, 0, 799345, 5, 102, 111, 108, 100, 114, 368031, 0, 799345, 7, 99, 111, 109, 112, 111, 115, 101, 368031, 0, 799345, 4, 99, 97, 97, 114, 368031, 0, 799345, 4, 99, 97, 100, 114, 368031, 0, 799345, 4, 99, 100, 97, 114, 368031, 0, 799345, 4, 99, 100, 100, 114, 368031, 0, 799345, 5, 99, 97, 97, 97, 114, 368031, 0, 799345, 5, 99, 97, 97, 100, 114, 368031, 0, 799345, 5, 99, 97, 100, 97, 114, 368031, 0, 799345, 5, 99, 97, 100, 100, 114, 368031, 0, 799345, 5, 99, 100, 97, 97, 114, 368031, 0, 799345, 5, 99, 100, 97, 100, 114, 368031, 0, 799345, 5, 99, 100, 100, 97, 114, 368031, 0, 799345, 5, 99, 100, 100, 100, 114, 368031, 0, 799345, 6, 99, 97, 97, 97, 97, 114, 368031, 0, 799345, 6, 99, 97, 97, 97, 100, 114, 368031, 0, 799345, 6, 99, 97, 97, 100, 97, 114, 368031, 0, 799345, 6, 99, 97, 97, 100, 100, 114, 368031, 0, 799345, 6, 99, 97, 100, 97, 97, 114, 368031, 0, 799345, 6, 99, 97, 100, 97, 100, 114, 368031, 0, 799345, 6, 99, 97, 100, 100, 97, 114, 368031, 0, 799345, 6, 99, 97, 100, 100, 100, 114, 368031, 0, 799345, 6, 99, 100, 97, 97, 97, 114, 368031, 0, 799345, 6, 99, 100, 97, 97, 100, 114, 368031, 0, 799345, 6, 99, 100, 97, 100, 97, 114, 368031, 0, 799345, 6, 99, 100, 97, 100, 100, 114, 368031, 0, 799345, 6, 99, 100, 100, 97, 97, 114, 368031, 0, 799345, 6, 99, 100, 100, 97, 100, 114, 368031, 0, 799345, 6, 99, 100, 100, 100, 97, 114, 368031, 0, 799345, 6, 99, 100, 100, 100, 100, 114, 368031, 0, 799345, 27, 94, 118, 97, 114, 105, 97, 100, 105, 99, 45, 114, 105, 103, 104, 116, 45, 102, 114, 111, 109, 45, 98, 105, 110, 97, 114, 121, 368031, 0, 799345, 26, 94, 118, 97, 114, 105, 97, 100, 105, 99, 45, 108, 101, 102, 116, 45, 102, 114, 111, 109, 45, 98, 105, 110, 97, 114, 121, 368031, 0, 799345, 8, 94, 99, 104, 97, 114, 45, 111, 112, 368031, 0, 799345, 1, 60, 368031, 0, 799345, 2, 60, 61, 368031, 0, 799345, 1, 62, 368031, 0, 799345, 2, 62, 61, 368031, 0, 799345, 6, 99, 104, 97, 114, 61, 63, 368031, 0, 799345, 7, 99, 104, 97, 114, 60, 61, 63, 368031, 0, 799345, 6, 99, 104, 97, 114, 60, 63, 368031, 0, 799345, 7, 99, 104, 97, 114, 62, 61, 63, 368031, 0, 799345, 6, 99, 104, 97, 114, 62, 63, 368031, 0, 799345, 15, 99, 104, 97, 114, 45, 117, 112, 112, 101, 114, 99, 97, 115, 101, 63, 368031, 0, 799345, 15, 99, 104, 97, 114, 45, 108, 111, 119, 101, 114, 99, 97, 115, 101, 63, 368031, 0, 799345, 11, 99, 104, 97, 114, 45, 117, 112, 99, 97, 115, 101, 368031, 0, 799345, 13, 99, 104, 97, 114, 45, 100, 111, 119, 110, 99, 97, 115, 101, 368031, 0, 799345, 10, 99, 104, 97, 114, 45, 99, 105, 60, 61, 63, 368031, 0, 799345, 9, 99, 104, 97, 114, 45, 99, 105, 60, 63, 368031, 0, 799345, 9, 99, 104, 97, 114, 45, 99, 105, 61, 63, 368031, 0, 799345, 9, 99, 104, 97, 114, 45, 99, 105, 62, 63, 368031, 0, 799345, 10, 99, 104, 97, 114, 45, 99, 105, 62, 61, 63, 368031, 0, 799345, 12, 115, 116, 114, 105, 110, 103, 45, 62, 108, 105, 115, 116, 368031, 0, 799345, 12, 108, 105, 115, 116, 45, 62, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 13, 115, 116, 114, 105, 110, 103, 45, 117, 112, 99, 97, 115, 101, 368031, 0, 799345, 15, 115, 116, 114, 105, 110, 103, 45, 100, 111, 119, 110, 99, 97, 115, 101, 368031, 0, 799345, 8, 108, 105, 115, 116, 45, 114, 101, 102, 368031, 0, 799345, 5, 111, 114, 109, 97, 112, 368031, 0, 799345, 7, 109, 101, 109, 98, 101, 114, 63, 368031, 0, 799345, 9, 110, 101, 103, 97, 116, 105, 118, 101, 63, 368031, 0, 799345, 9, 112, 111, 115, 105, 116, 105, 118, 101, 63, 368031, 0, 799345, 12, 108, 105, 115, 116, 45, 62, 118, 101, 99, 116, 111, 114, 368031, 0, 799345, 6, 118, 101, 99, 116, 111, 114, 368031, 0, 799345, 15, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 61, 63, 368031, 0, 799345, 15, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 60, 63, 368031, 0, 799345, 15, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 62, 63, 368031, 0, 799345, 16, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 60, 61, 63, 368031, 0, 799345, 16, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 62, 61, 63, 368031, 0, 799345, 8, 115, 116, 114, 105, 110, 103, 61, 63, 368031, 0, 799345, 8, 115, 116, 114, 105, 110, 103, 60, 63, 368031, 0, 799345, 8, 115, 116, 114, 105, 110, 103, 62, 63, 368031, 0, 799345, 9, 115, 116, 114, 105, 110, 103, 60, 61, 63, 368031, 0, 799345, 9, 115, 116, 114, 105, 110, 103, 62, 61, 63, 368031, 0, 799345, 12, 118, 101, 99, 116, 111, 114, 45, 62, 108, 105, 115, 116, 368031, 0, 799345, 9, 98, 111, 111, 108, 101, 97, 110, 61, 63, 368031, 0, 799345, 6, 101, 113, 117, 97, 108, 63, 368031, 0, 799345, 10, 94, 97, 115, 115, 111, 99, 105, 97, 116, 101, 368031, 0, 799345, 5, 97, 115, 115, 111, 99, 368031, 0, 799345, 4, 97, 115, 115, 113, 368031, 0, 799345, 4, 118, 111, 105, 100, 368031, 0, 799345, 5, 118, 111, 105, 100, 63, 368031, 0, 799345, 6, 97, 112, 112, 101, 110, 100, 368031, 0, 799345, 13, 115, 116, 114, 105, 110, 103, 45, 97, 112, 112, 101, 110, 100, 368031, 0, 799345, 13, 118, 101, 99, 116, 111, 114, 45, 97, 112, 112, 101, 110, 100, 368031, 0, 799345, 7, 114, 101, 118, 101, 114, 115, 101, 368031, 0, 799345, 14, 115, 116, 114, 105, 110, 103, 45, 114, 101, 118, 101, 114, 115, 101, 368031, 0, 799345, 9, 108, 105, 115, 116, 45, 115, 101, 116, 33, 368031, 0, 799345, 3, 109, 97, 120, 368031, 0, 799345, 3, 109, 105, 110, 368031, 0, 799345, 5, 101, 114, 114, 111, 114, 368031, 0, 799345, 14, 110, 117, 109, 98, 101, 114, 45, 62, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 1, 61, 368031, 0, 799345, 4, 98, 105, 110, 43, 368031, 0, 945311, 1, 799345, 4, 98, 105, 110, 45, 368031, 0, 799345, 5, 98, 105, 110, 60, 63, 368031, 0, 945311, 0, 799345, 5, 110, 117, 108, 108, 63, 368031, 0, 799345, 3, 99, 100, 114, 368031, 0, 799345, 5, 112, 97, 105, 114, 63, 368031, 0, 799345, 9, 114, 101, 109, 97, 105, 110, 100, 101, 114, 368031, 0, 945311, 2, 799345, 3, 99, 97, 114, 368031, 0, 799345, 4, 99, 111, 110, 115, 368031, 0, 799345, 5, 97, 112, 112, 108, 121, 368031, 0, 799345, 4, 98, 105, 110, 42, 368031, 0, 799345, 4, 98, 105, 110, 47, 368031, 0, 799345, 13, 99, 104, 97, 114, 45, 62, 105, 110, 116, 101, 103, 101, 114, 368031, 0, 799345, 5, 98, 105, 110, 61, 63, 368031, 0, 181048, 65, 181048, 90, 181048, 97, 181048, 122, 799345, 13, 105, 110, 116, 101, 103, 101, 114, 45, 62, 99, 104, 97, 114, 368031, 0, 799345, 13, 115, 116, 114, 105, 110, 103, 45, 108, 101, 110, 103, 116, 104, 368031, 0, 945311, -1, 799345, 10, 115, 116, 114, 105, 110, 103, 45, 114, 101, 102, 368031, 0, 799345, 11, 115, 116, 114, 105, 110, 103, 45, 115, 101, 116, 33, 368031, 0, 799345, 11, 109, 97, 107, 101, 45, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 3, 101, 113, 63, 368031, 0, 799345, 11, 118, 101, 99, 116, 111, 114, 45, 115, 101, 116, 33, 368031, 0, 799345, 11, 109, 97, 107, 101, 45, 118, 101, 99, 116, 111, 114, 368031, 0, 799345, 13, 118, 101, 99, 116, 111, 114, 45, 108, 101, 110, 103, 116, 104, 368031, 0, 799345, 10, 118, 101, 99, 116, 111, 114, 45, 114, 101, 102, 368031, 0, 799345, 8, 98, 111, 111, 108, 101, 97, 110, 63, 368031, 0, 799345, 5, 99, 104, 97, 114, 63, 368031, 0, 799345, 7, 110, 117, 109, 98, 101, 114, 63, 368031, 0, 799345, 7, 115, 116, 114, 105, 110, 103, 63, 368031, 0, 799345, 7, 115, 121, 109, 98, 111, 108, 63, 368031, 0, 799345, 7, 118, 101, 99, 116, 111, 114, 63, 368031, 0, 799345, 8, 115, 101, 116, 45, 99, 97, 114, 33, 368031, 0, 945311, 48, 945311, 123, 945311, 10, 799345, 4, 98, 105, 110, 60, 368031, 0, 799345, 4, 98, 105, 110, 61, 368031, 0, 799345, 4, 98, 105, 110, 62, 368031, 0, 799345, 10, 112, 114, 111, 99, 101, 100, 117, 114, 101, 63, 368031, 0, 799345, 14, 115, 116, 114, 105, 110, 103, 45, 62, 115, 121, 109, 98, 111, 108, 368031, 0, 799345, 14, 115, 121, 109, 98, 111, 108, 45, 62, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 8, 115, 101, 116, 45, 99, 100, 114, 33, 368031, 0};
 void *a = &arr;
 memcpy(&((*machine).mem[10]), a, 1727*4);
@@ -981,6 +1037,7 @@ MOV(ADDR(0), IMM(1737));
  //generating symbol table
 MOV(R1, IMM(1));
 //creating bucket for not
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
@@ -990,6 +1047,15 @@ MOV(ADDR(22), R0); // save the bucket address in the symbol object
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
+<<<<<<< HEAD
+//creating bucket for bin+
+PUSH(IMM(3)); // allocate space for new bucket 
+CALL(MALLOC);
+DROP(IMM(1));
+MOV(INDD(R0, IMM(0)), IMM(25)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(32), R0); // save the bucket address in the symbol object 
+=======
 //creating bucket for list
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
@@ -1007,165 +1073,257 @@ DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(31)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(38), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for sub1
+//creating bucket for bin-
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(35)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(42), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(39)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(46), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for bin>?
+//creating bucket for bin*
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(43)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(50), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(47)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(55), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for bin<=?
+//creating bucket for bin/
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(51)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(58), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(56)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(65), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for bin>=?
+//creating bucket for >
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(59)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(63), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(66)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(75), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for zero?
+//creating bucket for <
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(64)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(68), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(76)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(84), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for length
+//creating bucket for =
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(69)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(73), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(85)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(94), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for list?
+//creating bucket for bin<?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(74)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(82), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(95)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(103), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for even?
+//creating bucket for bin=?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(83)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(91), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(104)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(112), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for odd?
+//creating bucket for bin<
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(92)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(99), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(113)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(120), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for map
+//creating bucket for bin=
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(100)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(107), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(121)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(127), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for yn
+//creating bucket for bin>
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(108)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(115), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(128)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(133), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for +
+//creating bucket for apply
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(116)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(124), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(134)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(138), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for *
+//creating bucket for remainder
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(125)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(137), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(139)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(143), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for -
+//creating bucket for procedure?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(138)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(151), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(144)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(148), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for /
+//creating bucket for car
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(152)); // add pointer to the string 
+=======
 MOV(INDD(R0, IMM(0)), IMM(149)); // add pointer to the string 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(153), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for order
+//creating bucket for cdr
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(154)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+<<<<<<< HEAD
+MOV(ADDR(165), R0); // save the bucket address in the symbol object 
+=======
 MOV(ADDR(162), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
@@ -1177,25 +1335,33 @@ DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(163)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(172), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for <>
+//creating bucket for string->symbol
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(166)); // add pointer to the string 
+=======
 MOV(INDD(R0, IMM(0)), IMM(173)); // add pointer to the string 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(178), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for foldr
+//creating bucket for vector?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(179)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+<<<<<<< HEAD
+MOV(ADDR(194), R0); // save the bucket address in the symbol object 
+=======
 MOV(ADDR(187), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
@@ -1237,115 +1403,177 @@ DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(215)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(222), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cddr
+//creating bucket for symbol?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(195)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(205), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(223)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(230), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for caaar
+//creating bucket for string?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(206)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(216), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(231)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(239), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for caadr
+//creating bucket for char?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(217)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(225), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(240)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(248), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cadar
+//creating bucket for number?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(226)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(236), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(249)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(257), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for caddr
+//creating bucket for boolean?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(237)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(248), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(258)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(266), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cdaar
+//creating bucket for pair?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(249)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(257), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(267)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(275), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cdadr
+//creating bucket for null?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(258)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(266), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(276)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(284), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cddar
+//creating bucket for integer->char
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(267)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(283), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(285)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(293), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cdddr
+//creating bucket for char->integer
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(284)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(300), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(294)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(302), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for caaaar
+//creating bucket for string-length
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(301)); // add pointer to the string 
+=======
 MOV(INDD(R0, IMM(0)), IMM(303)); // add pointer to the string 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(312), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for caaadr
+//creating bucket for symbol->string
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(313)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+<<<<<<< HEAD
+MOV(ADDR(335), R0); // save the bucket address in the symbol object 
+=======
 MOV(ADDR(322), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
@@ -1357,45 +1585,61 @@ DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(323)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(332), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for caaddr
+//creating bucket for set-car!
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(336)); // add pointer to the string 
+=======
 MOV(INDD(R0, IMM(0)), IMM(333)); // add pointer to the string 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(342), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cadaar
+//creating bucket for set-cdr!
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(343)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+<<<<<<< HEAD
+MOV(ADDR(359), R0); // save the bucket address in the symbol object 
+=======
 MOV(ADDR(352), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cadadr
+//creating bucket for cons
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(360)); // add pointer to the string 
+=======
 MOV(INDD(R0, IMM(0)), IMM(353)); // add pointer to the string 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(362), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for caddar
+//creating bucket for make-string
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(363)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+<<<<<<< HEAD
+MOV(ADDR(382), R0); // save the bucket address in the symbol object 
+=======
 MOV(ADDR(372), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
@@ -1427,60 +1671,89 @@ DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(393)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(402), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cdadar
+//creating bucket for vector-length
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(383)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(399), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(403)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(412), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cdaddr
+//creating bucket for string-set!
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(400)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(414), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(413)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(422), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cddaar
+//creating bucket for make-vector
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(415)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(429), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(423)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(432), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cddadr
+//creating bucket for string-ref
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(430)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(443), R0); // save the bucket address in the symbol object 
+=======
 MOV(INDD(R0, IMM(0)), IMM(433)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(442), R0); // save the bucket address in the symbol object 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cdddar
+//creating bucket for vector-ref
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
+<<<<<<< HEAD
+MOV(INDD(R0, IMM(0)), IMM(444)); // add pointer to the string 
+=======
 MOV(INDD(R0, IMM(0)), IMM(443)); // add pointer to the string 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
 MOV(ADDR(452), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for cddddr
+//creating bucket for equal?
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
@@ -1490,6 +1763,27 @@ MOV(ADDR(462), R0); // save the bucket address in the symbol object
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
+<<<<<<< HEAD
+MOV(ADDR(R1), IMM(0));
+
+ // bindings primitive procedures to their symbols
+
+//This is the bindings for CDR
+PUSH(LABEL(CDR));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(164),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for BIN_PLUS
+PUSH(LABEL(BIN_PLUS));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(31),1));
+MOV(INDD(R1, 1), R0);
+=======
 //creating bucket for ^variadic-right-from-binary
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
@@ -31568,13 +31862,73 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 		    JUMP(L_IF_EXIT_31);
 		    L_ELSE_32:
 		    //IF 
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 
- //APPLIC 
+//This is the bindings for APPLY
+PUSH(LABEL(APPLY));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(123),1));
+MOV(INDD(R1, 1), R0);
 
-PUSH(IMM(0));
+//This is the bindings for BIN_MINUS
+PUSH(LABEL(BIN_MINUS));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(41),1));
+MOV(INDD(R1, 1), R0);
 
- //APPLIC 
+//This is the bindings for BIN_MUL
+PUSH(LABEL(BIN_MUL));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(49),1));
+MOV(INDD(R1, 1), R0);
 
+<<<<<<< HEAD
+//This is the bindings for BIN_DIV
+PUSH(LABEL(BIN_DIV));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(57),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for GRATER_THAN
+PUSH(LABEL(GRATER_THAN));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(62),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for GRATER_THAN
+PUSH(LABEL(GRATER_THAN));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(114),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for LOWER_THAN
+PUSH(LABEL(LOWER_THAN));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(67),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for EQUAL_TO
+PUSH(LABEL(EQUAL_TO));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(72),1));
+MOV(INDD(R1, 1), R0);
+=======
 PUSH(IMM(0));
 // PVAR 
 MOV(R1, IMM(1));
@@ -31723,21 +32077,40 @@ MOV(FPARG(R1), LOCAL(IMM(0)));
 MOV(R1,FPARG(1)); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 
- //done copying args 
-MOV(R5,FP);
-SUB(R5,R4); //R5 should point to the lowest arg 
-SUB(R5, IMM(3)); // R5 should hold the correct place for SP 
-MOV(SP,R5);
-PUSH(IMM(2)); //push number of params 
-PUSH(IMM(2)); //push indicator 
-PUSH(INDD(R0,IMM(1))); //push the ENV 
-PUSH(R3); //push the old RET 
-MOV(FP,R2); //update FP to the old FP 
-JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
+//This is the bindings for EQUAL_TO
+PUSH(LABEL(EQUAL_TO));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(90),1));
+MOV(INDD(R1, 1), R0);
 
+<<<<<<< HEAD
+//This is the bindings for LOWER_THAN
+PUSH(LABEL(LOWER_THAN));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(81),1));
+MOV(INDD(R1, 1), R0);
+
+<<<<<<< HEAD
 		    JUMP(L_IF_EXIT_34);
 		    L_ELSE_35:
+=======
+//This is the bindings for EQUAL_TO
+PUSH(LABEL(EQUAL_TO));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(106),1));
+MOV(INDD(R1, 1), R0);
+=======
+		    JUMP(L_IF_EXIT_36);
+		    L_ELSE_37:
+>>>>>>> f2a95e7b85ce50e04bc612d067a95c4263dd3add
 		    MOV(R0,IMM(12));
 
 		    L_IF_EXIT_34:
@@ -31752,18 +32125,24 @@ POP(FP);
 RETURN;
 L_CLOS_EXIT_22:
 PUSH(R0);
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 
-//LAMBDA-SIMPLE
-
-PUSH(IMM(3));
-CALL(MALLOC);
-DROP(IMM(1));
-MOV(ADDR(R0), IMM(T_CLOSURE));
-MOV(R1, R0);  //R1 has the Closure return address
-PUSH(IMM(2));
-CALL(MALLOC);
-DROP(IMM(1));
+//This is the bindings for LOWER_THAN
+PUSH(LABEL(LOWER_THAN));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(98),1));
 MOV(INDD(R1, 1), R0);
+
+//This is the bindings for CAR
+PUSH(LABEL(CAR));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(157),1));
+MOV(INDD(R1, 1), R0);
+<<<<<<< HEAD
 MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_9));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
@@ -31821,7 +32200,138 @@ SHOW("expected number of args:", FPARG(1));
 JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
 //checking number of arguments match the length of the lambda
 JUMP_SIMPLE_3:
+=======
 
+//This is the bindings for CDR
+PUSH(LABEL(CDR));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(164),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for STRING_TO_SYMBOL
+PUSH(LABEL(STRING_TO_SYMBOL));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(182),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for REMAINDER
+PUSH(LABEL(REMAINDER));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(136),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for IS_PROCEDURE
+PUSH(LABEL(IS_PROCEDURE));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(150),1));
+MOV(INDD(R1, 1), R0);
+
+<<<<<<< HEAD
+//This is the bindings for IS_VECTOR
+PUSH(LABEL(IS_VECTOR));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(193),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for IS_SYMBOL
+PUSH(LABEL(IS_SYMBOL));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(204),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for IS_STRING
+PUSH(LABEL(IS_STRING));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(215),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for IS_CHAR
+PUSH(LABEL(IS_CHAR));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(224),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for IS_NUMBER
+PUSH(LABEL(IS_NUMBER));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(235),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for IS_BOOLEAN
+PUSH(LABEL(IS_BOOLEAN));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(247),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for IS_PAIR
+PUSH(LABEL(IS_PAIR));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(256),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for IS_NULL
+PUSH(LABEL(IS_NULL));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(265),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for INTEGER_TO_CHAR
+PUSH(LABEL(INTEGER_TO_CHAR));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(282),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for CHAR_TO_INTEGER
+PUSH(LABEL(CHAR_TO_INTEGER));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(299),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for STRING_LENGTH
+PUSH(LABEL(STRING_LENGTH));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(316),1));
+MOV(INDD(R1, 1), R0);
+>>>>>>> f2a95e7b85ce50e04bc612d067a95c4263dd3add
+
+//This is the bindings for STRING_LENGTH
+PUSH(LABEL(STRING_LENGTH));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(398),1));
+MOV(INDD(R1, 1), R0);
+=======
 //LAMBDA OPTIONAL
 PUSH(IMM(3));
 CALL(MALLOC);
@@ -31890,9 +32400,105 @@ CALL(MAKE_LIST);
 MOV(FPARG(IMM(4)),R0);
 MOV(FPARG(IMM(2)), IMM(2));
 //print_stack("LAMBDA OPT after fixing the stack ");
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 
- //TC-APPLIC 
+//This is the bindings for MAKE_STRING
+PUSH(LABEL(MAKE_STRING));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(381),1));
+MOV(INDD(R1, 1), R0);
 
+<<<<<<< HEAD
+//This is the bindings for MAKE_VECTOR
+PUSH(LABEL(MAKE_VECTOR));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(428),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for SYMBOL_TO_STRING
+PUSH(LABEL(SYMBOL_TO_STRING));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(334),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for SET_CAR
+PUSH(LABEL(SET_CAR));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(346),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for SET_CDR
+PUSH(LABEL(SET_CDR));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(358),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for CONS
+PUSH(LABEL(CONS));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(366),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for STRING_SET
+PUSH(LABEL(STRING_SET));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(413),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for STRING_REF
+PUSH(LABEL(STRING_REF));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(442),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for VECTOR_REF
+PUSH(LABEL(VECTOR_REF));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(456),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for EQ2
+PUSH(LABEL(EQ2));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(21),1));
+MOV(INDD(R1, 1), R0);
+
+//This is the bindings for EQUAL
+PUSH(LABEL(EQUAL));
+PUSH(IMM(7777));
+CALL(MAKE_SOB_CLOSURE);
+DROP(IMM(2));
+MOV(R1, INDD(IMM(466),1));
+MOV(INDD(R1, 1), R0);
+
+ // fixing the stack before executing the actual code
+PUSH(IMM(0)); //magic number 
+PUSH(IMM(0)); //0 arguments 
+PUSH(IMM(0)); //0 arguments indicator 
+PUSH(IMM(1)); //empty environment 
+CALL(MALLOC);
+DROP(IMM(1));
+=======
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
@@ -31942,9 +32548,20 @@ L_CLOS_EXIT_12:
 
 POP(FP);
 RETURN;
+<<<<<<< HEAD
 L_CLOS_EXIT_8:
+=======
+L_CLOS_EXIT_10:
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
+>>>>>>> f2a95e7b85ce50e04bc612d067a95c4263dd3add
 PUSH(R0);
+PUSH(IMM(9999)); // dummy return address 
+PUSH(IMM(9999)); //just like the beginning of a function body 
+MOV(FP,SP);
 
+<<<<<<< HEAD
+ // actual code
+=======
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
@@ -31969,10 +32586,58 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 MOV(R1, INDD(IMM(1275), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
 
  //APPLIC 
 
 PUSH(IMM(0));
+<<<<<<< HEAD
+=======
+MOV(R0,IMM(1285));
+PUSH(R0);
+<<<<<<< HEAD
+=======
+
+ //FVAR 
+MOV(R0, IMM(1275));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+CMP(R0, IMM(0));
+JUMP_EQ(ERROR_UNDEFINED);
+CMP(ADDR(R0), IMM(T_CLOSURE));
+printf("At L_JUMP_3\n");
+JUMP_EQ(L_JUMP_3);
+JUMP(ERROR_NOT_A_CLOSURE);
+fflush(stdout);
+L_JUMP_3:
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+PUSH(R0);
+        CALL(WRITE_SOB);    
+        DROP(IMM(1));
+        OUT(IMM(2), IMM('\n'));
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
+
+ //APPLIC 
+
+PUSH(IMM(0));
+<<<<<<< HEAD
+MOV(R0,IMM(23));
+PUSH(R0);
+MOV(R0,IMM(33));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(31));
+=======
+>>>>>>> f2a95e7b85ce50e04bc612d067a95c4263dd3add
 MOV(R0,IMM(1285));
 PUSH(R0);
 MOV(R0,IMM(1285));
@@ -31981,11 +32646,51 @@ MOV(R0,IMM(1285));
 PUSH(R0);
 MOV(R0,IMM(1285));
 PUSH(R0);
+<<<<<<< HEAD
 MOV(R0,IMM(1285));
 PUSH(R0);
 MOV(R0,IMM(1285));
+=======
+
+ //FVAR 
+MOV(R0, IMM(1275));
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+CMP(R0, IMM(0));
+JUMP_EQ(ERROR_UNDEFINED);
+CMP(ADDR(R0), IMM(T_CLOSURE));
+printf("At L_JUMP_2\n");
+JUMP_EQ(L_JUMP_2);
+JUMP(ERROR_NOT_A_CLOSURE);
+fflush(stdout);
+L_JUMP_2:
+//APPLIC CONTINUE
+PUSH(IMM(2)); // pushing number of arguments 
+PUSH(IMM(2)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
 PUSH(R0);
-MOV(R0,IMM(1285));
+<<<<<<< HEAD
+MOV(R0,IMM(23));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(21));
+=======
+        CALL(WRITE_SOB);    
+        DROP(IMM(1));
+        OUT(IMM(2), IMM('\n'));
+
+ //APPLIC 
+
+PUSH(IMM(0));
+MOV(R0,IMM(1344));
+>>>>>>> f2a95e7b85ce50e04bc612d067a95c4263dd3add
 PUSH(R0);
 MOV(R0,IMM(1285));
 PUSH(R0);
@@ -31995,7 +32700,12 @@ MOV(R0,IMM(1285));
 PUSH(R0);
 
  //FVAR 
+<<<<<<< HEAD
 MOV(R0, IMM(137));
+=======
+MOV(R0, IMM(1275));
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
+>>>>>>> f2a95e7b85ce50e04bc612d067a95c4263dd3add
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
 CMP(R0, IMM(0));
@@ -32007,8 +32717,13 @@ JUMP(ERROR_NOT_A_CLOSURE);
 fflush(stdout);
 L_JUMP_1:
 //APPLIC CONTINUE
+<<<<<<< HEAD
 PUSH(IMM(10)); // pushing number of arguments 
 PUSH(IMM(10)); // pushing again for reference for frame removal 
+=======
+PUSH(IMM(2)); // pushing number of arguments 
+PUSH(IMM(2)); // pushing again for reference for frame removal 
+>>>>>>> f2a95e7b85ce50e04bc612d067a95c4263dd3add
 PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
 CALLA(INDD(R0,IMM(2))); // calling the procedure body 
 DROP(IMM(1)); // dropping the environment 

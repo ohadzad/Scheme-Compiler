@@ -188,6 +188,53 @@ POP(FP);
 RETURN;
 
 ")
+(define EQ2 "
+EQ2:
+  //SHOW(\"Equal?\", R0);
+  PUSH(FP);
+  MOV(FP, SP);
+  MOV(R0, FPARG(3));
+  MOV(R1, FPARG(4));
+  //SHOW(\"R0\", R0);
+  //SHOW(\"R1\", R1);
+  MOV(R2, INDD(R0, 0));
+  MOV(R3, INDD(R1, 0));
+  //First compare data types, not equal here is enough.
+  CMP(R2, R3);
+  JUMP_NE(EQ2_NOT_EQUAL);
+  //check if it's T_CHAR
+  CMP(R2, IMM(181048));
+  JUMP_EQ(EQ2_T_BOOL_CHAR_INTEGER);
+  //check if it's T_INTEGER
+  CMP(R2, IMM(945311));
+  JUMP_EQ(EQ2_T_BOOL_CHAR_INTEGER);
+  JUMP(EQ2_ELSE_TYPE);
+EQ2_T_BOOL_CHAR_INTEGER:
+  MOV(R0, INDD(R0, 1));
+  MOV(R1, INDD(R1, 1));
+  CMP(R0, R1);
+  JUMP_EQ(EQ2_EQUAL);
+  JUMP(EQ2_NOT_EQUAL);
+  
+EQ2_ELSE_TYPE:
+  CMP(R0, R1);
+  JUMP_NE(EQ2_NOT_EQUAL);
+  JUMP(EQ2_EQUAL);
+
+
+EQ2_EQUAL:
+MOV(R0, IMM(1));
+JUMP(EQ2_END);
+EQ2_NOT_EQUAL:
+MOV(R0, IMM(0));
+EQ2_END:
+PUSH(R0);
+CALL(MAKE_SOB_BOOL);
+DROP(IMM(1));
+POP(FP);
+RETURN;
+
+")
 ;magic_number 0 
 ;param1
 ;param2
@@ -853,7 +900,7 @@ MOV(INDD(R1, 1), R0);
 			(string-set! "STRING_SET")
 			(string-ref "STRING_REF")
 			(vector-ref "VECTOR_REF")
-			(eq? "EQ")
+			(eq? "EQ2")
 			(equal? "EQUAL")
 			)
 			))))
@@ -866,9 +913,6 @@ MOV(INDD(R1, 1), R0);
 ;make-vector  string-ref string-set! 
 ;vector-ref vector-set! vector? zero?
 ))
-;Weizel's list
-;vector-set! 
-;make-vector string-ref vector-ref
  
 
 ;******************************************************************************

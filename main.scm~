@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+(eq? 2 (bin+ 1 2))
+=======
 (define not (lambda (x) (if x #f #t)))
 (define list (lambda x x))
 (define add1 (lambda (n) (bin+ n 1)))
@@ -463,3 +466,7 @@
 		))))
 	(lambda (a . s)
 		(loop a s))))
+<<<<<<< HEAD
+=======
+>>>>>>> 6ad18c3c7580203ff94d4a2c8456575a13bf4543
+>>>>>>> f2a95e7b85ce50e04bc612d067a95c4263dd3add
