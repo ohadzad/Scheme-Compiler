@@ -1,15 +1,3 @@
-(define = 
-	(letrec (
-		(loop (lambda (a lst)
-			(if
-				(null? lst)
-				#t
-				(and 
-					(bin= a (car lst))
-					(loop (car s) (cdr s)))
-		))))
-	(lambda (a . s)
-		(loop a s))))
 (define not (lambda (x) (if x #f #t)))
 (define list (lambda x x))
 (define add1 (lambda (n) (bin+ n 1)))
@@ -463,7 +451,20 @@
                 (if (< number 10) (list number)
                 (append (number->list (/ (- number (remainder number 10)) 10)) (list (remainder number 10)))))))
             (list->string (map (lambda (number) (integer->char (+ number 48))) (number->list 123)))))
+(define =
+	(letrec (
+		(loop (lambda (a lst)
+			(if
+				(null? lst)
+				#t
+				(and 
+					(bin=? a (car lst))
+					(loop (car lst) (cdr lst)))
+		))))
+	(lambda (a . s)
+		(loop a s))))
 
+=
 (= 1)
 (= 1 1 1 1)
 (= 1 1 1 2)
