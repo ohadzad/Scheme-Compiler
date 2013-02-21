@@ -31,17 +31,6 @@ int main()
 CONTINUE:
  JUMP(L_END_DEFS);
 
- // methods for error handling 
-ERROR_NOT_A_CLOSURE:
-printf("Not a closure.\n");
-JUMP(L_END_OF_PROGRAM);
-ERROR_WRONG_ARGUMENT_NUMBER:
-printf("Wrong number of parameters.");
-JUMP(L_END_OF_PROGRAM);
-ERROR_UNDEFINED:
-printf("Variable undefined.");
-JUMP(L_END_OF_PROGRAM);
-
  // support methods 
 
 MAKE_LIST: 
@@ -63,29 +52,7 @@ DECR(R1);
 CALL(MAKE_SOB_PAIR); //create the pair
 DROP(IMM(2));
 RETURN;
-
-void print_memory(int from, int to){
-int i;
-printf("printing memory, FP: %d SP: %d R0: %d\n", (int)(FP), (int)(SP), (int)R0);
-for(i=from;i<to; ++i){
-printf("%d ", i);
-SHOW("", M(mem)[i]);
-}
-}
-void print_stack(char* comment){
-        int i;
-        printf("printing stack, FP: %d SP: %d %s\n", (int)(FP), (int)(SP), comment);
-        for(i=SP+5; i>=0; --i){
-        if(SP == i){
-                printf("SP ");
-        }
-        if(FP == i){
-                printf("FP");
-        }
-        printf("	element %d: ", i);
-        SHOW(" ", STACK(i));
-        }
-}GET_LAST_BUCKET:
+GET_LAST_BUCKET:
 PUSH(FP);
 MOV(FP,SP);
 MOV(R0, ADDR(IMM(1)));
@@ -804,6 +771,9 @@ EQ2:
   //check if it's T_INTEGER
   CMP(R2, IMM(945311));
   JUMP_EQ(EQ2_T_BOOL_CHAR_INTEGER);
+  //check if it's T_SYMBOL
+  CMP(R2, IMM(368031));
+  JUMP_EQ(EQ2_T_BOOL_CHAR_INTEGER);
   JUMP(EQ2_ELSE_TYPE);
 EQ2_T_BOOL_CHAR_INTEGER:
   MOV(R0, INDD(R0, 1));
@@ -1032,10 +1002,10 @@ L_END_DEFS:
 
 PUSH(R0);
 POP(R0);
-int arr[1754] = {937610, 722689, 741553, 0, 741553, 1, 799345, 3, 110, 111, 116, 368031, 0, 799345, 4, 108, 105, 115, 116, 368031, 0, 799345, 4, 97, 100, 100, 49, 368031, 0, 799345, 4, 115, 117, 98, 49, 368031, 0, 799345, 5, 98, 105, 110, 62, 63, 368031, 0, 799345, 6, 98, 105, 110, 60, 61, 63, 368031, 0, 799345, 6, 98, 105, 110, 62, 61, 63, 368031, 0, 799345, 5, 122, 101, 114, 111, 63, 368031, 0, 799345, 6, 108, 101, 110, 103, 116, 104, 368031, 0, 799345, 5, 108, 105, 115, 116, 63, 368031, 0, 799345, 5, 101, 118, 101, 110, 63, 368031, 0, 799345, 4, 111, 100, 100, 63, 368031, 0, 799345, 3, 109, 97, 112, 368031, 0, 799345, 2, 121, 110, 368031, 0, 799345, 1, 43, 368031, 0, 799345, 1, 42, 368031, 0, 799345, 1, 45, 368031, 0, 799345, 1, 47, 368031, 0, 799345, 5, 111, 114, 100, 101, 114, 368031, 0, 799345, 6, 97, 110, 100, 109, 97, 112, 368031, 0, 799345, 2, 60, 62, 368031, 0, 799345, 5, 102, 111, 108, 100, 114, 368031, 0, 799345, 7, 99, 111, 109, 112, 111, 115, 101, 368031, 0, 799345, 4, 99, 97, 97, 114, 368031, 0, 799345, 4, 99, 97, 100, 114, 368031, 0, 799345, 4, 99, 100, 97, 114, 368031, 0, 799345, 4, 99, 100, 100, 114, 368031, 0, 799345, 5, 99, 97, 97, 97, 114, 368031, 0, 799345, 5, 99, 97, 97, 100, 114, 368031, 0, 799345, 5, 99, 97, 100, 97, 114, 368031, 0, 799345, 5, 99, 97, 100, 100, 114, 368031, 0, 799345, 5, 99, 100, 97, 97, 114, 368031, 0, 799345, 5, 99, 100, 97, 100, 114, 368031, 0, 799345, 5, 99, 100, 100, 97, 114, 368031, 0, 799345, 5, 99, 100, 100, 100, 114, 368031, 0, 799345, 6, 99, 97, 97, 97, 97, 114, 368031, 0, 799345, 6, 99, 97, 97, 97, 100, 114, 368031, 0, 799345, 6, 99, 97, 97, 100, 97, 114, 368031, 0, 799345, 6, 99, 97, 97, 100, 100, 114, 368031, 0, 799345, 6, 99, 97, 100, 97, 97, 114, 368031, 0, 799345, 6, 99, 97, 100, 97, 100, 114, 368031, 0, 799345, 6, 99, 97, 100, 100, 97, 114, 368031, 0, 799345, 6, 99, 97, 100, 100, 100, 114, 368031, 0, 799345, 6, 99, 100, 97, 97, 97, 114, 368031, 0, 799345, 6, 99, 100, 97, 97, 100, 114, 368031, 0, 799345, 6, 99, 100, 97, 100, 97, 114, 368031, 0, 799345, 6, 99, 100, 97, 100, 100, 114, 368031, 0, 799345, 6, 99, 100, 100, 97, 97, 114, 368031, 0, 799345, 6, 99, 100, 100, 97, 100, 114, 368031, 0, 799345, 6, 99, 100, 100, 100, 97, 114, 368031, 0, 799345, 6, 99, 100, 100, 100, 100, 114, 368031, 0, 799345, 27, 94, 118, 97, 114, 105, 97, 100, 105, 99, 45, 114, 105, 103, 104, 116, 45, 102, 114, 111, 109, 45, 98, 105, 110, 97, 114, 121, 368031, 0, 799345, 26, 94, 118, 97, 114, 105, 97, 100, 105, 99, 45, 108, 101, 102, 116, 45, 102, 114, 111, 109, 45, 98, 105, 110, 97, 114, 121, 368031, 0, 799345, 8, 94, 99, 104, 97, 114, 45, 111, 112, 368031, 0, 799345, 1, 60, 368031, 0, 799345, 2, 60, 61, 368031, 0, 799345, 1, 62, 368031, 0, 799345, 2, 62, 61, 368031, 0, 799345, 6, 99, 104, 97, 114, 61, 63, 368031, 0, 799345, 7, 99, 104, 97, 114, 60, 61, 63, 368031, 0, 799345, 6, 99, 104, 97, 114, 60, 63, 368031, 0, 799345, 7, 99, 104, 97, 114, 62, 61, 63, 368031, 0, 799345, 6, 99, 104, 97, 114, 62, 63, 368031, 0, 799345, 15, 99, 104, 97, 114, 45, 117, 112, 112, 101, 114, 99, 97, 115, 101, 63, 368031, 0, 799345, 15, 99, 104, 97, 114, 45, 108, 111, 119, 101, 114, 99, 97, 115, 101, 63, 368031, 0, 799345, 11, 99, 104, 97, 114, 45, 117, 112, 99, 97, 115, 101, 368031, 0, 799345, 13, 99, 104, 97, 114, 45, 100, 111, 119, 110, 99, 97, 115, 101, 368031, 0, 799345, 10, 99, 104, 97, 114, 45, 99, 105, 60, 61, 63, 368031, 0, 799345, 9, 99, 104, 97, 114, 45, 99, 105, 60, 63, 368031, 0, 799345, 9, 99, 104, 97, 114, 45, 99, 105, 61, 63, 368031, 0, 799345, 9, 99, 104, 97, 114, 45, 99, 105, 62, 63, 368031, 0, 799345, 10, 99, 104, 97, 114, 45, 99, 105, 62, 61, 63, 368031, 0, 799345, 12, 115, 116, 114, 105, 110, 103, 45, 62, 108, 105, 115, 116, 368031, 0, 799345, 12, 108, 105, 115, 116, 45, 62, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 13, 115, 116, 114, 105, 110, 103, 45, 117, 112, 99, 97, 115, 101, 368031, 0, 799345, 15, 115, 116, 114, 105, 110, 103, 45, 100, 111, 119, 110, 99, 97, 115, 101, 368031, 0, 799345, 8, 108, 105, 115, 116, 45, 114, 101, 102, 368031, 0, 799345, 5, 111, 114, 109, 97, 112, 368031, 0, 799345, 7, 109, 101, 109, 98, 101, 114, 63, 368031, 0, 799345, 9, 110, 101, 103, 97, 116, 105, 118, 101, 63, 368031, 0, 799345, 9, 112, 111, 115, 105, 116, 105, 118, 101, 63, 368031, 0, 799345, 12, 108, 105, 115, 116, 45, 62, 118, 101, 99, 116, 111, 114, 368031, 0, 799345, 6, 118, 101, 99, 116, 111, 114, 368031, 0, 799345, 15, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 61, 63, 368031, 0, 799345, 15, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 60, 63, 368031, 0, 799345, 15, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 62, 63, 368031, 0, 799345, 16, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 60, 61, 63, 368031, 0, 799345, 16, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 62, 61, 63, 368031, 0, 799345, 8, 115, 116, 114, 105, 110, 103, 61, 63, 368031, 0, 799345, 8, 115, 116, 114, 105, 110, 103, 60, 63, 368031, 0, 799345, 8, 115, 116, 114, 105, 110, 103, 62, 63, 368031, 0, 799345, 9, 115, 116, 114, 105, 110, 103, 60, 61, 63, 368031, 0, 799345, 9, 115, 116, 114, 105, 110, 103, 62, 61, 63, 368031, 0, 799345, 12, 118, 101, 99, 116, 111, 114, 45, 62, 108, 105, 115, 116, 368031, 0, 799345, 9, 98, 111, 111, 108, 101, 97, 110, 61, 63, 368031, 0, 799345, 6, 101, 113, 117, 97, 108, 63, 368031, 0, 799345, 10, 94, 97, 115, 115, 111, 99, 105, 97, 116, 101, 368031, 0, 799345, 5, 97, 115, 115, 111, 99, 368031, 0, 799345, 4, 97, 115, 115, 113, 368031, 0, 799345, 4, 118, 111, 105, 100, 368031, 0, 799345, 5, 118, 111, 105, 100, 63, 368031, 0, 799345, 6, 97, 112, 112, 101, 110, 100, 368031, 0, 799345, 13, 115, 116, 114, 105, 110, 103, 45, 97, 112, 112, 101, 110, 100, 368031, 0, 799345, 13, 118, 101, 99, 116, 111, 114, 45, 97, 112, 112, 101, 110, 100, 368031, 0, 799345, 7, 114, 101, 118, 101, 114, 115, 101, 368031, 0, 799345, 14, 115, 116, 114, 105, 110, 103, 45, 114, 101, 118, 101, 114, 115, 101, 368031, 0, 799345, 9, 108, 105, 115, 116, 45, 115, 101, 116, 33, 368031, 0, 799345, 3, 109, 97, 120, 368031, 0, 799345, 3, 109, 105, 110, 368031, 0, 799345, 5, 101, 114, 114, 111, 114, 368031, 0, 799345, 14, 110, 117, 109, 98, 101, 114, 45, 62, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 1, 61, 368031, 0, 799345, 1, 115, 368031, 0, 799345, 4, 98, 105, 110, 43, 368031, 0, 945311, 1, 799345, 4, 98, 105, 110, 45, 368031, 0, 799345, 5, 98, 105, 110, 60, 63, 368031, 0, 945311, 0, 799345, 5, 110, 117, 108, 108, 63, 368031, 0, 799345, 3, 99, 100, 114, 368031, 0, 799345, 5, 112, 97, 105, 114, 63, 368031, 0, 799345, 9, 114, 101, 109, 97, 105, 110, 100, 101, 114, 368031, 0, 945311, 2, 799345, 3, 99, 97, 114, 368031, 0, 799345, 4, 99, 111, 110, 115, 368031, 0, 799345, 5, 97, 112, 112, 108, 121, 368031, 0, 799345, 4, 98, 105, 110, 42, 368031, 0, 799345, 4, 98, 105, 110, 47, 368031, 0, 799345, 13, 99, 104, 97, 114, 45, 62, 105, 110, 116, 101, 103, 101, 114, 368031, 0, 799345, 5, 98, 105, 110, 61, 63, 368031, 0, 181048, 65, 181048, 90, 181048, 97, 181048, 122, 799345, 13, 105, 110, 116, 101, 103, 101, 114, 45, 62, 99, 104, 97, 114, 368031, 0, 799345, 13, 115, 116, 114, 105, 110, 103, 45, 108, 101, 110, 103, 116, 104, 368031, 0, 945311, -1, 799345, 10, 115, 116, 114, 105, 110, 103, 45, 114, 101, 102, 368031, 0, 799345, 11, 115, 116, 114, 105, 110, 103, 45, 115, 101, 116, 33, 368031, 0, 799345, 11, 109, 97, 107, 101, 45, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 3, 101, 113, 63, 368031, 0, 799345, 11, 118, 101, 99, 116, 111, 114, 45, 115, 101, 116, 33, 368031, 0, 799345, 11, 109, 97, 107, 101, 45, 118, 101, 99, 116, 111, 114, 368031, 0, 799345, 13, 118, 101, 99, 116, 111, 114, 45, 108, 101, 110, 103, 116, 104, 368031, 0, 799345, 10, 118, 101, 99, 116, 111, 114, 45, 114, 101, 102, 368031, 0, 799345, 8, 98, 111, 111, 108, 101, 97, 110, 63, 368031, 0, 799345, 5, 99, 104, 97, 114, 63, 368031, 0, 799345, 7, 110, 117, 109, 98, 101, 114, 63, 368031, 0, 799345, 7, 115, 116, 114, 105, 110, 103, 63, 368031, 0, 799345, 7, 115, 121, 109, 98, 111, 108, 63, 368031, 0, 799345, 7, 118, 101, 99, 116, 111, 114, 63, 368031, 0, 799345, 8, 115, 101, 116, 45, 99, 97, 114, 33, 368031, 0, 945311, 48, 945311, 123, 945311, 10, 945311, 97, 945311, 98, 799345, 2, 97, 98, 368031, 0, 799345, 14, 115, 116, 114, 105, 110, 103, 45, 62, 115, 121, 109, 98, 111, 108, 368031, 0, 799345, 4, 98, 105, 110, 60, 368031, 0, 799345, 4, 98, 105, 110, 61, 368031, 0, 799345, 4, 98, 105, 110, 62, 368031, 0, 799345, 10, 112, 114, 111, 99, 101, 100, 117, 114, 101, 63, 368031, 0, 799345, 14, 115, 121, 109, 98, 111, 108, 45, 62, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 8, 115, 101, 116, 45, 99, 100, 114, 33, 368031, 0, 799345, 8, 105, 110, 116, 101, 103, 101, 114, 63, 368031, 0};
+int arr[1741] = {937610, 722689, 741553, 0, 741553, 1, 799345, 3, 110, 111, 116, 368031, 0, 799345, 4, 108, 105, 115, 116, 368031, 0, 799345, 4, 97, 100, 100, 49, 368031, 0, 799345, 4, 115, 117, 98, 49, 368031, 0, 799345, 5, 98, 105, 110, 62, 63, 368031, 0, 799345, 6, 98, 105, 110, 60, 61, 63, 368031, 0, 799345, 6, 98, 105, 110, 62, 61, 63, 368031, 0, 799345, 5, 122, 101, 114, 111, 63, 368031, 0, 799345, 6, 108, 101, 110, 103, 116, 104, 368031, 0, 799345, 5, 108, 105, 115, 116, 63, 368031, 0, 799345, 5, 101, 118, 101, 110, 63, 368031, 0, 799345, 4, 111, 100, 100, 63, 368031, 0, 799345, 3, 109, 97, 112, 368031, 0, 799345, 2, 121, 110, 368031, 0, 799345, 1, 43, 368031, 0, 799345, 1, 42, 368031, 0, 799345, 1, 45, 368031, 0, 799345, 1, 47, 368031, 0, 799345, 5, 111, 114, 100, 101, 114, 368031, 0, 799345, 6, 97, 110, 100, 109, 97, 112, 368031, 0, 799345, 2, 60, 62, 368031, 0, 799345, 5, 102, 111, 108, 100, 114, 368031, 0, 799345, 7, 99, 111, 109, 112, 111, 115, 101, 368031, 0, 799345, 4, 99, 97, 97, 114, 368031, 0, 799345, 4, 99, 97, 100, 114, 368031, 0, 799345, 4, 99, 100, 97, 114, 368031, 0, 799345, 4, 99, 100, 100, 114, 368031, 0, 799345, 5, 99, 97, 97, 97, 114, 368031, 0, 799345, 5, 99, 97, 97, 100, 114, 368031, 0, 799345, 5, 99, 97, 100, 97, 114, 368031, 0, 799345, 5, 99, 97, 100, 100, 114, 368031, 0, 799345, 5, 99, 100, 97, 97, 114, 368031, 0, 799345, 5, 99, 100, 97, 100, 114, 368031, 0, 799345, 5, 99, 100, 100, 97, 114, 368031, 0, 799345, 5, 99, 100, 100, 100, 114, 368031, 0, 799345, 6, 99, 97, 97, 97, 97, 114, 368031, 0, 799345, 6, 99, 97, 97, 97, 100, 114, 368031, 0, 799345, 6, 99, 97, 97, 100, 97, 114, 368031, 0, 799345, 6, 99, 97, 97, 100, 100, 114, 368031, 0, 799345, 6, 99, 97, 100, 97, 97, 114, 368031, 0, 799345, 6, 99, 97, 100, 97, 100, 114, 368031, 0, 799345, 6, 99, 97, 100, 100, 97, 114, 368031, 0, 799345, 6, 99, 97, 100, 100, 100, 114, 368031, 0, 799345, 6, 99, 100, 97, 97, 97, 114, 368031, 0, 799345, 6, 99, 100, 97, 97, 100, 114, 368031, 0, 799345, 6, 99, 100, 97, 100, 97, 114, 368031, 0, 799345, 6, 99, 100, 97, 100, 100, 114, 368031, 0, 799345, 6, 99, 100, 100, 97, 97, 114, 368031, 0, 799345, 6, 99, 100, 100, 97, 100, 114, 368031, 0, 799345, 6, 99, 100, 100, 100, 97, 114, 368031, 0, 799345, 6, 99, 100, 100, 100, 100, 114, 368031, 0, 799345, 27, 94, 118, 97, 114, 105, 97, 100, 105, 99, 45, 114, 105, 103, 104, 116, 45, 102, 114, 111, 109, 45, 98, 105, 110, 97, 114, 121, 368031, 0, 799345, 26, 94, 118, 97, 114, 105, 97, 100, 105, 99, 45, 108, 101, 102, 116, 45, 102, 114, 111, 109, 45, 98, 105, 110, 97, 114, 121, 368031, 0, 799345, 8, 94, 99, 104, 97, 114, 45, 111, 112, 368031, 0, 799345, 1, 60, 368031, 0, 799345, 2, 60, 61, 368031, 0, 799345, 1, 62, 368031, 0, 799345, 2, 62, 61, 368031, 0, 799345, 6, 99, 104, 97, 114, 61, 63, 368031, 0, 799345, 7, 99, 104, 97, 114, 60, 61, 63, 368031, 0, 799345, 6, 99, 104, 97, 114, 60, 63, 368031, 0, 799345, 7, 99, 104, 97, 114, 62, 61, 63, 368031, 0, 799345, 6, 99, 104, 97, 114, 62, 63, 368031, 0, 799345, 15, 99, 104, 97, 114, 45, 117, 112, 112, 101, 114, 99, 97, 115, 101, 63, 368031, 0, 799345, 15, 99, 104, 97, 114, 45, 108, 111, 119, 101, 114, 99, 97, 115, 101, 63, 368031, 0, 799345, 11, 99, 104, 97, 114, 45, 117, 112, 99, 97, 115, 101, 368031, 0, 799345, 13, 99, 104, 97, 114, 45, 100, 111, 119, 110, 99, 97, 115, 101, 368031, 0, 799345, 10, 99, 104, 97, 114, 45, 99, 105, 60, 61, 63, 368031, 0, 799345, 9, 99, 104, 97, 114, 45, 99, 105, 60, 63, 368031, 0, 799345, 9, 99, 104, 97, 114, 45, 99, 105, 61, 63, 368031, 0, 799345, 9, 99, 104, 97, 114, 45, 99, 105, 62, 63, 368031, 0, 799345, 10, 99, 104, 97, 114, 45, 99, 105, 62, 61, 63, 368031, 0, 799345, 12, 115, 116, 114, 105, 110, 103, 45, 62, 108, 105, 115, 116, 368031, 0, 799345, 12, 108, 105, 115, 116, 45, 62, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 13, 115, 116, 114, 105, 110, 103, 45, 117, 112, 99, 97, 115, 101, 368031, 0, 799345, 15, 115, 116, 114, 105, 110, 103, 45, 100, 111, 119, 110, 99, 97, 115, 101, 368031, 0, 799345, 8, 108, 105, 115, 116, 45, 114, 101, 102, 368031, 0, 799345, 5, 111, 114, 109, 97, 112, 368031, 0, 799345, 7, 109, 101, 109, 98, 101, 114, 63, 368031, 0, 799345, 9, 110, 101, 103, 97, 116, 105, 118, 101, 63, 368031, 0, 799345, 9, 112, 111, 115, 105, 116, 105, 118, 101, 63, 368031, 0, 799345, 12, 108, 105, 115, 116, 45, 62, 118, 101, 99, 116, 111, 114, 368031, 0, 799345, 6, 118, 101, 99, 116, 111, 114, 368031, 0, 799345, 15, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 61, 63, 368031, 0, 799345, 15, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 60, 63, 368031, 0, 799345, 15, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 62, 63, 368031, 0, 799345, 16, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 60, 61, 63, 368031, 0, 799345, 16, 98, 105, 110, 97, 114, 121, 45, 115, 116, 114, 105, 110, 103, 62, 61, 63, 368031, 0, 799345, 8, 115, 116, 114, 105, 110, 103, 61, 63, 368031, 0, 799345, 8, 115, 116, 114, 105, 110, 103, 60, 63, 368031, 0, 799345, 8, 115, 116, 114, 105, 110, 103, 62, 63, 368031, 0, 799345, 9, 115, 116, 114, 105, 110, 103, 60, 61, 63, 368031, 0, 799345, 9, 115, 116, 114, 105, 110, 103, 62, 61, 63, 368031, 0, 799345, 12, 118, 101, 99, 116, 111, 114, 45, 62, 108, 105, 115, 116, 368031, 0, 799345, 9, 98, 111, 111, 108, 101, 97, 110, 61, 63, 368031, 0, 799345, 6, 101, 113, 117, 97, 108, 63, 368031, 0, 799345, 10, 94, 97, 115, 115, 111, 99, 105, 97, 116, 101, 368031, 0, 799345, 5, 97, 115, 115, 111, 99, 368031, 0, 799345, 4, 97, 115, 115, 113, 368031, 0, 799345, 4, 118, 111, 105, 100, 368031, 0, 799345, 5, 118, 111, 105, 100, 63, 368031, 0, 799345, 6, 97, 112, 112, 101, 110, 100, 368031, 0, 799345, 13, 115, 116, 114, 105, 110, 103, 45, 97, 112, 112, 101, 110, 100, 368031, 0, 799345, 13, 118, 101, 99, 116, 111, 114, 45, 97, 112, 112, 101, 110, 100, 368031, 0, 799345, 7, 114, 101, 118, 101, 114, 115, 101, 368031, 0, 799345, 14, 115, 116, 114, 105, 110, 103, 45, 114, 101, 118, 101, 114, 115, 101, 368031, 0, 799345, 9, 108, 105, 115, 116, 45, 115, 101, 116, 33, 368031, 0, 799345, 3, 109, 97, 120, 368031, 0, 799345, 3, 109, 105, 110, 368031, 0, 799345, 5, 101, 114, 114, 111, 114, 368031, 0, 799345, 14, 110, 117, 109, 98, 101, 114, 45, 62, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 1, 61, 368031, 0, 799345, 4, 98, 105, 110, 43, 368031, 0, 945311, 1, 799345, 4, 98, 105, 110, 45, 368031, 0, 799345, 5, 98, 105, 110, 60, 63, 368031, 0, 945311, 0, 799345, 5, 110, 117, 108, 108, 63, 368031, 0, 799345, 3, 99, 100, 114, 368031, 0, 799345, 5, 112, 97, 105, 114, 63, 368031, 0, 799345, 9, 114, 101, 109, 97, 105, 110, 100, 101, 114, 368031, 0, 945311, 2, 799345, 3, 99, 97, 114, 368031, 0, 799345, 4, 99, 111, 110, 115, 368031, 0, 799345, 5, 97, 112, 112, 108, 121, 368031, 0, 799345, 4, 98, 105, 110, 42, 368031, 0, 799345, 4, 98, 105, 110, 47, 368031, 0, 799345, 13, 99, 104, 97, 114, 45, 62, 105, 110, 116, 101, 103, 101, 114, 368031, 0, 799345, 5, 98, 105, 110, 61, 63, 368031, 0, 181048, 65, 181048, 90, 181048, 97, 181048, 122, 799345, 13, 105, 110, 116, 101, 103, 101, 114, 45, 62, 99, 104, 97, 114, 368031, 0, 799345, 13, 115, 116, 114, 105, 110, 103, 45, 108, 101, 110, 103, 116, 104, 368031, 0, 945311, -1, 799345, 10, 115, 116, 114, 105, 110, 103, 45, 114, 101, 102, 368031, 0, 799345, 11, 115, 116, 114, 105, 110, 103, 45, 115, 101, 116, 33, 368031, 0, 799345, 11, 109, 97, 107, 101, 45, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 3, 101, 113, 63, 368031, 0, 799345, 11, 118, 101, 99, 116, 111, 114, 45, 115, 101, 116, 33, 368031, 0, 799345, 11, 109, 97, 107, 101, 45, 118, 101, 99, 116, 111, 114, 368031, 0, 799345, 13, 118, 101, 99, 116, 111, 114, 45, 108, 101, 110, 103, 116, 104, 368031, 0, 799345, 10, 118, 101, 99, 116, 111, 114, 45, 114, 101, 102, 368031, 0, 799345, 8, 98, 111, 111, 108, 101, 97, 110, 63, 368031, 0, 799345, 5, 99, 104, 97, 114, 63, 368031, 0, 799345, 7, 110, 117, 109, 98, 101, 114, 63, 368031, 0, 799345, 7, 115, 116, 114, 105, 110, 103, 63, 368031, 0, 799345, 7, 115, 121, 109, 98, 111, 108, 63, 368031, 0, 799345, 7, 118, 101, 99, 116, 111, 114, 63, 368031, 0, 799345, 8, 115, 101, 116, 45, 99, 97, 114, 33, 368031, 0, 945311, 48, 945311, 123, 945311, 10, 945311, 4, 799345, 4, 98, 105, 110, 60, 368031, 0, 799345, 4, 98, 105, 110, 61, 368031, 0, 799345, 4, 98, 105, 110, 62, 368031, 0, 799345, 10, 112, 114, 111, 99, 101, 100, 117, 114, 101, 63, 368031, 0, 799345, 14, 115, 116, 114, 105, 110, 103, 45, 62, 115, 121, 109, 98, 111, 108, 368031, 0, 799345, 14, 115, 121, 109, 98, 111, 108, 45, 62, 115, 116, 114, 105, 110, 103, 368031, 0, 799345, 8, 115, 101, 116, 45, 99, 100, 114, 33, 368031, 0, 799345, 8, 105, 110, 116, 101, 103, 101, 114, 63, 368031, 0};
 void *a = &arr;
-memcpy(&((*machine).mem[10]), a, 1754*4);
-MOV(ADDR(0), IMM(1764));
+memcpy(&((*machine).mem[10]), a, 1741*4);
+MOV(ADDR(0), IMM(1751));
 
  //generating symbol table
 MOV(R1, IMM(1));
@@ -2159,23 +2129,13 @@ MOV(ADDR(1276), R0); // save the bucket address in the symbol object
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
-//creating bucket for s
+//creating bucket for bin+
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R0, IMM(0)), IMM(1277)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1281), R0); // save the bucket address in the symbol object 
-MOV(ADDR(R1), R0); // make previous bucket point to this one 
-ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
-MOV(R1,R0);
-//creating bucket for bin+
-PUSH(IMM(3)); // allocate space for new bucket 
-CALL(MALLOC);
-DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1282)); // add pointer to the string 
-MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1289), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1284), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2183,9 +2143,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1292)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1287)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1299), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1294), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2193,9 +2153,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1300)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1295)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1308), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1303), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2203,9 +2163,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1311)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1306)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1319), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1314), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2213,9 +2173,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1320)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1315)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1326), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1321), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2223,9 +2183,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1327)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1322)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1335), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1330), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2233,9 +2193,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1336)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1331)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1348), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1343), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2243,9 +2203,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1351)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1346)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1357), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1352), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2253,9 +2213,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1358)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1353)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1365), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1360), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2263,9 +2223,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1366)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1361)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1374), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1369), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2273,9 +2233,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1375)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1370)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1382), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1377), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2283,9 +2243,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1383)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1378)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1390), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1385), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2293,9 +2253,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1391)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1386)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1407), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1402), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2303,9 +2263,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1408)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1403)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1416), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1411), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2313,9 +2273,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1425)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1420)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1441), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1436), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2323,9 +2283,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1442)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1437)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1458), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1453), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2333,9 +2293,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1461)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1456)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1474), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1469), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2343,9 +2303,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1475)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1470)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1489), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1484), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2353,9 +2313,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1490)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1485)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1504), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1499), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2363,9 +2323,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1505)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1500)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1511), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1506), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2373,9 +2333,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1512)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1507)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1526), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1521), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2383,9 +2343,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1527)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1522)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1541), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1536), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2393,9 +2353,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1542)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1537)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1558), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1553), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2403,9 +2363,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1559)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1554)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1572), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1567), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2413,9 +2373,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1573)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1568)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1584), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1579), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2423,9 +2383,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1585)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1580)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1593), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1588), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2433,9 +2393,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1594)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1589)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1604), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1599), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2443,9 +2403,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1605)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1600)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1615), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1610), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2453,9 +2413,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1616)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1611)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1626), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1621), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2463,9 +2423,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1627)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1622)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1637), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1632), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2473,29 +2433,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1638)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1633)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1649), R0); // save the bucket address in the symbol object 
-MOV(ADDR(R1), R0); // make previous bucket point to this one 
-ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
-MOV(R1,R0);
-//creating bucket for ab
-PUSH(IMM(3)); // allocate space for new bucket 
-CALL(MALLOC);
-DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1660)); // add pointer to the string 
-MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1665), R0); // save the bucket address in the symbol object 
-MOV(ADDR(R1), R0); // make previous bucket point to this one 
-ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
-MOV(R1,R0);
-//creating bucket for string->symbol
-PUSH(IMM(3)); // allocate space for new bucket 
-CALL(MALLOC);
-DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1666)); // add pointer to the string 
-MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1683), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1644), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2503,9 +2443,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1684)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1653)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1691), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1660), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2513,9 +2453,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1692)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1661)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1699), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1668), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2523,9 +2463,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1700)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1669)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1707), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1676), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2533,9 +2473,19 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1708)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1677)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1721), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1690), R0); // save the bucket address in the symbol object 
+MOV(ADDR(R1), R0); // make previous bucket point to this one 
+ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
+MOV(R1,R0);
+//creating bucket for string->symbol
+PUSH(IMM(3)); // allocate space for new bucket 
+CALL(MALLOC);
+DROP(IMM(1));
+MOV(INDD(R0, IMM(0)), IMM(1691)); // add pointer to the string 
+MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
+MOV(ADDR(1708), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2543,9 +2493,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1722)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1709)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1739), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1726), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2553,9 +2503,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1740)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1727)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1751), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1738), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2563,9 +2513,9 @@ MOV(R1,R0);
 PUSH(IMM(3)); // allocate space for new bucket 
 CALL(MALLOC);
 DROP(IMM(1));
-MOV(INDD(R0, IMM(0)), IMM(1752)); // add pointer to the string 
+MOV(INDD(R0, IMM(0)), IMM(1739)); // add pointer to the string 
 MOV(INDD(R0, IMM(1)), IMM(0)); // this symbol holds no value 
-MOV(ADDR(1763), R0); // save the bucket address in the symbol object 
+MOV(ADDR(1750), R0); // save the bucket address in the symbol object 
 MOV(ADDR(R1), R0); // make previous bucket point to this one 
 ADD(R0,IMM(2)); // store bucket address in R1 for future linkage 
 MOV(R1,R0);
@@ -2578,7 +2528,7 @@ PUSH(LABEL(CDR));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1325),1));
+MOV(R1, INDD(IMM(1320),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for BIN_PLUS
@@ -2586,7 +2536,7 @@ PUSH(LABEL(BIN_PLUS));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1288),1));
+MOV(R1, INDD(IMM(1283),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for APPLY
@@ -2594,7 +2544,7 @@ PUSH(LABEL(APPLY));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1373),1));
+MOV(R1, INDD(IMM(1368),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for BIN_MINUS
@@ -2602,7 +2552,7 @@ PUSH(LABEL(BIN_MINUS));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1298),1));
+MOV(R1, INDD(IMM(1293),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for BIN_MUL
@@ -2610,7 +2560,7 @@ PUSH(LABEL(BIN_MUL));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1381),1));
+MOV(R1, INDD(IMM(1376),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for BIN_DIV
@@ -2618,7 +2568,7 @@ PUSH(LABEL(BIN_DIV));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1389),1));
+MOV(R1, INDD(IMM(1384),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for GRATER_THAN
@@ -2634,7 +2584,7 @@ PUSH(LABEL(GRATER_THAN));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1706),1));
+MOV(R1, INDD(IMM(1675),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for LOWER_THAN
@@ -2658,7 +2608,7 @@ PUSH(LABEL(EQUAL_TO));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1415),1));
+MOV(R1, INDD(IMM(1410),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for LOWER_THAN
@@ -2666,7 +2616,7 @@ PUSH(LABEL(LOWER_THAN));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1307),1));
+MOV(R1, INDD(IMM(1302),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for EQUAL_TO
@@ -2674,7 +2624,7 @@ PUSH(LABEL(EQUAL_TO));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1698),1));
+MOV(R1, INDD(IMM(1667),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for LOWER_THAN
@@ -2682,7 +2632,7 @@ PUSH(LABEL(LOWER_THAN));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1690),1));
+MOV(R1, INDD(IMM(1659),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for CAR
@@ -2690,7 +2640,7 @@ PUSH(LABEL(CAR));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1356),1));
+MOV(R1, INDD(IMM(1351),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for CDR
@@ -2698,7 +2648,7 @@ PUSH(LABEL(CDR));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1325),1));
+MOV(R1, INDD(IMM(1320),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for STRING_TO_SYMBOL
@@ -2706,7 +2656,7 @@ PUSH(LABEL(STRING_TO_SYMBOL));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1682),1));
+MOV(R1, INDD(IMM(1707),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for REMAINDER
@@ -2714,7 +2664,7 @@ PUSH(LABEL(REMAINDER));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1347),1));
+MOV(R1, INDD(IMM(1342),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for IS_PROCEDURE
@@ -2722,7 +2672,7 @@ PUSH(LABEL(IS_PROCEDURE));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1720),1));
+MOV(R1, INDD(IMM(1689),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for IS_VECTOR
@@ -2730,7 +2680,7 @@ PUSH(LABEL(IS_VECTOR));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1636),1));
+MOV(R1, INDD(IMM(1631),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for IS_SYMBOL
@@ -2738,7 +2688,7 @@ PUSH(LABEL(IS_SYMBOL));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1625),1));
+MOV(R1, INDD(IMM(1620),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for IS_STRING
@@ -2746,7 +2696,7 @@ PUSH(LABEL(IS_STRING));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1614),1));
+MOV(R1, INDD(IMM(1609),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for IS_CHAR
@@ -2754,7 +2704,7 @@ PUSH(LABEL(IS_CHAR));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1592),1));
+MOV(R1, INDD(IMM(1587),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for IS_NUMBER
@@ -2762,7 +2712,7 @@ PUSH(LABEL(IS_NUMBER));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1603),1));
+MOV(R1, INDD(IMM(1598),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for IS_NUMBER
@@ -2770,7 +2720,7 @@ PUSH(LABEL(IS_NUMBER));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1762),1));
+MOV(R1, INDD(IMM(1749),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for IS_BOOLEAN
@@ -2778,7 +2728,7 @@ PUSH(LABEL(IS_BOOLEAN));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1583),1));
+MOV(R1, INDD(IMM(1578),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for IS_PAIR
@@ -2786,7 +2736,7 @@ PUSH(LABEL(IS_PAIR));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1334),1));
+MOV(R1, INDD(IMM(1329),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for IS_NULL
@@ -2794,7 +2744,7 @@ PUSH(LABEL(IS_NULL));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1318),1));
+MOV(R1, INDD(IMM(1313),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for INTEGER_TO_CHAR
@@ -2802,7 +2752,7 @@ PUSH(LABEL(INTEGER_TO_CHAR));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1440),1));
+MOV(R1, INDD(IMM(1435),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for CHAR_TO_INTEGER
@@ -2810,7 +2760,7 @@ PUSH(LABEL(CHAR_TO_INTEGER));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1406),1));
+MOV(R1, INDD(IMM(1401),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for STRING_LENGTH
@@ -2818,7 +2768,7 @@ PUSH(LABEL(STRING_LENGTH));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1457),1));
+MOV(R1, INDD(IMM(1452),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for STRING_LENGTH
@@ -2826,7 +2776,7 @@ PUSH(LABEL(STRING_LENGTH));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1557),1));
+MOV(R1, INDD(IMM(1552),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for MAKE_STRING
@@ -2834,7 +2784,7 @@ PUSH(LABEL(MAKE_STRING));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1503),1));
+MOV(R1, INDD(IMM(1498),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for MAKE_VECTOR
@@ -2842,7 +2792,7 @@ PUSH(LABEL(MAKE_VECTOR));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1540),1));
+MOV(R1, INDD(IMM(1535),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for SYMBOL_TO_STRING
@@ -2850,7 +2800,7 @@ PUSH(LABEL(SYMBOL_TO_STRING));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1738),1));
+MOV(R1, INDD(IMM(1725),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for SET_CAR
@@ -2858,7 +2808,7 @@ PUSH(LABEL(SET_CAR));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1648),1));
+MOV(R1, INDD(IMM(1643),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for SET_CDR
@@ -2866,7 +2816,7 @@ PUSH(LABEL(SET_CDR));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1750),1));
+MOV(R1, INDD(IMM(1737),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for CONS
@@ -2874,7 +2824,7 @@ PUSH(LABEL(CONS));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1364),1));
+MOV(R1, INDD(IMM(1359),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for STRING_SET
@@ -2882,7 +2832,7 @@ PUSH(LABEL(STRING_SET));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1488),1));
+MOV(R1, INDD(IMM(1483),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for VECTOR_SET
@@ -2890,7 +2840,7 @@ PUSH(LABEL(VECTOR_SET));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1525),1));
+MOV(R1, INDD(IMM(1520),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for STRING_REF
@@ -2898,7 +2848,7 @@ PUSH(LABEL(STRING_REF));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1473),1));
+MOV(R1, INDD(IMM(1468),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for VECTOR_REF
@@ -2906,7 +2856,7 @@ PUSH(LABEL(VECTOR_REF));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1571),1));
+MOV(R1, INDD(IMM(1566),1));
 MOV(INDD(R1, 1), R0);
 
 //This is the bindings for EQ2
@@ -2914,7 +2864,7 @@ PUSH(LABEL(EQ2));
 PUSH(IMM(7777));
 CALL(MAKE_SOB_CLOSURE);
 DROP(IMM(2));
-MOV(R1, INDD(IMM(1510),1));
+MOV(R1, INDD(IMM(1505),1));
 MOV(INDD(R1, 1), R0);
 
  // fixing the stack before executing the actual code
@@ -2931,7 +2881,7 @@ MOV(FP,SP);
 
  // actual code
 
- // DEFINEnot
+ // DEFINE  not
 
 //LAMBDA-SIMPLE
 
@@ -2944,25 +2894,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1825));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1822));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1823:
+L_FOR1_START_1820:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1822);
+JUMP_EQ(L_FOR1_END_1819);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1823);
+ JUMP(L_FOR1_START_1820);
 
-L_FOR1_END_1822:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1819:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -2973,34 +2920,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1821:
+L_FOR2_START_1818:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1820);
+JUMP_EQ(L_FOR2_END_1817);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1821);
+ JUMP(L_FOR2_START_1818);
 
-L_FOR2_END_1820:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1817:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1824);
-L_CLOS_CODE_1825: 
+JUMP(L_CLOS_EXIT_1821);
+L_CLOS_CODE_1822: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1819);
-printf("at JUMP_SIMPLE_1819");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1819:
 //IF 
 // PVAR 
 MOV(R1, IMM(0));
@@ -3008,25 +2944,25 @@ ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1828); 
+		    JUMP_NE(L_THEN_1825); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1827);
-		    L_THEN_1828:MOV(R0,IMM(12));
+		    JUMP_EQ(L_ELSE_1824);
+		    L_THEN_1825:MOV(R0,IMM(12));
 
-		    JUMP(L_IF_EXIT_1826);
-		    L_ELSE_1827:
+		    JUMP(L_IF_EXIT_1823);
+		    L_ELSE_1824:
 		    MOV(R0,IMM(14));
 
-		    L_IF_EXIT_1826:
+		    L_IF_EXIT_1823:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1824:
+L_CLOS_EXIT_1821:
 MOV(R1, INDD(IMM(21), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINElist
+ // DEFINE  list
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -3038,25 +2974,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1818));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1815));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1816:
+L_FOR1_START_1813:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1815);
+JUMP_EQ(L_FOR1_END_1812);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1816);
+ JUMP(L_FOR1_START_1813);
 
-L_FOR1_END_1815:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1812:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -3068,33 +3001,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1814:
+L_FOR2_START_1811:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1813);
+JUMP_EQ(L_FOR2_END_1810);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1814);
+ JUMP(L_FOR2_START_1811);
 
-L_FOR2_END_1813:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1810:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1817);
-L_CLOS_CODE_1818: 
+JUMP(L_CLOS_EXIT_1814);
+L_CLOS_CODE_1815: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 // PVAR 
 MOV(R1, IMM(0));
@@ -3103,12 +3031,12 @@ MOV(R0, FPARG(R1));
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1817:
+L_CLOS_EXIT_1814:
 MOV(R1, INDD(IMM(29), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEadd1
+ // DEFINE  add1
 
 //LAMBDA-SIMPLE
 
@@ -3121,25 +3049,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1811));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1808));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1809:
+L_FOR1_START_1806:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1808);
+JUMP_EQ(L_FOR1_END_1805);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1809);
+ JUMP(L_FOR1_START_1806);
 
-L_FOR1_END_1808:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1805:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -3150,38 +3075,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1807:
+L_FOR2_START_1804:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1806);
+JUMP_EQ(L_FOR2_END_1803);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1807);
+ JUMP(L_FOR2_START_1804);
 
-L_FOR2_END_1806:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1803:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1810);
-L_CLOS_CODE_1811: 
+JUMP(L_CLOS_EXIT_1807);
+L_CLOS_CODE_1808: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1805);
-printf("at JUMP_SIMPLE_1805");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1805:
 
  //TC-APPLIC 
 
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(0));
@@ -3190,24 +3104,17 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1288));
+MOV(R0, IMM(1283));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1812);
-printf("At L_JUMP_1812\n");
-fflush(stdout);
-L_JUMP_1812:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -3225,12 +3132,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1810:
+L_CLOS_EXIT_1807:
 MOV(R1, INDD(IMM(37), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEsub1
+ // DEFINE  sub1
 
 //LAMBDA-SIMPLE
 
@@ -3243,25 +3150,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1803));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1800));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1801:
+L_FOR1_START_1798:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1800);
+JUMP_EQ(L_FOR1_END_1797);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1801);
+ JUMP(L_FOR1_START_1798);
 
-L_FOR1_END_1800:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1797:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -3272,38 +3176,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1799:
+L_FOR2_START_1796:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1798);
+JUMP_EQ(L_FOR2_END_1795);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1799);
+ JUMP(L_FOR2_START_1796);
 
-L_FOR2_END_1798:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1795:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1802);
-L_CLOS_CODE_1803: 
+JUMP(L_CLOS_EXIT_1799);
+L_CLOS_CODE_1800: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1797);
-printf("at JUMP_SIMPLE_1797");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1797:
 
  //TC-APPLIC 
 
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(0));
@@ -3312,24 +3205,17 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1298));
+MOV(R0, IMM(1293));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1804);
-printf("At L_JUMP_1804\n");
-fflush(stdout);
-L_JUMP_1804:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -3347,12 +3233,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1802:
+L_CLOS_EXIT_1799:
 MOV(R1, INDD(IMM(45), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEbin>?
+ // DEFINE  bin>?
 
 //LAMBDA-SIMPLE
 
@@ -3365,25 +3251,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1795));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1792));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1793:
+L_FOR1_START_1790:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1792);
+JUMP_EQ(L_FOR1_END_1789);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1793);
+ JUMP(L_FOR1_START_1790);
 
-L_FOR1_END_1792:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1789:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -3394,34 +3277,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1791:
+L_FOR2_START_1788:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1790);
+JUMP_EQ(L_FOR2_END_1787);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1791);
+ JUMP(L_FOR2_START_1788);
 
-L_FOR2_END_1790:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1787:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1794);
-L_CLOS_CODE_1795: 
+JUMP(L_CLOS_EXIT_1791);
+L_CLOS_CODE_1792: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1789);
-printf("at JUMP_SIMPLE_1789");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1789:
 
  //TC-APPLIC 
 
@@ -3437,24 +3309,17 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1307));
+MOV(R0, IMM(1302));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1796);
-printf("At L_JUMP_1796\n");
-fflush(stdout);
-L_JUMP_1796:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -3472,12 +3337,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1794:
+L_CLOS_EXIT_1791:
 MOV(R1, INDD(IMM(54), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEbin<=?
+ // DEFINE  bin<=?
 
 //LAMBDA-SIMPLE
 
@@ -3490,25 +3355,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1786));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1783));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1784:
+L_FOR1_START_1781:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1783);
+JUMP_EQ(L_FOR1_END_1780);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1784);
+ JUMP(L_FOR1_START_1781);
 
-L_FOR1_END_1783:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1780:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -3519,34 +3381,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1782:
+L_FOR2_START_1779:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1781);
+JUMP_EQ(L_FOR2_END_1778);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1782);
+ JUMP(L_FOR2_START_1779);
 
-L_FOR2_END_1781:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1778:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1785);
-L_CLOS_CODE_1786: 
+JUMP(L_CLOS_EXIT_1782);
+L_CLOS_CODE_1783: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1780);
-printf("at JUMP_SIMPLE_1780");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1780:
 
  //TC-APPLIC 
 
@@ -3569,14 +3420,6 @@ PUSH(R0);
 MOV(R0, IMM(54));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1788\n");
-JUMP_EQ(L_JUMP_1788);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1788:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -3592,18 +3435,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(21));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1787);
-printf("At L_JUMP_1787\n");
-fflush(stdout);
-L_JUMP_1787:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -3621,12 +3457,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1785:
+L_CLOS_EXIT_1782:
 MOV(R1, INDD(IMM(64), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEbin>=?
+ // DEFINE  bin>=?
 
 //LAMBDA-SIMPLE
 
@@ -3639,25 +3475,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1777));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1774));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1775:
+L_FOR1_START_1772:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1774);
+JUMP_EQ(L_FOR1_END_1771);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1775);
+ JUMP(L_FOR1_START_1772);
 
-L_FOR1_END_1774:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1771:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -3668,34 +3501,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1773:
+L_FOR2_START_1770:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1772);
+JUMP_EQ(L_FOR2_END_1769);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1773);
+ JUMP(L_FOR2_START_1770);
 
-L_FOR2_END_1772:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1769:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1776);
-L_CLOS_CODE_1777: 
+JUMP(L_CLOS_EXIT_1773);
+L_CLOS_CODE_1774: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1771);
-printf("at JUMP_SIMPLE_1771");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1771:
 
  //TC-APPLIC 
 
@@ -3715,17 +3537,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1307));
+MOV(R0, IMM(1302));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1779\n");
-JUMP_EQ(L_JUMP_1779);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1779:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -3741,18 +3555,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(21));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1778);
-printf("At L_JUMP_1778\n");
-fflush(stdout);
-L_JUMP_1778:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -3770,12 +3577,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1776:
+L_CLOS_EXIT_1773:
 MOV(R1, INDD(IMM(74), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEzero?
+ // DEFINE  zero?
 
 //LAMBDA-SIMPLE
 
@@ -3788,25 +3595,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1769));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1766));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1767:
+L_FOR1_START_1764:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1766);
+JUMP_EQ(L_FOR1_END_1763);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1767);
+ JUMP(L_FOR1_START_1764);
 
-L_FOR1_END_1766:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1763:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -3817,38 +3621,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1765:
+L_FOR2_START_1762:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1764);
+JUMP_EQ(L_FOR2_END_1761);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1765);
+ JUMP(L_FOR2_START_1762);
 
-L_FOR2_END_1764:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1761:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1768);
-L_CLOS_CODE_1769: 
+JUMP(L_CLOS_EXIT_1765);
+L_CLOS_CODE_1766: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1763);
-printf("at JUMP_SIMPLE_1763");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1763:
 
  //TC-APPLIC 
 
-MOV(R0,IMM(1309));
+MOV(R0,IMM(1304));
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(0));
@@ -3860,21 +3653,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(1275));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1770);
-printf("At L_JUMP_1770\n");
-fflush(stdout);
-L_JUMP_1770:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -3892,12 +3678,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1768:
+L_CLOS_EXIT_1765:
 MOV(R1, INDD(IMM(83), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINElength
+ // DEFINE  length
 
 //LAMBDA-SIMPLE
 
@@ -3910,25 +3696,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1755));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1752));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1753:
+L_FOR1_START_1750:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1752);
+JUMP_EQ(L_FOR1_END_1749);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1753);
+ JUMP(L_FOR1_START_1750);
 
-L_FOR1_END_1752:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1749:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -3939,34 +3722,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1751:
+L_FOR2_START_1748:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1750);
+JUMP_EQ(L_FOR2_END_1747);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1751);
+ JUMP(L_FOR2_START_1748);
 
-L_FOR2_END_1750:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1747:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1754);
-L_CLOS_CODE_1755: 
+JUMP(L_CLOS_EXIT_1751);
+L_CLOS_CODE_1752: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1749);
-printf("at JUMP_SIMPLE_1749");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1749:
 //IF 
 
  //APPLIC 
@@ -3979,17 +3751,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1762\n");
-JUMP_EQ(L_JUMP_1762);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1762:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -4001,13 +3765,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1758); 
+		    JUMP_NE(L_THEN_1755); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1757);
-		    L_THEN_1758:MOV(R0,IMM(1309));
+		    JUMP_EQ(L_ELSE_1754);
+		    L_THEN_1755:MOV(R0,IMM(1304));
 
-		    JUMP(L_IF_EXIT_1756);
-		    L_ELSE_1757:
+		    JUMP(L_IF_EXIT_1753);
+		    L_ELSE_1754:
 		    
  //TC-APPLIC 
 
@@ -4026,17 +3790,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1761\n");
-JUMP_EQ(L_JUMP_1761);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1761:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -4052,14 +3808,6 @@ PUSH(R0);
 MOV(R0, IMM(93));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1760\n");
-JUMP_EQ(L_JUMP_1760);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1760:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -4075,18 +3823,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(37));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1759);
-printf("At L_JUMP_1759\n");
-fflush(stdout);
-L_JUMP_1759:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -4102,16 +3843,16 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1756:
+		    L_IF_EXIT_1753:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1754:
+L_CLOS_EXIT_1751:
 MOV(R1, INDD(IMM(93), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINElist?
+ // DEFINE  list?
 
 //LAMBDA-SIMPLE
 
@@ -4124,25 +3865,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1740));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1737));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1738:
+L_FOR1_START_1735:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1737);
+JUMP_EQ(L_FOR1_END_1734);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1738);
+ JUMP(L_FOR1_START_1735);
 
-L_FOR1_END_1737:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1734:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -4153,34 +3891,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1736:
+L_FOR2_START_1733:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1735);
+JUMP_EQ(L_FOR2_END_1732);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1736);
+ JUMP(L_FOR2_START_1733);
 
-L_FOR2_END_1735:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1732:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1739);
-L_CLOS_CODE_1740: 
+JUMP(L_CLOS_EXIT_1736);
+L_CLOS_CODE_1737: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1734);
-printf("at JUMP_SIMPLE_1734");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1734:
 
  //APPLIC 
 
@@ -4192,17 +3919,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1748\n");
-JUMP_EQ(L_JUMP_1748);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1748:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -4214,9 +3933,9 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_1741);
+JUMP_NE(L_OR_END_1738);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_1741);
+JUMP_NE(L_OR_END_1738);
 //IF 
 
  //APPLIC 
@@ -4229,17 +3948,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1334));
+MOV(R0, IMM(1329));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1747\n");
-JUMP_EQ(L_JUMP_1747);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1747:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -4251,10 +3962,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1744); 
+		    JUMP_NE(L_THEN_1741); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1743);
-		    L_THEN_1744:
+		    JUMP_EQ(L_ELSE_1740);
+		    L_THEN_1741:
  //TC-APPLIC 
 
 
@@ -4268,17 +3979,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1746\n");
-JUMP_EQ(L_JUMP_1746);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1746:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -4294,18 +3997,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(102));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1745);
-printf("At L_JUMP_1745\n");
-fflush(stdout);
-L_JUMP_1745:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -4321,26 +4017,26 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_1742);
-		    L_ELSE_1743:
+		    JUMP(L_IF_EXIT_1739);
+		    L_ELSE_1740:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_1742:
+		    L_IF_EXIT_1739:
 		    // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_1741);
+JUMP_NE(L_OR_END_1738);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_1741);
-L_OR_END_1741:
+JUMP_NE(L_OR_END_1738);
+L_OR_END_1738:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1739:
+L_CLOS_EXIT_1736:
 MOV(R1, INDD(IMM(102), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEeven?
+ // DEFINE  even?
 
 //LAMBDA-SIMPLE
 
@@ -4353,25 +4049,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1731));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1728));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1729:
+L_FOR1_START_1726:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1728);
+JUMP_EQ(L_FOR1_END_1725);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1729);
+ JUMP(L_FOR1_START_1726);
 
-L_FOR1_END_1728:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1725:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -4382,34 +4075,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1727:
+L_FOR2_START_1724:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1726);
+JUMP_EQ(L_FOR2_END_1723);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1727);
+ JUMP(L_FOR2_START_1724);
 
-L_FOR2_END_1726:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1723:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1730);
-L_CLOS_CODE_1731: 
+JUMP(L_CLOS_EXIT_1727);
+L_CLOS_CODE_1728: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1725);
-printf("at JUMP_SIMPLE_1725");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1725:
 
  //TC-APPLIC 
 
@@ -4417,7 +4099,7 @@ JUMP_SIMPLE_1725:
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1349));
+MOV(R0,IMM(1344));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(0));
@@ -4426,17 +4108,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1347));
+MOV(R0, IMM(1342));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1733\n");
-JUMP_EQ(L_JUMP_1733);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1733:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -4452,18 +4126,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(83));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1732);
-printf("At L_JUMP_1732\n");
-fflush(stdout);
-L_JUMP_1732:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -4481,12 +4148,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1730:
+L_CLOS_EXIT_1727:
 MOV(R1, INDD(IMM(111), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEodd?
+ // DEFINE  odd?
 
 //LAMBDA-SIMPLE
 
@@ -4499,25 +4166,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1721));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1718));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1719:
+L_FOR1_START_1716:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1718);
+JUMP_EQ(L_FOR1_END_1715);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1719);
+ JUMP(L_FOR1_START_1716);
 
-L_FOR1_END_1718:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1715:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -4528,34 +4192,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1717:
+L_FOR2_START_1714:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1716);
+JUMP_EQ(L_FOR2_END_1713);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1717);
+ JUMP(L_FOR2_START_1714);
 
-L_FOR2_END_1716:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1713:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1720);
-L_CLOS_CODE_1721: 
+JUMP(L_CLOS_EXIT_1717);
+L_CLOS_CODE_1718: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1715);
-printf("at JUMP_SIMPLE_1715");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1715:
 
  //TC-APPLIC 
 
@@ -4567,7 +4220,7 @@ PUSH(IMM(0));
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1349));
+MOV(R0,IMM(1344));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(0));
@@ -4576,17 +4229,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1347));
+MOV(R0, IMM(1342));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1724\n");
-JUMP_EQ(L_JUMP_1724);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1724:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -4602,14 +4247,6 @@ PUSH(R0);
 MOV(R0, IMM(83));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1723\n");
-JUMP_EQ(L_JUMP_1723);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1723:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -4625,18 +4262,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(21));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1722);
-printf("At L_JUMP_1722\n");
-fflush(stdout);
-L_JUMP_1722:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -4654,12 +4284,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1720:
+L_CLOS_EXIT_1717:
 MOV(R1, INDD(IMM(119), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEmap
+ // DEFINE  map
 
  //APPLIC 
 
@@ -4676,25 +4306,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1681));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1678));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1679:
+L_FOR1_START_1676:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1678);
+JUMP_EQ(L_FOR1_END_1675);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1679);
+ JUMP(L_FOR1_START_1676);
 
-L_FOR1_END_1678:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1675:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -4705,34 +4332,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1677:
+L_FOR2_START_1674:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1676);
+JUMP_EQ(L_FOR2_END_1673);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1677);
+ JUMP(L_FOR2_START_1674);
 
-L_FOR2_END_1676:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1673:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1680);
-L_CLOS_CODE_1681: 
+JUMP(L_CLOS_EXIT_1677);
+L_CLOS_CODE_1678: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1675);
-printf("at JUMP_SIMPLE_1675");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1675:
 
  //TC-APPLIC 
 
@@ -4748,25 +4364,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1705));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1702));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1703:
+L_FOR1_START_1700:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1702);
+JUMP_EQ(L_FOR1_END_1699);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1703);
+ JUMP(L_FOR1_START_1700);
 
-L_FOR1_END_1702:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1699:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -4777,34 +4390,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1701:
+L_FOR2_START_1698:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1700);
+JUMP_EQ(L_FOR2_END_1697);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1701);
+ JUMP(L_FOR2_START_1698);
 
-L_FOR2_END_1700:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1697:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1704);
-L_CLOS_CODE_1705: 
+JUMP(L_CLOS_EXIT_1701);
+L_CLOS_CODE_1702: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1699);
-printf("at JUMP_SIMPLE_1699");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1699:
 
  //TC-APPLIC 
 
@@ -4819,25 +4421,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1712));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1709));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1710:
+L_FOR1_START_1707:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1709);
+JUMP_EQ(L_FOR1_END_1706);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1710);
+ JUMP(L_FOR1_START_1707);
 
-L_FOR1_END_1709:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1706:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -4849,33 +4448,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1708:
+L_FOR2_START_1705:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1707);
+JUMP_EQ(L_FOR2_END_1704);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1708);
+ JUMP(L_FOR2_START_1705);
 
-L_FOR2_END_1707:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1704:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1711);
-L_CLOS_CODE_1712: 
+JUMP(L_CLOS_EXIT_1708);
+L_CLOS_CODE_1709: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -4893,19 +4487,11 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1714\n");
-JUMP_EQ(L_JUMP_1714);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1714:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -4918,24 +4504,17 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1713);
-printf("At L_JUMP_1713\n");
-fflush(stdout);
-L_JUMP_1713:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -4953,23 +4532,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1711:
+L_CLOS_EXIT_1708:
 PUSH(R0); // finished evaluating arg 
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1706);
-printf("At L_JUMP_1706\n");
-fflush(stdout);
-L_JUMP_1706:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -4987,7 +4560,7 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1704:
+L_CLOS_EXIT_1701:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -5001,25 +4574,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1689));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1686));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1687:
+L_FOR1_START_1684:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1686);
+JUMP_EQ(L_FOR1_END_1683);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1687);
+ JUMP(L_FOR1_START_1684);
 
-L_FOR1_END_1686:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1683:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -5030,34 +4600,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1685:
+L_FOR2_START_1682:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1684);
+JUMP_EQ(L_FOR2_END_1681);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1685);
+ JUMP(L_FOR2_START_1682);
 
-L_FOR2_END_1684:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1681:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1688);
-L_CLOS_CODE_1689: 
+JUMP(L_CLOS_EXIT_1685);
+L_CLOS_CODE_1686: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1683);
-printf("at JUMP_SIMPLE_1683");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1683:
 
  //TC-APPLIC 
 
@@ -5072,25 +4631,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1696));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1693));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1694:
+L_FOR1_START_1691:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1693);
+JUMP_EQ(L_FOR1_END_1690);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1694);
+ JUMP(L_FOR1_START_1691);
 
-L_FOR1_END_1693:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1690:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -5102,33 +4658,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1692:
+L_FOR2_START_1689:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1691);
+JUMP_EQ(L_FOR2_END_1688);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1692);
+ JUMP(L_FOR2_START_1689);
 
-L_FOR2_END_1691:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1688:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1695);
-L_CLOS_CODE_1696: 
+JUMP(L_CLOS_EXIT_1692);
+L_CLOS_CODE_1693: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -5146,19 +4697,11 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1698\n");
-JUMP_EQ(L_JUMP_1698);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1698:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -5171,24 +4714,17 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1697);
-printf("At L_JUMP_1697\n");
-fflush(stdout);
-L_JUMP_1697:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -5206,23 +4742,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1695:
+L_CLOS_EXIT_1692:
 PUSH(R0); // finished evaluating arg 
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1690);
-printf("At L_JUMP_1690\n");
-fflush(stdout);
-L_JUMP_1690:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -5240,17 +4770,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1688:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1682);
-printf("At L_JUMP_1682\n");
-fflush(stdout);
-L_JUMP_1682:
+L_CLOS_EXIT_1685:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -5268,7 +4793,7 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1680:
+L_CLOS_EXIT_1677:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -5282,25 +4807,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1602));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1599));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1600:
+L_FOR1_START_1597:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1599);
+JUMP_EQ(L_FOR1_END_1596);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1600);
+ JUMP(L_FOR1_START_1597);
 
-L_FOR1_END_1599:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1596:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -5311,34 +4833,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1598:
+L_FOR2_START_1595:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1597);
+JUMP_EQ(L_FOR2_END_1594);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1598);
+ JUMP(L_FOR2_START_1595);
 
-L_FOR2_END_1597:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1594:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1601);
-L_CLOS_CODE_1602: 
+JUMP(L_CLOS_EXIT_1598);
+L_CLOS_CODE_1599: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1596);
-printf("at JUMP_SIMPLE_1596");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1596:
 
  //TC-APPLIC 
 
@@ -5358,25 +4869,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1658));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1655));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1656:
+L_FOR1_START_1653:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1655);
+JUMP_EQ(L_FOR1_END_1652);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1656);
+ JUMP(L_FOR1_START_1653);
 
-L_FOR1_END_1655:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1652:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -5387,34 +4895,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1654:
+L_FOR2_START_1651:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1653);
+JUMP_EQ(L_FOR2_END_1650);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1654);
+ JUMP(L_FOR2_START_1651);
 
-L_FOR2_END_1653:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1650:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1657);
-L_CLOS_CODE_1658: 
+JUMP(L_CLOS_EXIT_1654);
+L_CLOS_CODE_1655: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1652);
-printf("at JUMP_SIMPLE_1652");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1652:
 
 //LAMBDA-SIMPLE
 
@@ -5427,25 +4924,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1665));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1662));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1663:
+L_FOR1_START_1660:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1662);
+JUMP_EQ(L_FOR1_END_1659);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1663);
+ JUMP(L_FOR1_START_1660);
 
-L_FOR1_END_1662:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1659:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -5456,34 +4950,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1661:
+L_FOR2_START_1658:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1660);
+JUMP_EQ(L_FOR2_END_1657);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1661);
+ JUMP(L_FOR2_START_1658);
 
-L_FOR2_END_1660:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1657:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1664);
-L_CLOS_CODE_1665: 
+JUMP(L_CLOS_EXIT_1661);
+L_CLOS_CODE_1662: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1659);
-printf("at JUMP_SIMPLE_1659");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1659:
 //IF 
 
  //APPLIC 
@@ -5496,17 +4979,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1674\n");
-JUMP_EQ(L_JUMP_1674);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1674:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -5518,13 +4993,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1668); 
+		    JUMP_NE(L_THEN_1665); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1667);
-		    L_THEN_1668:MOV(R0,IMM(11));
+		    JUMP_EQ(L_ELSE_1664);
+		    L_THEN_1665:MOV(R0,IMM(11));
 
-		    JUMP(L_IF_EXIT_1666);
-		    L_ELSE_1667:
+		    JUMP(L_IF_EXIT_1663);
+		    L_ELSE_1664:
 		    
  //TC-APPLIC 
 
@@ -5543,17 +5018,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1673\n");
-JUMP_EQ(L_JUMP_1673);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1673:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -5573,13 +5040,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1672\n");
-JUMP_EQ(L_JUMP_1672);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1672:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -5605,17 +5065,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1671\n");
-JUMP_EQ(L_JUMP_1671);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1671:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -5630,12 +5082,6 @@ PUSH(R0);
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1670\n");
-JUMP_EQ(L_JUMP_1670);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1670:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -5648,24 +5094,17 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1364));
+MOV(R0, IMM(1359));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1669);
-printf("At L_JUMP_1669\n");
-fflush(stdout);
-L_JUMP_1669:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -5681,26 +5120,20 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1666:
+		    L_IF_EXIT_1663:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1664:
+L_CLOS_EXIT_1661:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1657:
+L_CLOS_EXIT_1654:
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1651\n");
-JUMP_EQ(L_JUMP_1651);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1651:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -5723,25 +5156,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1610));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1607));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1608:
+L_FOR1_START_1605:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1607);
+JUMP_EQ(L_FOR1_END_1604);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1608);
+ JUMP(L_FOR1_START_1605);
 
-L_FOR1_END_1607:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1604:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -5752,34 +5182,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1606:
+L_FOR2_START_1603:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1605);
+JUMP_EQ(L_FOR2_END_1602);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1606);
+ JUMP(L_FOR2_START_1603);
 
-L_FOR2_END_1605:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1602:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1609);
-L_CLOS_CODE_1610: 
+JUMP(L_CLOS_EXIT_1606);
+L_CLOS_CODE_1607: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1604);
-printf("at JUMP_SIMPLE_1604");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1604:
 
  //TC-APPLIC 
 
@@ -5799,25 +5218,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1633));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1630));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1631:
+L_FOR1_START_1628:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1630);
+JUMP_EQ(L_FOR1_END_1627);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1631);
+ JUMP(L_FOR1_START_1628);
 
-L_FOR1_END_1630:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1627:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -5828,34 +5244,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1629:
+L_FOR2_START_1626:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1628);
+JUMP_EQ(L_FOR2_END_1625);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1629);
+ JUMP(L_FOR2_START_1626);
 
-L_FOR2_END_1628:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1625:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1632);
-L_CLOS_CODE_1633: 
+JUMP(L_CLOS_EXIT_1629);
+L_CLOS_CODE_1630: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1627);
-printf("at JUMP_SIMPLE_1627");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1627:
 
 //LAMBDA-SIMPLE
 
@@ -5868,25 +5273,22 @@ PUSH(IMM(5));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1640));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1637));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(4));
 
-L_FOR1_START_1638:
+L_FOR1_START_1635:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1637);
+JUMP_EQ(L_FOR1_END_1634);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1638);
+ JUMP(L_FOR1_START_1635);
 
-L_FOR1_END_1637:
-//for (i = 0; i < 4; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1634:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -5897,34 +5299,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1636:
+L_FOR2_START_1633:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1635);
+JUMP_EQ(L_FOR2_END_1632);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1636);
+ JUMP(L_FOR2_START_1633);
 
-L_FOR2_END_1635:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1632:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1639);
-L_CLOS_CODE_1640: 
+JUMP(L_CLOS_EXIT_1636);
+L_CLOS_CODE_1637: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1634);
-printf("at JUMP_SIMPLE_1634");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1634:
 //IF 
 
  //APPLIC 
@@ -5941,17 +5332,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1650\n");
-JUMP_EQ(L_JUMP_1650);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1650:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -5964,17 +5347,9 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1649\n");
-JUMP_EQ(L_JUMP_1649);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1649:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -5986,13 +5361,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1643); 
+		    JUMP_NE(L_THEN_1640); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1642);
-		    L_THEN_1643:MOV(R0,IMM(11));
+		    JUMP_EQ(L_ELSE_1639);
+		    L_THEN_1640:MOV(R0,IMM(11));
 
-		    JUMP(L_IF_EXIT_1641);
-		    L_ELSE_1642:
+		    JUMP(L_IF_EXIT_1638);
+		    L_ELSE_1639:
 		    
  //TC-APPLIC 
 
@@ -6011,23 +5386,14 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1648\n");
-JUMP_EQ(L_JUMP_1648);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1648:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -6047,13 +5413,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1647\n");
-JUMP_EQ(L_JUMP_1647);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1647:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -6079,23 +5438,14 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1646\n");
-JUMP_EQ(L_JUMP_1646);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1646:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -6113,17 +5463,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1645\n");
-JUMP_EQ(L_JUMP_1645);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1645:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -6136,24 +5478,17 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1364));
+MOV(R0, IMM(1359));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1644);
-printf("At L_JUMP_1644\n");
-fflush(stdout);
-L_JUMP_1644:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -6169,27 +5504,20 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1641:
+		    L_IF_EXIT_1638:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1639:
+L_CLOS_EXIT_1636:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1632:
+L_CLOS_EXIT_1629:
 PUSH(R0);
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1626\n");
-JUMP_EQ(L_JUMP_1626);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1626:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -6212,25 +5540,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1618));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1615));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1616:
+L_FOR1_START_1613:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1615);
+JUMP_EQ(L_FOR1_END_1612);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1616);
+ JUMP(L_FOR1_START_1613);
 
-L_FOR1_END_1615:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1612:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -6241,34 +5566,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1614:
+L_FOR2_START_1611:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1613);
+JUMP_EQ(L_FOR2_END_1610);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1614);
+ JUMP(L_FOR2_START_1611);
 
-L_FOR2_END_1613:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1610:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1617);
-L_CLOS_CODE_1618: 
+JUMP(L_CLOS_EXIT_1614);
+L_CLOS_CODE_1615: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1612);
-printf("at JUMP_SIMPLE_1612");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1612:
 
 //LAMBDA OPTIONAL
 PUSH(IMM(3));
@@ -6280,25 +5594,22 @@ PUSH(IMM(5));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1620));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1617));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(4));
 
-L_FOR1_START_1622:
+L_FOR1_START_1619:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1623);
+JUMP_EQ(L_FOR1_END_1620);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1622);
+ JUMP(L_FOR1_START_1619);
 
-L_FOR1_END_1623:
-//for (i = 0; i < 4; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1620:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -6309,35 +5620,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1624:
+L_FOR2_START_1621:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1625);
+JUMP_EQ(L_FOR2_END_1622);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1624);
+ JUMP(L_FOR2_START_1621);
 
-L_FOR2_END_1625:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1622:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1621);
-L_CLOS_CODE_1620: 
+JUMP(L_CLOS_EXIT_1618);
+L_CLOS_CODE_1617: 
 PUSH(FP);
-//print_stack("LAMBDA OPT before fixing the stack after PUSH(FP)");
 MOV(FP, SP);
-//checking number of arguments match the length of the lambda
-CMP(IMM(FPARG(1)), IMM(1));
-JUMP_LT(ERROR_WRONG_ARGUMENT_NUMBER);
 MOV(R1,IMM(1));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(4)),R0);
 MOV(FPARG(IMM(2)), IMM(2));
-//print_stack("LAMBDA OPT after fixing the stack ");
 
  //TC-APPLIC 
 
@@ -6355,20 +5658,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1619);
-printf("At L_JUMP_1619\n");
-fflush(stdout);
-L_JUMP_1619:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -6386,21 +5683,16 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1621:
+L_CLOS_EXIT_1618:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1617:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1611);
-printf("At L_JUMP_1611\n");
-fflush(stdout);
-L_JUMP_1611:
+L_CLOS_EXIT_1614:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -6418,17 +5710,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1609:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1603);
-printf("At L_JUMP_1603\n");
-fflush(stdout);
-L_JUMP_1603:
+L_CLOS_EXIT_1606:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -6446,13 +5733,7 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1601:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1595\n");
-JUMP_EQ(L_JUMP_1595);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1595:
+L_CLOS_EXIT_1598:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -6466,7 +5747,7 @@ MOV(R1, INDD(IMM(126), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEyn
+ // DEFINE  yn
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -6478,25 +5759,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1553));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1550));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1551:
+L_FOR1_START_1548:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1550);
+JUMP_EQ(L_FOR1_END_1547);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1551);
+ JUMP(L_FOR1_START_1548);
 
-L_FOR1_END_1550:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1547:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -6508,33 +5786,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1549:
+L_FOR2_START_1546:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1548);
+JUMP_EQ(L_FOR2_END_1545);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1549);
+ JUMP(L_FOR2_START_1546);
 
-L_FOR2_END_1548:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1545:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1552);
-L_CLOS_CODE_1553: 
+JUMP(L_CLOS_EXIT_1549);
+L_CLOS_CODE_1550: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -6560,25 +5833,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1571));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1568));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1569:
+L_FOR1_START_1566:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1568);
+JUMP_EQ(L_FOR1_END_1565);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1569);
+ JUMP(L_FOR1_START_1566);
 
-L_FOR1_END_1568:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1565:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -6589,34 +5859,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1567:
+L_FOR2_START_1564:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1566);
+JUMP_EQ(L_FOR2_END_1563);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1567);
+ JUMP(L_FOR2_START_1564);
 
-L_FOR2_END_1566:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1563:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1570);
-L_CLOS_CODE_1571: 
+JUMP(L_CLOS_EXIT_1567);
+L_CLOS_CODE_1568: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1565);
-printf("at JUMP_SIMPLE_1565");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1565:
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -6628,25 +5887,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1577));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1574));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1575:
+L_FOR1_START_1572:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1574);
+JUMP_EQ(L_FOR1_END_1571);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1575);
+ JUMP(L_FOR1_START_1572);
 
-L_FOR1_END_1574:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1571:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -6658,33 +5914,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1573:
+L_FOR2_START_1570:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1572);
+JUMP_EQ(L_FOR2_END_1569);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1573);
+ JUMP(L_FOR2_START_1570);
 
-L_FOR2_END_1572:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1569:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1576);
-L_CLOS_CODE_1577: 
+JUMP(L_CLOS_EXIT_1573);
+L_CLOS_CODE_1574: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -6710,25 +5961,22 @@ PUSH(IMM(5));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1586));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1583));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(4));
 
-L_FOR1_START_1584:
+L_FOR1_START_1581:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1583);
+JUMP_EQ(L_FOR1_END_1580);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1584);
+ JUMP(L_FOR1_START_1581);
 
-L_FOR1_END_1583:
-//for (i = 0; i < 4; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1580:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -6739,34 +5987,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1582:
+L_FOR2_START_1579:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1581);
+JUMP_EQ(L_FOR2_END_1578);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1582);
+ JUMP(L_FOR2_START_1579);
 
-L_FOR2_END_1581:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1578:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1585);
-L_CLOS_CODE_1586: 
+JUMP(L_CLOS_EXIT_1582);
+L_CLOS_CODE_1583: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1580);
-printf("at JUMP_SIMPLE_1580");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1580:
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -6778,25 +6015,22 @@ PUSH(IMM(6));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1592));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1589));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(5));
 
-L_FOR1_START_1590:
+L_FOR1_START_1587:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1589);
+JUMP_EQ(L_FOR1_END_1586);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1590);
+ JUMP(L_FOR1_START_1587);
 
-L_FOR1_END_1589:
-//for (i = 0; i < 5; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1586:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -6808,33 +6042,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1588:
+L_FOR2_START_1585:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1587);
+JUMP_EQ(L_FOR2_END_1584);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1588);
+ JUMP(L_FOR2_START_1585);
 
-L_FOR2_END_1587:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1584:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1591);
-L_CLOS_CODE_1592: 
+JUMP(L_CLOS_EXIT_1588);
+L_CLOS_CODE_1589: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -6852,27 +6081,17 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1594\n");
-JUMP_EQ(L_JUMP_1594);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1594:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -6885,24 +6104,17 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1593);
-printf("At L_JUMP_1593\n");
-fflush(stdout);
-L_JUMP_1593:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -6920,25 +6132,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1591:
+L_CLOS_EXIT_1588:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1585:
+L_CLOS_EXIT_1582:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1579\n");
-JUMP_EQ(L_JUMP_1579);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1579:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -6953,28 +6157,20 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1578);
-printf("At L_JUMP_1578\n");
-fflush(stdout);
-L_JUMP_1578:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -6992,25 +6188,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1576:
+L_CLOS_EXIT_1573:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1570:
+L_CLOS_EXIT_1567:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1564\n");
-JUMP_EQ(L_JUMP_1564);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1564:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -7033,25 +6221,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1561));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1558));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1559:
+L_FOR1_START_1556:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1558);
+JUMP_EQ(L_FOR1_END_1555);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1559);
+ JUMP(L_FOR1_START_1556);
 
-L_FOR1_END_1558:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1555:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -7062,34 +6247,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1557:
+L_FOR2_START_1554:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1556);
+JUMP_EQ(L_FOR2_END_1553);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1557);
+ JUMP(L_FOR2_START_1554);
 
-L_FOR2_END_1556:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1553:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1560);
-L_CLOS_CODE_1561: 
+JUMP(L_CLOS_EXIT_1557);
+L_CLOS_CODE_1558: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1555);
-printf("at JUMP_SIMPLE_1555");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1555:
 
  //TC-APPLIC 
 
@@ -7109,17 +6283,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1563\n");
-JUMP_EQ(L_JUMP_1563);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1563:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -7132,24 +6298,17 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1562);
-printf("At L_JUMP_1562\n");
-fflush(stdout);
-L_JUMP_1562:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -7167,17 +6326,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1560:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1554);
-printf("At L_JUMP_1554\n");
-fflush(stdout);
-L_JUMP_1554:
+L_CLOS_EXIT_1557:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -7195,12 +6349,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1552:
+L_CLOS_EXIT_1549:
 MOV(R1, INDD(IMM(132), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE+
+ // DEFINE  +
 
  //APPLIC 
 
@@ -7217,25 +6371,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1532));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1529));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1530:
+L_FOR1_START_1527:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1529);
+JUMP_EQ(L_FOR1_END_1526);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1530);
+ JUMP(L_FOR1_START_1527);
 
-L_FOR1_END_1529:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1526:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -7246,34 +6397,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1528:
+L_FOR2_START_1525:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1527);
+JUMP_EQ(L_FOR2_END_1524);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1528);
+ JUMP(L_FOR2_START_1525);
 
-L_FOR2_END_1527:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1524:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1531);
-L_CLOS_CODE_1532: 
+JUMP(L_CLOS_EXIT_1528);
+L_CLOS_CODE_1529: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1526);
-printf("at JUMP_SIMPLE_1526");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1526:
 
 //LAMBDA-SIMPLE
 
@@ -7286,25 +6426,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1539));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1536));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1537:
+L_FOR1_START_1534:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1536);
+JUMP_EQ(L_FOR1_END_1533);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1537);
+ JUMP(L_FOR1_START_1534);
 
-L_FOR1_END_1536:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1533:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -7315,34 +6452,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1535:
+L_FOR2_START_1532:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1534);
+JUMP_EQ(L_FOR2_END_1531);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1535);
+ JUMP(L_FOR2_START_1532);
 
-L_FOR2_END_1534:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1531:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1538);
-L_CLOS_CODE_1539: 
+JUMP(L_CLOS_EXIT_1535);
+L_CLOS_CODE_1536: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1533);
-printf("at JUMP_SIMPLE_1533");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1533:
 //IF 
 
  //APPLIC 
@@ -7355,17 +6481,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1547\n");
-JUMP_EQ(L_JUMP_1547);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1547:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -7377,13 +6495,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1542); 
+		    JUMP_NE(L_THEN_1539); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1541);
-		    L_THEN_1542:MOV(R0,IMM(1309));
+		    JUMP_EQ(L_ELSE_1538);
+		    L_THEN_1539:MOV(R0,IMM(1304));
 
-		    JUMP(L_IF_EXIT_1540);
-		    L_ELSE_1541:
+		    JUMP(L_IF_EXIT_1537);
+		    L_ELSE_1538:
 		    
  //TC-APPLIC 
 
@@ -7402,17 +6520,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1546\n");
-JUMP_EQ(L_JUMP_1546);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1546:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -7427,13 +6537,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1545\n");
-JUMP_EQ(L_JUMP_1545);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1545:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -7455,17 +6558,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1544\n");
-JUMP_EQ(L_JUMP_1544);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1544:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -7478,24 +6573,17 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1288));
+MOV(R0, IMM(1283));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1543);
-printf("At L_JUMP_1543\n");
-fflush(stdout);
-L_JUMP_1543:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -7511,15 +6599,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1540:
+		    L_IF_EXIT_1537:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1538:
+L_CLOS_EXIT_1535:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1531:
+L_CLOS_EXIT_1528:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -7533,25 +6621,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1518));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1515));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1516:
+L_FOR1_START_1513:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1515);
+JUMP_EQ(L_FOR1_END_1512);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1516);
+ JUMP(L_FOR1_START_1513);
 
-L_FOR1_END_1515:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1512:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -7562,34 +6647,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1514:
+L_FOR2_START_1511:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1513);
+JUMP_EQ(L_FOR2_END_1510);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1514);
+ JUMP(L_FOR2_START_1511);
 
-L_FOR2_END_1513:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1510:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1517);
-L_CLOS_CODE_1518: 
+JUMP(L_CLOS_EXIT_1514);
+L_CLOS_CODE_1515: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1512);
-printf("at JUMP_SIMPLE_1512");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1512:
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -7601,25 +6675,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1524));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1521));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1522:
+L_FOR1_START_1519:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1521);
+JUMP_EQ(L_FOR1_END_1518);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1522);
+ JUMP(L_FOR1_START_1519);
 
-L_FOR1_END_1521:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1518:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -7631,33 +6702,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1520:
+L_FOR2_START_1517:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1519);
+JUMP_EQ(L_FOR2_END_1516);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1520);
+ JUMP(L_FOR2_START_1517);
 
-L_FOR2_END_1519:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1516:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1523);
-L_CLOS_CODE_1524: 
+JUMP(L_CLOS_EXIT_1520);
+L_CLOS_CODE_1521: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -7671,17 +6737,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1525);
-printf("At L_JUMP_1525\n");
-fflush(stdout);
-L_JUMP_1525:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -7699,25 +6759,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1523:
+L_CLOS_EXIT_1520:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1517:
+L_CLOS_EXIT_1514:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1511\n");
-JUMP_EQ(L_JUMP_1511);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1511:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -7731,7 +6783,7 @@ MOV(R1, INDD(IMM(137), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE*
+ // DEFINE  *
 
  //APPLIC 
 
@@ -7748,25 +6800,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1495));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1492));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1493:
+L_FOR1_START_1490:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1492);
+JUMP_EQ(L_FOR1_END_1489);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1493);
+ JUMP(L_FOR1_START_1490);
 
-L_FOR1_END_1492:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1489:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -7777,34 +6826,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1491:
+L_FOR2_START_1488:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1490);
+JUMP_EQ(L_FOR2_END_1487);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1491);
+ JUMP(L_FOR2_START_1488);
 
-L_FOR2_END_1490:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1487:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1494);
-L_CLOS_CODE_1495: 
+JUMP(L_CLOS_EXIT_1491);
+L_CLOS_CODE_1492: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1489);
-printf("at JUMP_SIMPLE_1489");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1489:
 
 //LAMBDA-SIMPLE
 
@@ -7817,25 +6855,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1502));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1499));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1500:
+L_FOR1_START_1497:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1499);
+JUMP_EQ(L_FOR1_END_1496);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1500);
+ JUMP(L_FOR1_START_1497);
 
-L_FOR1_END_1499:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1496:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -7846,34 +6881,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1498:
+L_FOR2_START_1495:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1497);
+JUMP_EQ(L_FOR2_END_1494);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1498);
+ JUMP(L_FOR2_START_1495);
 
-L_FOR2_END_1497:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1494:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1501);
-L_CLOS_CODE_1502: 
+JUMP(L_CLOS_EXIT_1498);
+L_CLOS_CODE_1499: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1496);
-printf("at JUMP_SIMPLE_1496");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1496:
 //IF 
 
  //APPLIC 
@@ -7886,17 +6910,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1510\n");
-JUMP_EQ(L_JUMP_1510);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1510:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -7908,13 +6924,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1505); 
+		    JUMP_NE(L_THEN_1502); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1504);
-		    L_THEN_1505:MOV(R0,IMM(1290));
+		    JUMP_EQ(L_ELSE_1501);
+		    L_THEN_1502:MOV(R0,IMM(1285));
 
-		    JUMP(L_IF_EXIT_1503);
-		    L_ELSE_1504:
+		    JUMP(L_IF_EXIT_1500);
+		    L_ELSE_1501:
 		    
  //TC-APPLIC 
 
@@ -7933,17 +6949,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1509\n");
-JUMP_EQ(L_JUMP_1509);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1509:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -7958,13 +6966,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1508\n");
-JUMP_EQ(L_JUMP_1508);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1508:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -7986,17 +6987,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1507\n");
-JUMP_EQ(L_JUMP_1507);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1507:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -8009,24 +7002,17 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1381));
+MOV(R0, IMM(1376));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1506);
-printf("At L_JUMP_1506\n");
-fflush(stdout);
-L_JUMP_1506:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -8042,15 +7028,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1503:
+		    L_IF_EXIT_1500:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1501:
+L_CLOS_EXIT_1498:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1494:
+L_CLOS_EXIT_1491:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -8064,25 +7050,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1481));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1478));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1479:
+L_FOR1_START_1476:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1478);
+JUMP_EQ(L_FOR1_END_1475);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1479);
+ JUMP(L_FOR1_START_1476);
 
-L_FOR1_END_1478:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1475:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -8093,34 +7076,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1477:
+L_FOR2_START_1474:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1476);
+JUMP_EQ(L_FOR2_END_1473);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1477);
+ JUMP(L_FOR2_START_1474);
 
-L_FOR2_END_1476:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1473:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1480);
-L_CLOS_CODE_1481: 
+JUMP(L_CLOS_EXIT_1477);
+L_CLOS_CODE_1478: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1475);
-printf("at JUMP_SIMPLE_1475");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1475:
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -8132,25 +7104,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1487));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1484));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1485:
+L_FOR1_START_1482:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1484);
+JUMP_EQ(L_FOR1_END_1481);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1485);
+ JUMP(L_FOR1_START_1482);
 
-L_FOR1_END_1484:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1481:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -8162,33 +7131,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1483:
+L_FOR2_START_1480:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1482);
+JUMP_EQ(L_FOR2_END_1479);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1483);
+ JUMP(L_FOR2_START_1480);
 
-L_FOR2_END_1482:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1479:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1486);
-L_CLOS_CODE_1487: 
+JUMP(L_CLOS_EXIT_1483);
+L_CLOS_CODE_1484: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -8202,17 +7166,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1488);
-printf("At L_JUMP_1488\n");
-fflush(stdout);
-L_JUMP_1488:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -8230,25 +7188,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1486:
+L_CLOS_EXIT_1483:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1480:
+L_CLOS_EXIT_1477:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1474\n");
-JUMP_EQ(L_JUMP_1474);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1474:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -8262,7 +7212,7 @@ MOV(R1, INDD(IMM(142), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE-
+ // DEFINE  -
 
 //LAMBDA OPTIONAL
 PUSH(IMM(3));
@@ -8274,25 +7224,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1468));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1465));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1470:
+L_FOR1_START_1467:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1471);
+JUMP_EQ(L_FOR1_END_1468);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1470);
+ JUMP(L_FOR1_START_1467);
 
-L_FOR1_END_1471:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1468:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -8303,35 +7250,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1472:
+L_FOR2_START_1469:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1473);
+JUMP_EQ(L_FOR2_END_1470);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1472);
+ JUMP(L_FOR2_START_1469);
 
-L_FOR2_END_1473:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1470:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1469);
-L_CLOS_CODE_1468: 
+JUMP(L_CLOS_EXIT_1466);
+L_CLOS_CODE_1465: 
 PUSH(FP);
-//print_stack("LAMBDA OPT before fixing the stack after PUSH(FP)");
 MOV(FP, SP);
-//checking number of arguments match the length of the lambda
-CMP(IMM(FPARG(1)), IMM(1));
-JUMP_LT(ERROR_WRONG_ARGUMENT_NUMBER);
 MOV(R1,IMM(1));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(4)),R0);
 MOV(FPARG(IMM(2)), IMM(2));
-//print_stack("LAMBDA OPT after fixing the stack ");
 //IF 
 
  //APPLIC 
@@ -8344,17 +7283,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1467\n");
-JUMP_EQ(L_JUMP_1467);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1467:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -8366,10 +7297,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1463); 
+		    JUMP_NE(L_THEN_1460); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1462);
-		    L_THEN_1463:
+		    JUMP_EQ(L_ELSE_1459);
+		    L_THEN_1460:
  //TC-APPLIC 
 
 // PVAR 
@@ -8377,28 +7308,21 @@ MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
-MOV(R0,IMM(1309));
+MOV(R0,IMM(1304));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1298));
+MOV(R0, IMM(1293));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1466);
-printf("At L_JUMP_1466\n");
-fflush(stdout);
-L_JUMP_1466:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -8414,8 +7338,8 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_1461);
-		    L_ELSE_1462:
+		    JUMP(L_IF_EXIT_1458);
+		    L_ELSE_1459:
 		    
  //TC-APPLIC 
 
@@ -8433,22 +7357,12 @@ PUSH(R0);
 MOV(R0, IMM(137));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1465\n");
-JUMP_EQ(L_JUMP_1465);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1465:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -8466,24 +7380,17 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1298));
+MOV(R0, IMM(1293));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1464);
-printf("At L_JUMP_1464\n");
-fflush(stdout);
-L_JUMP_1464:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -8499,16 +7406,16 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1461:
+		    L_IF_EXIT_1458:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1469:
+L_CLOS_EXIT_1466:
 MOV(R1, INDD(IMM(147), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE/
+ // DEFINE  /
 
 //LAMBDA OPTIONAL
 PUSH(IMM(3));
@@ -8520,25 +7427,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1455));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1452));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1457:
+L_FOR1_START_1454:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1458);
+JUMP_EQ(L_FOR1_END_1455);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1457);
+ JUMP(L_FOR1_START_1454);
 
-L_FOR1_END_1458:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1455:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -8549,35 +7453,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1459:
+L_FOR2_START_1456:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1460);
+JUMP_EQ(L_FOR2_END_1457);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1459);
+ JUMP(L_FOR2_START_1456);
 
-L_FOR2_END_1460:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1457:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1456);
-L_CLOS_CODE_1455: 
+JUMP(L_CLOS_EXIT_1453);
+L_CLOS_CODE_1452: 
 PUSH(FP);
-//print_stack("LAMBDA OPT before fixing the stack after PUSH(FP)");
 MOV(FP, SP);
-//checking number of arguments match the length of the lambda
-CMP(IMM(FPARG(1)), IMM(1));
-JUMP_LT(ERROR_WRONG_ARGUMENT_NUMBER);
 MOV(R1,IMM(1));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(4)),R0);
 MOV(FPARG(IMM(2)), IMM(2));
-//print_stack("LAMBDA OPT after fixing the stack ");
 //IF 
 
  //APPLIC 
@@ -8590,17 +7486,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1454\n");
-JUMP_EQ(L_JUMP_1454);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1454:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -8612,10 +7500,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1450); 
+		    JUMP_NE(L_THEN_1447); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1449);
-		    L_THEN_1450:
+		    JUMP_EQ(L_ELSE_1446);
+		    L_THEN_1447:
  //TC-APPLIC 
 
 // PVAR 
@@ -8623,28 +7511,21 @@ MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1389));
+MOV(R0, IMM(1384));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1453);
-printf("At L_JUMP_1453\n");
-fflush(stdout);
-L_JUMP_1453:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -8660,8 +7541,8 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_1448);
-		    L_ELSE_1449:
+		    JUMP(L_IF_EXIT_1445);
+		    L_ELSE_1446:
 		    
  //TC-APPLIC 
 
@@ -8679,22 +7560,12 @@ PUSH(R0);
 MOV(R0, IMM(142));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1452\n");
-JUMP_EQ(L_JUMP_1452);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1452:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -8712,24 +7583,17 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1389));
+MOV(R0, IMM(1384));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1451);
-printf("At L_JUMP_1451\n");
-fflush(stdout);
-L_JUMP_1451:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -8745,16 +7609,16 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1448:
+		    L_IF_EXIT_1445:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1456:
+L_CLOS_EXIT_1453:
 MOV(R1, INDD(IMM(152), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEorder
+ // DEFINE  order
 
 //LAMBDA-SIMPLE
 
@@ -8767,25 +7631,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1408));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1405));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1406:
+L_FOR1_START_1403:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1405);
+JUMP_EQ(L_FOR1_END_1402);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1406);
+ JUMP(L_FOR1_START_1403);
 
-L_FOR1_END_1405:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1402:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -8796,34 +7657,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1404:
+L_FOR2_START_1401:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1403);
+JUMP_EQ(L_FOR2_END_1400);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1404);
+ JUMP(L_FOR2_START_1401);
 
-L_FOR2_END_1403:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1400:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1407);
-L_CLOS_CODE_1408: 
+JUMP(L_CLOS_EXIT_1404);
+L_CLOS_CODE_1405: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1402);
-printf("at JUMP_SIMPLE_1402");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1402:
 
  //TC-APPLIC 
 
@@ -8839,25 +7689,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1430));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1427));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1428:
+L_FOR1_START_1425:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1427);
+JUMP_EQ(L_FOR1_END_1424);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1428);
+ JUMP(L_FOR1_START_1425);
 
-L_FOR1_END_1427:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1424:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -8868,34 +7715,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1426:
+L_FOR2_START_1423:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1425);
+JUMP_EQ(L_FOR2_END_1422);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1426);
+ JUMP(L_FOR2_START_1423);
 
-L_FOR2_END_1425:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1422:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1429);
-L_CLOS_CODE_1430: 
+JUMP(L_CLOS_EXIT_1426);
+L_CLOS_CODE_1427: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1424);
-printf("at JUMP_SIMPLE_1424");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1424:
 
 //LAMBDA-SIMPLE
 
@@ -8908,25 +7744,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1437));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1434));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1435:
+L_FOR1_START_1432:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1434);
+JUMP_EQ(L_FOR1_END_1431);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1435);
+ JUMP(L_FOR1_START_1432);
 
-L_FOR1_END_1434:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1431:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -8937,34 +7770,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1433:
+L_FOR2_START_1430:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1432);
+JUMP_EQ(L_FOR2_END_1429);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1433);
+ JUMP(L_FOR2_START_1430);
 
-L_FOR2_END_1432:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1429:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1436);
-L_CLOS_CODE_1437: 
+JUMP(L_CLOS_EXIT_1433);
+L_CLOS_CODE_1434: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1431);
-printf("at JUMP_SIMPLE_1431");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1431:
 
  //APPLIC 
 
@@ -8976,17 +7798,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1447\n");
-JUMP_EQ(L_JUMP_1447);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1447:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -8998,9 +7812,9 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_1438);
+JUMP_NE(L_OR_END_1435);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_1438);
+JUMP_NE(L_OR_END_1435);
 //IF 
 
  //APPLIC 
@@ -9017,17 +7831,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1446\n");
-JUMP_EQ(L_JUMP_1446);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1446:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -9047,13 +7853,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1445\n");
-JUMP_EQ(L_JUMP_1445);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1445:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -9065,10 +7864,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1441); 
+		    JUMP_NE(L_THEN_1438); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1440);
-		    L_THEN_1441:
+		    JUMP_EQ(L_ELSE_1437);
+		    L_THEN_1438:
  //TC-APPLIC 
 
 
@@ -9082,17 +7881,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1444\n");
-JUMP_EQ(L_JUMP_1444);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1444:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -9114,17 +7905,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1443\n");
-JUMP_EQ(L_JUMP_1443);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1443:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -9139,20 +7922,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1442);
-printf("At L_JUMP_1442\n");
-fflush(stdout);
-L_JUMP_1442:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -9168,25 +7945,25 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_1439);
-		    L_ELSE_1440:
+		    JUMP(L_IF_EXIT_1436);
+		    L_ELSE_1437:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_1439:
+		    L_IF_EXIT_1436:
 		    // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_1438);
+JUMP_NE(L_OR_END_1435);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_1438);
-L_OR_END_1438:
+JUMP_NE(L_OR_END_1435);
+L_OR_END_1435:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1436:
+L_CLOS_EXIT_1433:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1429:
+L_CLOS_EXIT_1426:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -9200,25 +7977,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1416));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1413));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1414:
+L_FOR1_START_1411:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1413);
+JUMP_EQ(L_FOR1_END_1410);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1414);
+ JUMP(L_FOR1_START_1411);
 
-L_FOR1_END_1413:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1410:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -9229,34 +8003,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1412:
+L_FOR2_START_1409:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1411);
+JUMP_EQ(L_FOR2_END_1408);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1412);
+ JUMP(L_FOR2_START_1409);
 
-L_FOR2_END_1411:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1408:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1415);
-L_CLOS_CODE_1416: 
+JUMP(L_CLOS_EXIT_1412);
+L_CLOS_CODE_1413: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1410);
-printf("at JUMP_SIMPLE_1410");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1410:
 
 //LAMBDA OPTIONAL
 PUSH(IMM(3));
@@ -9268,25 +8031,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1418));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1415));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1420:
+L_FOR1_START_1417:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1421);
+JUMP_EQ(L_FOR1_END_1418);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1420);
+ JUMP(L_FOR1_START_1417);
 
-L_FOR1_END_1421:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1418:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -9297,35 +8057,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1422:
+L_FOR2_START_1419:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1423);
+JUMP_EQ(L_FOR2_END_1420);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1422);
+ JUMP(L_FOR2_START_1419);
 
-L_FOR2_END_1423:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1420:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1419);
-L_CLOS_CODE_1418: 
+JUMP(L_CLOS_EXIT_1416);
+L_CLOS_CODE_1415: 
 PUSH(FP);
-//print_stack("LAMBDA OPT before fixing the stack after PUSH(FP)");
 MOV(FP, SP);
-//checking number of arguments match the length of the lambda
-CMP(IMM(FPARG(1)), IMM(1));
-JUMP_LT(ERROR_WRONG_ARGUMENT_NUMBER);
 MOV(R1,IMM(1));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(4)),R0);
 MOV(FPARG(IMM(2)), IMM(2));
-//print_stack("LAMBDA OPT after fixing the stack ");
 
  //TC-APPLIC 
 
@@ -9343,20 +8095,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1417);
-printf("At L_JUMP_1417\n");
-fflush(stdout);
-L_JUMP_1417:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -9374,32 +8120,25 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1419:
+L_CLOS_EXIT_1416:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1415:
+L_CLOS_EXIT_1412:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1409);
-printf("At L_JUMP_1409\n");
-fflush(stdout);
-L_JUMP_1409:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -9417,12 +8156,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1407:
+L_CLOS_EXIT_1404:
 MOV(R1, INDD(IMM(161), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEandmap
+ // DEFINE  andmap
 
 //LAMBDA OPTIONAL
 PUSH(IMM(3));
@@ -9434,25 +8173,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1396));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1393));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1398:
+L_FOR1_START_1395:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1399);
+JUMP_EQ(L_FOR1_END_1396);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1398);
+ JUMP(L_FOR1_START_1395);
 
-L_FOR1_END_1399:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1396:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -9463,35 +8199,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1400:
+L_FOR2_START_1397:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1401);
+JUMP_EQ(L_FOR2_END_1398);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1400);
+ JUMP(L_FOR2_START_1397);
 
-L_FOR2_END_1401:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1398:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1397);
-L_CLOS_CODE_1396: 
+JUMP(L_CLOS_EXIT_1394);
+L_CLOS_CODE_1393: 
 PUSH(FP);
-//print_stack("LAMBDA OPT before fixing the stack after PUSH(FP)");
 MOV(FP, SP);
-//checking number of arguments match the length of the lambda
-CMP(IMM(FPARG(1)), IMM(1));
-JUMP_LT(ERROR_WRONG_ARGUMENT_NUMBER);
 MOV(R1,IMM(1));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(4)),R0);
 MOV(FPARG(IMM(2)), IMM(2));
-//print_stack("LAMBDA OPT after fixing the stack ");
 
  //TC-APPLIC 
 
@@ -9507,25 +8235,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1378));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1375));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1376:
+L_FOR1_START_1373:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1375);
+JUMP_EQ(L_FOR1_END_1372);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1376);
+ JUMP(L_FOR1_START_1373);
 
-L_FOR1_END_1375:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1372:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -9536,34 +8261,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1374:
+L_FOR2_START_1371:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1373);
+JUMP_EQ(L_FOR2_END_1370);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1374);
+ JUMP(L_FOR2_START_1371);
 
-L_FOR2_END_1373:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1370:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1377);
-L_CLOS_CODE_1378: 
+JUMP(L_CLOS_EXIT_1374);
+L_CLOS_CODE_1375: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1372);
-printf("at JUMP_SIMPLE_1372");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1372:
 
 //LAMBDA-SIMPLE
 
@@ -9576,25 +8290,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1385));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1382));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1383:
+L_FOR1_START_1380:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1382);
+JUMP_EQ(L_FOR1_END_1379);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1383);
+ JUMP(L_FOR1_START_1380);
 
-L_FOR1_END_1382:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1379:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -9605,34 +8316,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1381:
+L_FOR2_START_1378:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1380);
+JUMP_EQ(L_FOR2_END_1377);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1381);
+ JUMP(L_FOR2_START_1378);
 
-L_FOR2_END_1380:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1377:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1384);
-L_CLOS_CODE_1385: 
+JUMP(L_CLOS_EXIT_1381);
+L_CLOS_CODE_1382: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1379);
-printf("at JUMP_SIMPLE_1379");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1379:
 
  //APPLIC 
 
@@ -9648,17 +8348,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1395\n");
-JUMP_EQ(L_JUMP_1395);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1395:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -9671,17 +8363,9 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1394\n");
-JUMP_EQ(L_JUMP_1394);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1394:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -9693,9 +8377,9 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_1386);
+JUMP_NE(L_OR_END_1383);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_1386);
+JUMP_NE(L_OR_END_1383);
 //IF 
 
  //APPLIC 
@@ -9712,25 +8396,15 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1393\n");
-JUMP_EQ(L_JUMP_1393);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1393:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -9745,21 +8419,12 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1392\n");
-JUMP_EQ(L_JUMP_1392);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1392:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -9771,10 +8436,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1389); 
+		    JUMP_NE(L_THEN_1386); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1388);
-		    L_THEN_1389:
+		    JUMP_EQ(L_ELSE_1385);
+		    L_THEN_1386:
  //TC-APPLIC 
 
 
@@ -9788,25 +8453,15 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1391\n");
-JUMP_EQ(L_JUMP_1391);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1391:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -9821,17 +8476,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1390);
-printf("At L_JUMP_1390\n");
-fflush(stdout);
-L_JUMP_1390:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -9847,25 +8496,25 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_1387);
-		    L_ELSE_1388:
+		    JUMP(L_IF_EXIT_1384);
+		    L_ELSE_1385:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_1387:
+		    L_IF_EXIT_1384:
 		    // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_1386);
+JUMP_NE(L_OR_END_1383);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_1386);
-L_OR_END_1386:
+JUMP_NE(L_OR_END_1383);
+L_OR_END_1383:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1384:
+L_CLOS_EXIT_1381:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1377:
+L_CLOS_EXIT_1374:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -9879,25 +8528,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1370));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1367));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1368:
+L_FOR1_START_1365:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1367);
+JUMP_EQ(L_FOR1_END_1364);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1368);
+ JUMP(L_FOR1_START_1365);
 
-L_FOR1_END_1367:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1364:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -9908,34 +8554,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1366:
+L_FOR2_START_1363:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1365);
+JUMP_EQ(L_FOR2_END_1362);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1366);
+ JUMP(L_FOR2_START_1363);
 
-L_FOR2_END_1365:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1362:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1369);
-L_CLOS_CODE_1370: 
+JUMP(L_CLOS_EXIT_1366);
+L_CLOS_CODE_1367: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1364);
-printf("at JUMP_SIMPLE_1364");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1364:
 
  //TC-APPLIC 
 
@@ -9943,22 +8578,16 @@ JUMP_SIMPLE_1364:
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1371);
-printf("At L_JUMP_1371\n");
-fflush(stdout);
-L_JUMP_1371:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -9976,28 +8605,21 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1369:
+L_CLOS_EXIT_1366:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1363);
-printf("At L_JUMP_1363\n");
-fflush(stdout);
-L_JUMP_1363:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -10015,12 +8637,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1397:
+L_CLOS_EXIT_1394:
 MOV(R1, INDD(IMM(171), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE<>
+ // DEFINE  <>
 
  //APPLIC 
 
@@ -10037,25 +8659,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1337));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1334));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1335:
+L_FOR1_START_1332:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1334);
+JUMP_EQ(L_FOR1_END_1331);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1335);
+ JUMP(L_FOR1_START_1332);
 
-L_FOR1_END_1334:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1331:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -10066,34 +8685,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1333:
+L_FOR2_START_1330:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1332);
+JUMP_EQ(L_FOR2_END_1329);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1333);
+ JUMP(L_FOR2_START_1330);
 
-L_FOR2_END_1332:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1329:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1336);
-L_CLOS_CODE_1337: 
+JUMP(L_CLOS_EXIT_1333);
+L_CLOS_CODE_1334: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1331);
-printf("at JUMP_SIMPLE_1331");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1331:
 
 //LAMBDA-SIMPLE
 
@@ -10106,25 +8714,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1344));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1341));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1342:
+L_FOR1_START_1339:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1341);
+JUMP_EQ(L_FOR1_END_1338);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1342);
+ JUMP(L_FOR1_START_1339);
 
-L_FOR1_END_1341:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1338:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -10135,34 +8740,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1340:
+L_FOR2_START_1337:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1339);
+JUMP_EQ(L_FOR2_END_1336);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1340);
+ JUMP(L_FOR2_START_1337);
 
-L_FOR2_END_1339:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1336:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1343);
-L_CLOS_CODE_1344: 
+JUMP(L_CLOS_EXIT_1340);
+L_CLOS_CODE_1341: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1338);
-printf("at JUMP_SIMPLE_1338");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1338:
 
  //APPLIC 
 
@@ -10174,17 +8768,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1362\n");
-JUMP_EQ(L_JUMP_1362);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1362:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -10196,9 +8782,9 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_1345);
+JUMP_NE(L_OR_END_1342);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_1345);
+JUMP_NE(L_OR_END_1342);
 //IF 
 
  //APPLIC 
@@ -10221,25 +8807,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1359));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1356));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1357:
+L_FOR1_START_1354:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1356);
+JUMP_EQ(L_FOR1_END_1353);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1357);
+ JUMP(L_FOR1_START_1354);
 
-L_FOR1_END_1356:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1353:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -10250,34 +8833,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1355:
+L_FOR2_START_1352:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1354);
+JUMP_EQ(L_FOR2_END_1351);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1355);
+ JUMP(L_FOR2_START_1352);
 
-L_FOR2_END_1354:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1351:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1358);
-L_CLOS_CODE_1359: 
+JUMP(L_CLOS_EXIT_1355);
+L_CLOS_CODE_1356: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1353);
-printf("at JUMP_SIMPLE_1353");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1353:
 
  //TC-APPLIC 
 
@@ -10294,21 +8866,12 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(1275));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1361\n");
-JUMP_EQ(L_JUMP_1361);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1361:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -10324,18 +8887,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(21));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1360);
-printf("At L_JUMP_1360\n");
-fflush(stdout);
-L_JUMP_1360:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -10353,21 +8909,13 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1358:
+L_CLOS_EXIT_1355:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(171));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1352\n");
-JUMP_EQ(L_JUMP_1352);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1352:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -10379,10 +8927,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1348); 
+		    JUMP_NE(L_THEN_1345); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1347);
-		    L_THEN_1348:
+		    JUMP_EQ(L_ELSE_1344);
+		    L_THEN_1345:
  //TC-APPLIC 
 
 
@@ -10396,17 +8944,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1351\n");
-JUMP_EQ(L_JUMP_1351);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1351:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -10428,17 +8968,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1350\n");
-JUMP_EQ(L_JUMP_1350);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1350:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -10453,20 +8985,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1349);
-printf("At L_JUMP_1349\n");
-fflush(stdout);
-L_JUMP_1349:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -10482,25 +9008,25 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_1346);
-		    L_ELSE_1347:
+		    JUMP(L_IF_EXIT_1343);
+		    L_ELSE_1344:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_1346:
+		    L_IF_EXIT_1343:
 		    // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_1345);
+JUMP_NE(L_OR_END_1342);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_1345);
-L_OR_END_1345:
+JUMP_NE(L_OR_END_1342);
+L_OR_END_1342:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1343:
+L_CLOS_EXIT_1340:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1336:
+L_CLOS_EXIT_1333:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -10514,25 +9040,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1321));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1318));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1319:
+L_FOR1_START_1316:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1318);
+JUMP_EQ(L_FOR1_END_1315);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1319);
+ JUMP(L_FOR1_START_1316);
 
-L_FOR1_END_1318:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1315:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -10543,34 +9066,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1317:
+L_FOR2_START_1314:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1316);
+JUMP_EQ(L_FOR2_END_1313);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1317);
+ JUMP(L_FOR2_START_1314);
 
-L_FOR2_END_1316:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1313:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1320);
-L_CLOS_CODE_1321: 
+JUMP(L_CLOS_EXIT_1317);
+L_CLOS_CODE_1318: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1315);
-printf("at JUMP_SIMPLE_1315");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1315:
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -10582,25 +9094,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1327));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1324));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1325:
+L_FOR1_START_1322:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1324);
+JUMP_EQ(L_FOR1_END_1321);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1325);
+ JUMP(L_FOR1_START_1322);
 
-L_FOR1_END_1324:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1321:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -10612,33 +9121,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1323:
+L_FOR2_START_1320:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1322);
+JUMP_EQ(L_FOR2_END_1319);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1323);
+ JUMP(L_FOR2_START_1320);
 
-L_FOR2_END_1322:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1319:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1326);
-L_CLOS_CODE_1327: 
+JUMP(L_CLOS_EXIT_1323);
+L_CLOS_CODE_1324: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -10654,17 +9158,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1330\n");
-JUMP_EQ(L_JUMP_1330);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1330:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -10686,17 +9182,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1329\n");
-JUMP_EQ(L_JUMP_1329);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1329:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -10711,20 +9199,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1328);
-printf("At L_JUMP_1328\n");
-fflush(stdout);
-L_JUMP_1328:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -10742,25 +9224,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1326:
+L_CLOS_EXIT_1323:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1320:
+L_CLOS_EXIT_1317:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1314\n");
-JUMP_EQ(L_JUMP_1314);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1314:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -10774,7 +9248,7 @@ MOV(R1, INDD(IMM(177), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEfoldr
+ // DEFINE  foldr
 
 //LAMBDA-SIMPLE
 
@@ -10787,25 +9261,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1282));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1279));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1280:
+L_FOR1_START_1277:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1279);
+JUMP_EQ(L_FOR1_END_1276);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1280);
+ JUMP(L_FOR1_START_1277);
 
-L_FOR1_END_1279:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1276:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -10816,34 +9287,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1278:
+L_FOR2_START_1275:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1277);
+JUMP_EQ(L_FOR2_END_1274);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1278);
+ JUMP(L_FOR2_START_1275);
 
-L_FOR2_END_1277:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1274:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1281);
-L_CLOS_CODE_1282: 
+JUMP(L_CLOS_EXIT_1278);
+L_CLOS_CODE_1279: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(3));
-JUMP_EQ(JUMP_SIMPLE_1276);
-printf("at JUMP_SIMPLE_1276");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1276:
 
  //TC-APPLIC 
 
@@ -10859,25 +9319,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1298));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1295));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1296:
+L_FOR1_START_1293:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1295);
+JUMP_EQ(L_FOR1_END_1292);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1296);
+ JUMP(L_FOR1_START_1293);
 
-L_FOR1_END_1295:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1292:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -10888,34 +9345,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1294:
+L_FOR2_START_1291:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1293);
+JUMP_EQ(L_FOR2_END_1290);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1294);
+ JUMP(L_FOR2_START_1291);
 
-L_FOR2_END_1293:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1290:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1297);
-L_CLOS_CODE_1298: 
+JUMP(L_CLOS_EXIT_1294);
+L_CLOS_CODE_1295: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1292);
-printf("at JUMP_SIMPLE_1292");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1292:
 
 //LAMBDA-SIMPLE
 
@@ -10928,25 +9374,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1305));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1302));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1303:
+L_FOR1_START_1300:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1302);
+JUMP_EQ(L_FOR1_END_1299);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1303);
+ JUMP(L_FOR1_START_1300);
 
-L_FOR1_END_1302:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1299:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -10957,34 +9400,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1301:
+L_FOR2_START_1298:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1300);
+JUMP_EQ(L_FOR2_END_1297);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1301);
+ JUMP(L_FOR2_START_1298);
 
-L_FOR2_END_1300:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1297:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1304);
-L_CLOS_CODE_1305: 
+JUMP(L_CLOS_EXIT_1301);
+L_CLOS_CODE_1302: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1299);
-printf("at JUMP_SIMPLE_1299");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1299:
 //IF 
 
  //APPLIC 
@@ -10997,17 +9429,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1313\n");
-JUMP_EQ(L_JUMP_1313);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1313:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -11019,17 +9443,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1308); 
+		    JUMP_NE(L_THEN_1305); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1307);
-		    L_THEN_1308:// BVAR 
+		    JUMP_EQ(L_ELSE_1304);
+		    L_THEN_1305:// BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
 
-		    JUMP(L_IF_EXIT_1306);
-		    L_ELSE_1307:
+		    JUMP(L_IF_EXIT_1303);
+		    L_ELSE_1304:
 		    
  //TC-APPLIC 
 
@@ -11048,17 +9471,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1312\n");
-JUMP_EQ(L_JUMP_1312);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1312:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -11073,13 +9488,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1311\n");
-JUMP_EQ(L_JUMP_1311);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1311:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -11101,17 +9509,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1310\n");
-JUMP_EQ(L_JUMP_1310);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1310:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -11126,20 +9526,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1309);
-printf("At L_JUMP_1309\n");
-fflush(stdout);
-L_JUMP_1309:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -11155,15 +9549,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1306:
+		    L_IF_EXIT_1303:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1304:
+L_CLOS_EXIT_1301:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1297:
+L_CLOS_EXIT_1294:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -11177,25 +9571,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1290));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1287));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1288:
+L_FOR1_START_1285:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1287);
+JUMP_EQ(L_FOR1_END_1284);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1288);
+ JUMP(L_FOR1_START_1285);
 
-L_FOR1_END_1287:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1284:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -11206,34 +9597,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1286:
+L_FOR2_START_1283:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1285);
+JUMP_EQ(L_FOR2_END_1282);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1286);
+ JUMP(L_FOR2_START_1283);
 
-L_FOR2_END_1285:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1282:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1289);
-L_CLOS_CODE_1290: 
+JUMP(L_CLOS_EXIT_1286);
+L_CLOS_CODE_1287: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1284);
-printf("at JUMP_SIMPLE_1284");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1284:
 
  //TC-APPLIC 
 
@@ -11241,22 +9621,16 @@ JUMP_SIMPLE_1284:
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 2));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1291);
-printf("At L_JUMP_1291\n");
-fflush(stdout);
-L_JUMP_1291:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -11274,28 +9648,21 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1289:
+L_CLOS_EXIT_1286:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1283);
-printf("At L_JUMP_1283\n");
-fflush(stdout);
-L_JUMP_1283:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -11313,12 +9680,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1281:
+L_CLOS_EXIT_1278:
 MOV(R1, INDD(IMM(186), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcompose
+ // DEFINE  compose
 
  //APPLIC 
 
@@ -11335,25 +9702,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1266));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1263));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1264:
+L_FOR1_START_1261:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1263);
+JUMP_EQ(L_FOR1_END_1260);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1264);
+ JUMP(L_FOR1_START_1261);
 
-L_FOR1_END_1263:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1260:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -11364,34 +9728,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1262:
+L_FOR2_START_1259:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1261);
+JUMP_EQ(L_FOR2_END_1258);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1262);
+ JUMP(L_FOR2_START_1259);
 
-L_FOR2_END_1261:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1258:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1265);
-L_CLOS_CODE_1266: 
+JUMP(L_CLOS_EXIT_1262);
+L_CLOS_CODE_1263: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1260);
-printf("at JUMP_SIMPLE_1260");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1260:
 
 //LAMBDA-SIMPLE
 
@@ -11404,25 +9757,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1273));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1270));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1271:
+L_FOR1_START_1268:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1270);
+JUMP_EQ(L_FOR1_END_1267);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1271);
+ JUMP(L_FOR1_START_1268);
 
-L_FOR1_END_1270:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1267:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -11433,34 +9783,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1269:
+L_FOR2_START_1266:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1268);
+JUMP_EQ(L_FOR2_END_1265);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1269);
+ JUMP(L_FOR2_START_1266);
 
-L_FOR2_END_1268:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1265:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1272);
-L_CLOS_CODE_1273: 
+JUMP(L_CLOS_EXIT_1269);
+L_CLOS_CODE_1270: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1267);
-printf("at JUMP_SIMPLE_1267");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1267:
 
  //TC-APPLIC 
 
@@ -11477,13 +9816,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1275\n");
-JUMP_EQ(L_JUMP_1275);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1275:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -11498,17 +9830,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1274);
-printf("At L_JUMP_1274\n");
-fflush(stdout);
-L_JUMP_1274:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -11526,11 +9852,11 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1272:
+L_CLOS_EXIT_1269:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1265:
+L_CLOS_EXIT_1262:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -11544,25 +9870,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1245));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1242));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1243:
+L_FOR1_START_1240:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1242);
+JUMP_EQ(L_FOR1_END_1239);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1243);
+ JUMP(L_FOR1_START_1240);
 
-L_FOR1_END_1242:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1239:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -11573,34 +9896,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1241:
+L_FOR2_START_1238:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1240);
+JUMP_EQ(L_FOR2_END_1237);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1241);
+ JUMP(L_FOR2_START_1238);
 
-L_FOR2_END_1240:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1237:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1244);
-L_CLOS_CODE_1245: 
+JUMP(L_CLOS_EXIT_1241);
+L_CLOS_CODE_1242: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1239);
-printf("at JUMP_SIMPLE_1239");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1239:
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -11612,25 +9924,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1251));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1248));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1249:
+L_FOR1_START_1246:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1248);
+JUMP_EQ(L_FOR1_END_1245);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1249);
+ JUMP(L_FOR1_START_1246);
 
-L_FOR1_END_1248:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1245:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -11642,33 +9951,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1247:
+L_FOR2_START_1244:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1246);
+JUMP_EQ(L_FOR2_END_1243);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1247);
+ JUMP(L_FOR2_START_1244);
 
-L_FOR2_END_1246:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1243:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1250);
-L_CLOS_CODE_1251: 
+JUMP(L_CLOS_EXIT_1247);
+L_CLOS_CODE_1248: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -11690,25 +9994,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1259));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1256));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1257:
+L_FOR1_START_1254:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1256);
+JUMP_EQ(L_FOR1_END_1253);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1257);
+ JUMP(L_FOR1_START_1254);
 
-L_FOR1_END_1256:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1253:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -11719,34 +10020,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1255:
+L_FOR2_START_1252:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1254);
+JUMP_EQ(L_FOR2_END_1251);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1255);
+ JUMP(L_FOR2_START_1252);
 
-L_FOR2_END_1254:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1251:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1258);
-L_CLOS_CODE_1259: 
+JUMP(L_CLOS_EXIT_1255);
+L_CLOS_CODE_1256: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1253);
-printf("at JUMP_SIMPLE_1253");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1253:
 // PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
@@ -11754,37 +10044,29 @@ MOV(R0, FPARG(R1));
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1258:
+L_CLOS_EXIT_1255:
 PUSH(R0); // finished evaluating arg 
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(186));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1252);
-printf("At L_JUMP_1252\n");
-fflush(stdout);
-L_JUMP_1252:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
-MOV(R1,FPARG(1)); // start copying arg2
+MOV(R1,R4); // start copying arg2
 ADD(R1, IMM(0));
 MOV(FPARG(R1), LOCAL(IMM(2)));
 
@@ -11802,17 +10084,11 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1250:
+L_CLOS_EXIT_1247:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1244:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1238\n");
-JUMP_EQ(L_JUMP_1238);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1238:
+L_CLOS_EXIT_1241:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -11826,40 +10102,28 @@ MOV(R1, INDD(IMM(197), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcaar
+ // DEFINE  caar
 
  //APPLIC 
 
 PUSH(IMM(0));
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1237\n");
-JUMP_EQ(L_JUMP_1237);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1237:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -11873,40 +10137,28 @@ MOV(R1, INDD(IMM(205), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcadr
+ // DEFINE  cadr
 
  //APPLIC 
 
 PUSH(IMM(0));
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1236\n");
-JUMP_EQ(L_JUMP_1236);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1236:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -11920,40 +10172,28 @@ MOV(R1, INDD(IMM(213), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcdar
+ // DEFINE  cdar
 
  //APPLIC 
 
 PUSH(IMM(0));
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1235\n");
-JUMP_EQ(L_JUMP_1235);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1235:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -11967,40 +10207,28 @@ MOV(R1, INDD(IMM(221), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcddr
+ // DEFINE  cddr
 
  //APPLIC 
 
 PUSH(IMM(0));
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1234\n");
-JUMP_EQ(L_JUMP_1234);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1234:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12014,7 +10242,7 @@ MOV(R1, INDD(IMM(229), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcaaar
+ // DEFINE  caaar
 
  //APPLIC 
 
@@ -12024,30 +10252,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(205));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1233\n");
-JUMP_EQ(L_JUMP_1233);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1233:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12061,7 +10277,7 @@ MOV(R1, INDD(IMM(238), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcaadr
+ // DEFINE  caadr
 
  //APPLIC 
 
@@ -12071,30 +10287,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(213));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1232\n");
-JUMP_EQ(L_JUMP_1232);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1232:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12108,7 +10312,7 @@ MOV(R1, INDD(IMM(247), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcadar
+ // DEFINE  cadar
 
  //APPLIC 
 
@@ -12118,30 +10322,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(221));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1231\n");
-JUMP_EQ(L_JUMP_1231);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1231:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12155,7 +10347,7 @@ MOV(R1, INDD(IMM(256), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcaddr
+ // DEFINE  caddr
 
  //APPLIC 
 
@@ -12165,30 +10357,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(229));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1230\n");
-JUMP_EQ(L_JUMP_1230);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1230:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12202,7 +10382,7 @@ MOV(R1, INDD(IMM(265), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcdaar
+ // DEFINE  cdaar
 
  //APPLIC 
 
@@ -12212,30 +10392,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(205));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1229\n");
-JUMP_EQ(L_JUMP_1229);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1229:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12249,7 +10417,7 @@ MOV(R1, INDD(IMM(274), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcdadr
+ // DEFINE  cdadr
 
  //APPLIC 
 
@@ -12259,30 +10427,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(213));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1228\n");
-JUMP_EQ(L_JUMP_1228);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1228:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12296,7 +10452,7 @@ MOV(R1, INDD(IMM(283), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcddar
+ // DEFINE  cddar
 
  //APPLIC 
 
@@ -12306,30 +10462,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(221));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1227\n");
-JUMP_EQ(L_JUMP_1227);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1227:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12343,7 +10487,7 @@ MOV(R1, INDD(IMM(292), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcdddr
+ // DEFINE  cdddr
 
  //APPLIC 
 
@@ -12353,30 +10497,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(229));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1226\n");
-JUMP_EQ(L_JUMP_1226);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1226:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12390,7 +10522,7 @@ MOV(R1, INDD(IMM(301), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcaaaar
+ // DEFINE  caaaar
 
  //APPLIC 
 
@@ -12400,30 +10532,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(238));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1225\n");
-JUMP_EQ(L_JUMP_1225);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1225:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12437,7 +10557,7 @@ MOV(R1, INDD(IMM(311), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcaaadr
+ // DEFINE  caaadr
 
  //APPLIC 
 
@@ -12447,30 +10567,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(247));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1224\n");
-JUMP_EQ(L_JUMP_1224);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1224:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12484,7 +10592,7 @@ MOV(R1, INDD(IMM(321), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcaadar
+ // DEFINE  caadar
 
  //APPLIC 
 
@@ -12494,30 +10602,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(256));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1223\n");
-JUMP_EQ(L_JUMP_1223);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1223:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12531,7 +10627,7 @@ MOV(R1, INDD(IMM(331), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcaaddr
+ // DEFINE  caaddr
 
  //APPLIC 
 
@@ -12541,30 +10637,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(265));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1222\n");
-JUMP_EQ(L_JUMP_1222);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1222:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12578,7 +10662,7 @@ MOV(R1, INDD(IMM(341), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcadaar
+ // DEFINE  cadaar
 
  //APPLIC 
 
@@ -12588,30 +10672,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(274));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1221\n");
-JUMP_EQ(L_JUMP_1221);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1221:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12625,7 +10697,7 @@ MOV(R1, INDD(IMM(351), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcadadr
+ // DEFINE  cadadr
 
  //APPLIC 
 
@@ -12635,30 +10707,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(283));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1220\n");
-JUMP_EQ(L_JUMP_1220);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1220:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12672,7 +10732,7 @@ MOV(R1, INDD(IMM(361), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcaddar
+ // DEFINE  caddar
 
  //APPLIC 
 
@@ -12682,30 +10742,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(292));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1219\n");
-JUMP_EQ(L_JUMP_1219);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1219:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12719,7 +10767,7 @@ MOV(R1, INDD(IMM(371), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcadddr
+ // DEFINE  cadddr
 
  //APPLIC 
 
@@ -12729,30 +10777,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(301));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1218\n");
-JUMP_EQ(L_JUMP_1218);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1218:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12766,7 +10802,7 @@ MOV(R1, INDD(IMM(381), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcdaaar
+ // DEFINE  cdaaar
 
  //APPLIC 
 
@@ -12776,30 +10812,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(238));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1217\n");
-JUMP_EQ(L_JUMP_1217);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1217:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12813,7 +10837,7 @@ MOV(R1, INDD(IMM(391), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcdaadr
+ // DEFINE  cdaadr
 
  //APPLIC 
 
@@ -12823,30 +10847,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(247));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1216\n");
-JUMP_EQ(L_JUMP_1216);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1216:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12860,7 +10872,7 @@ MOV(R1, INDD(IMM(401), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcdadar
+ // DEFINE  cdadar
 
  //APPLIC 
 
@@ -12870,30 +10882,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(256));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1215\n");
-JUMP_EQ(L_JUMP_1215);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1215:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12907,7 +10907,7 @@ MOV(R1, INDD(IMM(411), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcdaddr
+ // DEFINE  cdaddr
 
  //APPLIC 
 
@@ -12917,30 +10917,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(265));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1214\n");
-JUMP_EQ(L_JUMP_1214);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1214:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -12954,7 +10942,7 @@ MOV(R1, INDD(IMM(421), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcddaar
+ // DEFINE  cddaar
 
  //APPLIC 
 
@@ -12964,30 +10952,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(274));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1213\n");
-JUMP_EQ(L_JUMP_1213);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1213:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -13001,7 +10977,7 @@ MOV(R1, INDD(IMM(431), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcddadr
+ // DEFINE  cddadr
 
  //APPLIC 
 
@@ -13011,30 +10987,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(283));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1212\n");
-JUMP_EQ(L_JUMP_1212);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1212:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -13048,7 +11012,7 @@ MOV(R1, INDD(IMM(441), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcdddar
+ // DEFINE  cdddar
 
  //APPLIC 
 
@@ -13058,30 +11022,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(292));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1211\n");
-JUMP_EQ(L_JUMP_1211);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1211:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -13095,7 +11047,7 @@ MOV(R1, INDD(IMM(451), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEcddddr
+ // DEFINE  cddddr
 
  //APPLIC 
 
@@ -13105,30 +11057,18 @@ PUSH(IMM(0));
 MOV(R0, IMM(301));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1210\n");
-JUMP_EQ(L_JUMP_1210);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1210:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -13142,7 +11082,7 @@ MOV(R1, INDD(IMM(461), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE^variadic-right-from-binary
+ // DEFINE  ^variadic-right-from-binary
 
 //LAMBDA-SIMPLE
 
@@ -13155,25 +11095,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1172));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1169));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1170:
+L_FOR1_START_1167:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1169);
+JUMP_EQ(L_FOR1_END_1166);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1170);
+ JUMP(L_FOR1_START_1167);
 
-L_FOR1_END_1169:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1166:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -13184,34 +11121,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1168:
+L_FOR2_START_1165:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1167);
+JUMP_EQ(L_FOR2_END_1164);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1168);
+ JUMP(L_FOR2_START_1165);
 
-L_FOR2_END_1167:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1164:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1171);
-L_CLOS_CODE_1172: 
+JUMP(L_CLOS_EXIT_1168);
+L_CLOS_CODE_1169: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1166);
-printf("at JUMP_SIMPLE_1166");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1166:
 
  //TC-APPLIC 
 
@@ -13227,25 +11153,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1194));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1191));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1192:
+L_FOR1_START_1189:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1191);
+JUMP_EQ(L_FOR1_END_1188);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1192);
+ JUMP(L_FOR1_START_1189);
 
-L_FOR1_END_1191:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1188:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -13256,34 +11179,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1190:
+L_FOR2_START_1187:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1189);
+JUMP_EQ(L_FOR2_END_1186);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1190);
+ JUMP(L_FOR2_START_1187);
 
-L_FOR2_END_1189:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1186:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1193);
-L_CLOS_CODE_1194: 
+JUMP(L_CLOS_EXIT_1190);
+L_CLOS_CODE_1191: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1188);
-printf("at JUMP_SIMPLE_1188");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1188:
 
 //LAMBDA-SIMPLE
 
@@ -13296,25 +11208,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1201));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1198));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1199:
+L_FOR1_START_1196:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1198);
+JUMP_EQ(L_FOR1_END_1195);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1199);
+ JUMP(L_FOR1_START_1196);
 
-L_FOR1_END_1198:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1195:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -13325,34 +11234,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1197:
+L_FOR2_START_1194:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1196);
+JUMP_EQ(L_FOR2_END_1193);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1197);
+ JUMP(L_FOR2_START_1194);
 
-L_FOR2_END_1196:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1193:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1200);
-L_CLOS_CODE_1201: 
+JUMP(L_CLOS_EXIT_1197);
+L_CLOS_CODE_1198: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1195);
-printf("at JUMP_SIMPLE_1195");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1195:
 //IF 
 
  //APPLIC 
@@ -13365,17 +11263,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1209\n");
-JUMP_EQ(L_JUMP_1209);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1209:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -13387,17 +11277,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1204); 
+		    JUMP_NE(L_THEN_1201); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1203);
-		    L_THEN_1204:// BVAR 
+		    JUMP_EQ(L_ELSE_1200);
+		    L_THEN_1201:// BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
 
-		    JUMP(L_IF_EXIT_1202);
-		    L_ELSE_1203:
+		    JUMP(L_IF_EXIT_1199);
+		    L_ELSE_1200:
 		    
  //TC-APPLIC 
 
@@ -13416,17 +11305,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1208\n");
-JUMP_EQ(L_JUMP_1208);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1208:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -13441,13 +11322,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1207\n");
-JUMP_EQ(L_JUMP_1207);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1207:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -13469,17 +11343,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1206\n");
-JUMP_EQ(L_JUMP_1206);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1206:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -13494,20 +11360,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1205);
-printf("At L_JUMP_1205\n");
-fflush(stdout);
-L_JUMP_1205:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -13523,15 +11383,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1202:
+		    L_IF_EXIT_1199:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1200:
+L_CLOS_EXIT_1197:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1193:
+L_CLOS_EXIT_1190:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -13545,25 +11405,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1180));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1177));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1178:
+L_FOR1_START_1175:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1177);
+JUMP_EQ(L_FOR1_END_1174);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1178);
+ JUMP(L_FOR1_START_1175);
 
-L_FOR1_END_1177:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1174:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -13574,34 +11431,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1176:
+L_FOR2_START_1173:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1175);
+JUMP_EQ(L_FOR2_END_1172);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1176);
+ JUMP(L_FOR2_START_1173);
 
-L_FOR2_END_1175:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1172:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1179);
-L_CLOS_CODE_1180: 
+JUMP(L_CLOS_EXIT_1176);
+L_CLOS_CODE_1177: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1174);
-printf("at JUMP_SIMPLE_1174");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1174:
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -13613,25 +11459,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1186));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1183));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1184:
+L_FOR1_START_1181:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1183);
+JUMP_EQ(L_FOR1_END_1180);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1184);
+ JUMP(L_FOR1_START_1181);
 
-L_FOR1_END_1183:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1180:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -13643,33 +11486,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1182:
+L_FOR2_START_1179:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1181);
+JUMP_EQ(L_FOR2_END_1178);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1182);
+ JUMP(L_FOR2_START_1179);
 
-L_FOR2_END_1181:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1178:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1185);
-L_CLOS_CODE_1186: 
+JUMP(L_CLOS_EXIT_1182);
+L_CLOS_CODE_1183: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -13683,17 +11521,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1187);
-printf("At L_JUMP_1187\n");
-fflush(stdout);
-L_JUMP_1187:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -13711,32 +11543,25 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1185:
+L_CLOS_EXIT_1182:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1179:
+L_CLOS_EXIT_1176:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1173);
-printf("At L_JUMP_1173\n");
-fflush(stdout);
-L_JUMP_1173:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -13754,12 +11579,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1171:
+L_CLOS_EXIT_1168:
 MOV(R1, INDD(IMM(492), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE^variadic-left-from-binary
+ // DEFINE  ^variadic-left-from-binary
 
 //LAMBDA-SIMPLE
 
@@ -13772,25 +11597,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1122));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1119));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1120:
+L_FOR1_START_1117:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1119);
+JUMP_EQ(L_FOR1_END_1116);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1120);
+ JUMP(L_FOR1_START_1117);
 
-L_FOR1_END_1119:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1116:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -13801,34 +11623,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1118:
+L_FOR2_START_1115:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1117);
+JUMP_EQ(L_FOR2_END_1114);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1118);
+ JUMP(L_FOR2_START_1115);
 
-L_FOR2_END_1117:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1114:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1121);
-L_CLOS_CODE_1122: 
+JUMP(L_CLOS_EXIT_1118);
+L_CLOS_CODE_1119: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1116);
-printf("at JUMP_SIMPLE_1116");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1116:
 
  //TC-APPLIC 
 
@@ -13844,25 +11655,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1150));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1147));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1148:
+L_FOR1_START_1145:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1147);
+JUMP_EQ(L_FOR1_END_1144);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1148);
+ JUMP(L_FOR1_START_1145);
 
-L_FOR1_END_1147:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1144:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -13873,34 +11681,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1146:
+L_FOR2_START_1143:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1145);
+JUMP_EQ(L_FOR2_END_1142);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1146);
+ JUMP(L_FOR2_START_1143);
 
-L_FOR2_END_1145:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1142:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1149);
-L_CLOS_CODE_1150: 
+JUMP(L_CLOS_EXIT_1146);
+L_CLOS_CODE_1147: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1144);
-printf("at JUMP_SIMPLE_1144");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1144:
 
 //LAMBDA-SIMPLE
 
@@ -13913,25 +11710,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1157));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1154));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1155:
+L_FOR1_START_1152:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1154);
+JUMP_EQ(L_FOR1_END_1151);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1155);
+ JUMP(L_FOR1_START_1152);
 
-L_FOR1_END_1154:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1151:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -13942,34 +11736,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1153:
+L_FOR2_START_1150:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1152);
+JUMP_EQ(L_FOR2_END_1149);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1153);
+ JUMP(L_FOR2_START_1150);
 
-L_FOR2_END_1152:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1149:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1156);
-L_CLOS_CODE_1157: 
+JUMP(L_CLOS_EXIT_1153);
+L_CLOS_CODE_1154: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1151);
-printf("at JUMP_SIMPLE_1151");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1151:
 //IF 
 
  //APPLIC 
@@ -13982,17 +11765,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1165\n");
-JUMP_EQ(L_JUMP_1165);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1165:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14004,16 +11779,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1160); 
+		    JUMP_NE(L_THEN_1157); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1159);
-		    L_THEN_1160:// PVAR 
+		    JUMP_EQ(L_ELSE_1156);
+		    L_THEN_1157:// PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    JUMP(L_IF_EXIT_1158);
-		    L_ELSE_1159:
+		    JUMP(L_IF_EXIT_1155);
+		    L_ELSE_1156:
 		    
  //TC-APPLIC 
 
@@ -14028,17 +11803,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1164\n");
-JUMP_EQ(L_JUMP_1164);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1164:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14064,17 +11831,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1163\n");
-JUMP_EQ(L_JUMP_1163);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1163:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14094,13 +11853,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1162\n");
-JUMP_EQ(L_JUMP_1162);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1162:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -14115,20 +11867,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1161);
-printf("At L_JUMP_1161\n");
-fflush(stdout);
-L_JUMP_1161:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -14144,15 +11890,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1158:
+		    L_IF_EXIT_1155:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1156:
+L_CLOS_EXIT_1153:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1149:
+L_CLOS_EXIT_1146:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -14166,25 +11912,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1130));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1127));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1128:
+L_FOR1_START_1125:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1127);
+JUMP_EQ(L_FOR1_END_1124);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1128);
+ JUMP(L_FOR1_START_1125);
 
-L_FOR1_END_1127:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1124:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -14195,34 +11938,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1126:
+L_FOR2_START_1123:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1125);
+JUMP_EQ(L_FOR2_END_1122);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1126);
+ JUMP(L_FOR2_START_1123);
 
-L_FOR2_END_1125:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1122:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1129);
-L_CLOS_CODE_1130: 
+JUMP(L_CLOS_EXIT_1126);
+L_CLOS_CODE_1127: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1124);
-printf("at JUMP_SIMPLE_1124");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1124:
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -14234,25 +11966,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1136));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1133));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_1134:
+L_FOR1_START_1131:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1133);
+JUMP_EQ(L_FOR1_END_1130);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1134);
+ JUMP(L_FOR1_START_1131);
 
-L_FOR1_END_1133:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1130:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -14264,33 +11993,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1132:
+L_FOR2_START_1129:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1131);
+JUMP_EQ(L_FOR2_END_1128);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_1132);
+ JUMP(L_FOR2_START_1129);
 
-L_FOR2_END_1131:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1128:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1135);
-L_CLOS_CODE_1136: 
+JUMP(L_CLOS_EXIT_1132);
+L_CLOS_CODE_1133: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 //IF 
 
@@ -14304,17 +12028,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1143\n");
-JUMP_EQ(L_JUMP_1143);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1143:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14326,17 +12042,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1139); 
+		    JUMP_NE(L_THEN_1136); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1138);
-		    L_THEN_1139:// BVAR 
+		    JUMP_EQ(L_ELSE_1135);
+		    L_THEN_1136:// BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
 
-		    JUMP(L_IF_EXIT_1137);
-		    L_ELSE_1138:
+		    JUMP(L_IF_EXIT_1134);
+		    L_ELSE_1135:
 		    
  //TC-APPLIC 
 
@@ -14351,17 +12066,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1142\n");
-JUMP_EQ(L_JUMP_1142);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1142:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14383,17 +12090,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1141\n");
-JUMP_EQ(L_JUMP_1141);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1141:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14408,20 +12107,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1140);
-printf("At L_JUMP_1140\n");
-fflush(stdout);
-L_JUMP_1140:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -14437,36 +12130,29 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_1137:
+		    L_IF_EXIT_1134:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1135:
+L_CLOS_EXIT_1132:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1129:
+L_CLOS_EXIT_1126:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1123);
-printf("At L_JUMP_1123\n");
-fflush(stdout);
-L_JUMP_1123:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -14484,12 +12170,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1121:
+L_CLOS_EXIT_1118:
 MOV(R1, INDD(IMM(522), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE^char-op
+ // DEFINE  ^char-op
 
 //LAMBDA-SIMPLE
 
@@ -14502,25 +12188,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1105));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1102));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1103:
+L_FOR1_START_1100:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1102);
+JUMP_EQ(L_FOR1_END_1099);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1103);
+ JUMP(L_FOR1_START_1100);
 
-L_FOR1_END_1102:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1099:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -14531,34 +12214,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1101:
+L_FOR2_START_1098:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1100);
+JUMP_EQ(L_FOR2_END_1097);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1101);
+ JUMP(L_FOR2_START_1098);
 
-L_FOR2_END_1100:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1097:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1104);
-L_CLOS_CODE_1105: 
+JUMP(L_CLOS_EXIT_1101);
+L_CLOS_CODE_1102: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1099);
-printf("at JUMP_SIMPLE_1099");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1099:
 
 //LAMBDA-SIMPLE
 
@@ -14571,25 +12243,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1112));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1109));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1110:
+L_FOR1_START_1107:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1109);
+JUMP_EQ(L_FOR1_END_1106);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1110);
+ JUMP(L_FOR1_START_1107);
 
-L_FOR1_END_1109:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1106:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -14600,34 +12269,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1108:
+L_FOR2_START_1105:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1107);
+JUMP_EQ(L_FOR2_END_1104);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1108);
+ JUMP(L_FOR2_START_1105);
 
-L_FOR2_END_1107:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1104:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1111);
-L_CLOS_CODE_1112: 
+JUMP(L_CLOS_EXIT_1108);
+L_CLOS_CODE_1109: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1106);
-printf("at JUMP_SIMPLE_1106");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1106:
 
  //TC-APPLIC 
 
@@ -14642,17 +12300,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1406));
+MOV(R0, IMM(1401));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1115\n");
-JUMP_EQ(L_JUMP_1115);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1115:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14674,17 +12324,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1406));
+MOV(R0, IMM(1401));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1114\n");
-JUMP_EQ(L_JUMP_1114);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1114:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14699,20 +12341,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1113);
-printf("At L_JUMP_1113\n");
-fflush(stdout);
-L_JUMP_1113:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -14730,41 +12366,31 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1111:
+L_CLOS_EXIT_1108:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1104:
+L_CLOS_EXIT_1101:
 MOV(R1, INDD(IMM(534), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE<
+ // DEFINE  <
 
  //APPLIC 
 
 PUSH(IMM(0));
 
  //FVAR 
-MOV(R0, IMM(1307));
+MOV(R0, IMM(1302));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1098\n");
-JUMP_EQ(L_JUMP_1098);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1098:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14778,7 +12404,7 @@ MOV(R1, INDD(IMM(539), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE<=
+ // DEFINE  <=
 
  //APPLIC 
 
@@ -14788,22 +12414,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(64));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1097\n");
-JUMP_EQ(L_JUMP_1097);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1097:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14817,7 +12433,7 @@ MOV(R1, INDD(IMM(545), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE>
+ // DEFINE  >
 
  //APPLIC 
 
@@ -14827,22 +12443,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(54));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1096\n");
-JUMP_EQ(L_JUMP_1096);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1096:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14856,7 +12462,7 @@ MOV(R1, INDD(IMM(550), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE>=
+ // DEFINE  >=
 
  //APPLIC 
 
@@ -14866,22 +12472,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(74));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1095\n");
-JUMP_EQ(L_JUMP_1095);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1095:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14895,7 +12491,7 @@ MOV(R1, INDD(IMM(556), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar=?
+ // DEFINE  char=?
 
  //APPLIC 
 
@@ -14906,25 +12502,15 @@ PUSH(IMM(0));
 PUSH(IMM(0));
 
  //FVAR 
-MOV(R0, IMM(1415));
+MOV(R0, IMM(1410));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(534));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1094\n");
-JUMP_EQ(L_JUMP_1094);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1094:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14940,14 +12526,6 @@ PUSH(R0);
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1093\n");
-JUMP_EQ(L_JUMP_1093);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1093:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -14961,7 +12539,7 @@ MOV(R1, INDD(IMM(566), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar<=?
+ // DEFINE  char<=?
 
  //APPLIC 
 
@@ -14975,22 +12553,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(64));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(534));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1092\n");
-JUMP_EQ(L_JUMP_1092);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1092:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15006,14 +12574,6 @@ PUSH(R0);
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1091\n");
-JUMP_EQ(L_JUMP_1091);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1091:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15027,7 +12587,7 @@ MOV(R1, INDD(IMM(577), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar<?
+ // DEFINE  char<?
 
  //APPLIC 
 
@@ -15038,25 +12598,15 @@ PUSH(IMM(0));
 PUSH(IMM(0));
 
  //FVAR 
-MOV(R0, IMM(1307));
+MOV(R0, IMM(1302));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(534));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1090\n");
-JUMP_EQ(L_JUMP_1090);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1090:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15072,14 +12622,6 @@ PUSH(R0);
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1089\n");
-JUMP_EQ(L_JUMP_1089);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1089:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15093,7 +12635,7 @@ MOV(R1, INDD(IMM(587), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar>=?
+ // DEFINE  char>=?
 
  //APPLIC 
 
@@ -15107,22 +12649,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(74));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(534));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1088\n");
-JUMP_EQ(L_JUMP_1088);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1088:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15138,14 +12670,6 @@ PUSH(R0);
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1087\n");
-JUMP_EQ(L_JUMP_1087);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1087:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15159,7 +12683,7 @@ MOV(R1, INDD(IMM(598), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar>?
+ // DEFINE  char>?
 
  //APPLIC 
 
@@ -15173,22 +12697,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(54));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(534));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1086\n");
-JUMP_EQ(L_JUMP_1086);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1086:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15204,14 +12718,6 @@ PUSH(R0);
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1085\n");
-JUMP_EQ(L_JUMP_1085);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1085:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15225,7 +12731,7 @@ MOV(R1, INDD(IMM(608), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar-uppercase?
+ // DEFINE  char-uppercase?
 
 //LAMBDA-SIMPLE
 
@@ -15238,25 +12744,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1079));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1076));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1077:
+L_FOR1_START_1074:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1076);
+JUMP_EQ(L_FOR1_END_1073);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1077);
+ JUMP(L_FOR1_START_1074);
 
-L_FOR1_END_1076:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1073:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -15267,34 +12770,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1075:
+L_FOR2_START_1072:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1074);
+JUMP_EQ(L_FOR2_END_1071);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1075);
+ JUMP(L_FOR2_START_1072);
 
-L_FOR2_END_1074:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1071:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1078);
-L_CLOS_CODE_1079: 
+JUMP(L_CLOS_EXIT_1075);
+L_CLOS_CODE_1076: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1073);
-printf("at JUMP_SIMPLE_1073");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1073:
 //IF 
 
  //APPLIC 
@@ -15305,21 +12797,13 @@ MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 PUSH(R0);
-MOV(R0,IMM(1417));
+MOV(R0,IMM(1412));
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(577));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1084\n");
-JUMP_EQ(L_JUMP_1084);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1084:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -15331,13 +12815,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1082); 
+		    JUMP_NE(L_THEN_1079); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1081);
-		    L_THEN_1082:
+		    JUMP_EQ(L_ELSE_1078);
+		    L_THEN_1079:
  //TC-APPLIC 
 
-MOV(R0,IMM(1419));
+MOV(R0,IMM(1414));
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(0));
@@ -15349,21 +12833,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(577));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1083);
-printf("At L_JUMP_1083\n");
-fflush(stdout);
-L_JUMP_1083:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -15379,20 +12856,20 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_1080);
-		    L_ELSE_1081:
+		    JUMP(L_IF_EXIT_1077);
+		    L_ELSE_1078:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_1080:
+		    L_IF_EXIT_1077:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1078:
+L_CLOS_EXIT_1075:
 MOV(R1, INDD(IMM(627), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar-lowercase?
+ // DEFINE  char-lowercase?
 
 //LAMBDA-SIMPLE
 
@@ -15405,25 +12882,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1067));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1064));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1065:
+L_FOR1_START_1062:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1064);
+JUMP_EQ(L_FOR1_END_1061);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1065);
+ JUMP(L_FOR1_START_1062);
 
-L_FOR1_END_1064:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1061:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -15434,34 +12908,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1063:
+L_FOR2_START_1060:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1062);
+JUMP_EQ(L_FOR2_END_1059);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1063);
+ JUMP(L_FOR2_START_1060);
 
-L_FOR2_END_1062:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1059:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1066);
-L_CLOS_CODE_1067: 
+JUMP(L_CLOS_EXIT_1063);
+L_CLOS_CODE_1064: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1061);
-printf("at JUMP_SIMPLE_1061");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1061:
 //IF 
 
  //APPLIC 
@@ -15472,21 +12935,13 @@ MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 PUSH(R0);
-MOV(R0,IMM(1421));
+MOV(R0,IMM(1416));
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(577));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1072\n");
-JUMP_EQ(L_JUMP_1072);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1072:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -15498,13 +12953,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1070); 
+		    JUMP_NE(L_THEN_1067); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1069);
-		    L_THEN_1070:
+		    JUMP_EQ(L_ELSE_1066);
+		    L_THEN_1067:
  //TC-APPLIC 
 
-MOV(R0,IMM(1423));
+MOV(R0,IMM(1418));
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(0));
@@ -15516,21 +12971,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(577));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1071);
-printf("At L_JUMP_1071\n");
-fflush(stdout);
-L_JUMP_1071:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -15546,20 +12994,20 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_1068);
-		    L_ELSE_1069:
+		    JUMP(L_IF_EXIT_1065);
+		    L_ELSE_1066:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_1068:
+		    L_IF_EXIT_1065:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1066:
+L_CLOS_EXIT_1063:
 MOV(R1, INDD(IMM(646), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar-upcase
+ // DEFINE  char-upcase
 
  //APPLIC 
 
@@ -15572,21 +13020,13 @@ PUSH(IMM(0));
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1417));
+MOV(R0,IMM(1412));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1406));
+MOV(R0, IMM(1401));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1060\n");
-JUMP_EQ(L_JUMP_1060);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1060:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15601,21 +13041,13 @@ PUSH(R0);
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1421));
+MOV(R0,IMM(1416));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1406));
+MOV(R0, IMM(1401));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1059\n");
-JUMP_EQ(L_JUMP_1059);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1059:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15631,14 +13063,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1058\n");
-JUMP_EQ(L_JUMP_1058);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1058:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -15661,25 +13085,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1043));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1040));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1041:
+L_FOR1_START_1038:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1040);
+JUMP_EQ(L_FOR1_END_1037);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1041);
+ JUMP(L_FOR1_START_1038);
 
-L_FOR1_END_1040:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1037:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -15690,34 +13111,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1039:
+L_FOR2_START_1036:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1038);
+JUMP_EQ(L_FOR2_END_1035);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1039);
+ JUMP(L_FOR2_START_1036);
 
-L_FOR2_END_1038:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1035:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1042);
-L_CLOS_CODE_1043: 
+JUMP(L_CLOS_EXIT_1039);
+L_CLOS_CODE_1040: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1037);
-printf("at JUMP_SIMPLE_1037");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1037:
 
 //LAMBDA-SIMPLE
 
@@ -15730,25 +13140,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1050));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1047));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1048:
+L_FOR1_START_1045:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1047);
+JUMP_EQ(L_FOR1_END_1044);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1048);
+ JUMP(L_FOR1_START_1045);
 
-L_FOR1_END_1047:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1044:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -15759,34 +13166,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1046:
+L_FOR2_START_1043:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1045);
+JUMP_EQ(L_FOR2_END_1042);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1046);
+ JUMP(L_FOR2_START_1043);
 
-L_FOR2_END_1045:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1042:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1049);
-L_CLOS_CODE_1050: 
+JUMP(L_CLOS_EXIT_1046);
+L_CLOS_CODE_1047: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1044);
-printf("at JUMP_SIMPLE_1044");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1044:
 //IF 
 
  //APPLIC 
@@ -15802,14 +13198,6 @@ PUSH(R0);
 MOV(R0, IMM(646));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1057\n");
-JUMP_EQ(L_JUMP_1057);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1057:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15821,10 +13209,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1053); 
+		    JUMP_NE(L_THEN_1050); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1052);
-		    L_THEN_1053:
+		    JUMP_EQ(L_ELSE_1049);
+		    L_THEN_1050:
  //TC-APPLIC 
 
 
@@ -15835,7 +13223,6 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //APPLIC 
@@ -15848,17 +13235,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1406));
+MOV(R0, IMM(1401));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1056\n");
-JUMP_EQ(L_JUMP_1056);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1056:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15874,14 +13253,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1055\n");
-JUMP_EQ(L_JUMP_1055);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1055:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -15894,21 +13265,14 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1440));
+MOV(R0, IMM(1435));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1054);
-printf("At L_JUMP_1054\n");
-fflush(stdout);
-L_JUMP_1054:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -15924,28 +13288,22 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_1051);
-		    L_ELSE_1052:
+		    JUMP(L_IF_EXIT_1048);
+		    L_ELSE_1049:
 		    // PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    L_IF_EXIT_1051:
+		    L_IF_EXIT_1048:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1049:
+L_CLOS_EXIT_1046:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1042:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1036\n");
-JUMP_EQ(L_JUMP_1036);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1036:
+L_CLOS_EXIT_1039:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -15959,7 +13317,7 @@ MOV(R1, INDD(IMM(661), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar-downcase
+ // DEFINE  char-downcase
 
  //APPLIC 
 
@@ -15972,21 +13330,13 @@ PUSH(IMM(0));
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1417));
+MOV(R0,IMM(1412));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1406));
+MOV(R0, IMM(1401));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1035\n");
-JUMP_EQ(L_JUMP_1035);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1035:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16001,21 +13351,13 @@ PUSH(R0);
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1421));
+MOV(R0,IMM(1416));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1406));
+MOV(R0, IMM(1401));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1034\n");
-JUMP_EQ(L_JUMP_1034);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1034:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16031,14 +13373,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1033\n");
-JUMP_EQ(L_JUMP_1033);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1033:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -16061,25 +13395,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1018));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1015));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1016:
+L_FOR1_START_1013:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1015);
+JUMP_EQ(L_FOR1_END_1012);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1016);
+ JUMP(L_FOR1_START_1013);
 
-L_FOR1_END_1015:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1012:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -16090,34 +13421,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1014:
+L_FOR2_START_1011:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1013);
+JUMP_EQ(L_FOR2_END_1010);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1014);
+ JUMP(L_FOR2_START_1011);
 
-L_FOR2_END_1013:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1010:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1017);
-L_CLOS_CODE_1018: 
+JUMP(L_CLOS_EXIT_1014);
+L_CLOS_CODE_1015: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1012);
-printf("at JUMP_SIMPLE_1012");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1012:
 
 //LAMBDA-SIMPLE
 
@@ -16130,25 +13450,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1025));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1022));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_1023:
+L_FOR1_START_1020:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1022);
+JUMP_EQ(L_FOR1_END_1019);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1023);
+ JUMP(L_FOR1_START_1020);
 
-L_FOR1_END_1022:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1019:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -16159,34 +13476,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1021:
+L_FOR2_START_1018:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1020);
+JUMP_EQ(L_FOR2_END_1017);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1021);
+ JUMP(L_FOR2_START_1018);
 
-L_FOR2_END_1020:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_1017:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1024);
-L_CLOS_CODE_1025: 
+JUMP(L_CLOS_EXIT_1021);
+L_CLOS_CODE_1022: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_1019);
-printf("at JUMP_SIMPLE_1019");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1019:
 //IF 
 
  //APPLIC 
@@ -16202,14 +13508,6 @@ PUSH(R0);
 MOV(R0, IMM(627));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1032\n");
-JUMP_EQ(L_JUMP_1032);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1032:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16221,10 +13519,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_1028); 
+		    JUMP_NE(L_THEN_1025); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_1027);
-		    L_THEN_1028:
+		    JUMP_EQ(L_ELSE_1024);
+		    L_THEN_1025:
  //TC-APPLIC 
 
 
@@ -16235,7 +13533,6 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //APPLIC 
@@ -16248,17 +13545,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1406));
+MOV(R0, IMM(1401));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1031\n");
-JUMP_EQ(L_JUMP_1031);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1031:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16274,14 +13563,6 @@ PUSH(R0);
 MOV(R0, IMM(137));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1030\n");
-JUMP_EQ(L_JUMP_1030);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1030:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -16294,21 +13575,14 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1440));
+MOV(R0, IMM(1435));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1029);
-printf("At L_JUMP_1029\n");
-fflush(stdout);
-L_JUMP_1029:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -16324,28 +13598,22 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_1026);
-		    L_ELSE_1027:
+		    JUMP(L_IF_EXIT_1023);
+		    L_ELSE_1024:
 		    // PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    L_IF_EXIT_1026:
+		    L_IF_EXIT_1023:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1024:
+L_CLOS_EXIT_1021:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1017:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1011\n");
-JUMP_EQ(L_JUMP_1011);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1011:
+L_CLOS_EXIT_1014:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16359,7 +13627,7 @@ MOV(R1, INDD(IMM(678), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar-ci<=?
+ // DEFINE  char-ci<=?
 
  //APPLIC 
 
@@ -16376,25 +13644,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1007));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_1004));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_1005:
+L_FOR1_START_1002:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_1004);
+JUMP_EQ(L_FOR1_END_1001);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_1005);
+ JUMP(L_FOR1_START_1002);
 
-L_FOR1_END_1004:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_1001:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -16405,34 +13670,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_1003:
+L_FOR2_START_1000:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_1002);
+JUMP_EQ(L_FOR2_END_999);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_1003);
+ JUMP(L_FOR2_START_1000);
 
-L_FOR2_END_1002:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_999:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_1006);
-L_CLOS_CODE_1007: 
+JUMP(L_CLOS_EXIT_1003);
+L_CLOS_CODE_1004: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_1001);
-printf("at JUMP_SIMPLE_1001");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_1001:
 
  //TC-APPLIC 
 
@@ -16450,14 +13704,6 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1010\n");
-JUMP_EQ(L_JUMP_1010);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1010:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16482,14 +13728,6 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1009\n");
-JUMP_EQ(L_JUMP_1009);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1009:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16505,21 +13743,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(577));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_1008);
-printf("At L_JUMP_1008\n");
-fflush(stdout);
-L_JUMP_1008:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -16537,21 +13768,13 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_1006:
+L_CLOS_EXIT_1003:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1000\n");
-JUMP_EQ(L_JUMP_1000);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1000:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16565,7 +13788,7 @@ MOV(R1, INDD(IMM(692), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar-ci<?
+ // DEFINE  char-ci<?
 
  //APPLIC 
 
@@ -16582,25 +13805,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_996));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_993));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_994:
+L_FOR1_START_991:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_993);
+JUMP_EQ(L_FOR1_END_990);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_994);
+ JUMP(L_FOR1_START_991);
 
-L_FOR1_END_993:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_990:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -16611,34 +13831,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_992:
+L_FOR2_START_989:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_991);
+JUMP_EQ(L_FOR2_END_988);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_992);
+ JUMP(L_FOR2_START_989);
 
-L_FOR2_END_991:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_988:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_995);
-L_CLOS_CODE_996: 
+JUMP(L_CLOS_EXIT_992);
+L_CLOS_CODE_993: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_990);
-printf("at JUMP_SIMPLE_990");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_990:
 
  //TC-APPLIC 
 
@@ -16656,14 +13865,6 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_999\n");
-JUMP_EQ(L_JUMP_999);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_999:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16688,14 +13889,6 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_998\n");
-JUMP_EQ(L_JUMP_998);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_998:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16711,21 +13904,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(587));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_997);
-printf("At L_JUMP_997\n");
-fflush(stdout);
-L_JUMP_997:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -16743,21 +13929,13 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_995:
+L_CLOS_EXIT_992:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_989\n");
-JUMP_EQ(L_JUMP_989);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_989:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16771,7 +13949,7 @@ MOV(R1, INDD(IMM(705), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar-ci=?
+ // DEFINE  char-ci=?
 
  //APPLIC 
 
@@ -16788,25 +13966,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_985));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_982));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_983:
+L_FOR1_START_980:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_982);
+JUMP_EQ(L_FOR1_END_979);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_983);
+ JUMP(L_FOR1_START_980);
 
-L_FOR1_END_982:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_979:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -16817,34 +13992,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_981:
+L_FOR2_START_978:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_980);
+JUMP_EQ(L_FOR2_END_977);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_981);
+ JUMP(L_FOR2_START_978);
 
-L_FOR2_END_980:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_977:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_984);
-L_CLOS_CODE_985: 
+JUMP(L_CLOS_EXIT_981);
+L_CLOS_CODE_982: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_979);
-printf("at JUMP_SIMPLE_979");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_979:
 
  //TC-APPLIC 
 
@@ -16862,14 +14026,6 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_988\n");
-JUMP_EQ(L_JUMP_988);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_988:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16894,14 +14050,6 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_987\n");
-JUMP_EQ(L_JUMP_987);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_987:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16917,21 +14065,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(566));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_986);
-printf("At L_JUMP_986\n");
-fflush(stdout);
-L_JUMP_986:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -16949,21 +14090,13 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_984:
+L_CLOS_EXIT_981:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_978\n");
-JUMP_EQ(L_JUMP_978);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_978:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -16977,7 +14110,7 @@ MOV(R1, INDD(IMM(718), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar-ci>?
+ // DEFINE  char-ci>?
 
  //APPLIC 
 
@@ -16994,25 +14127,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_974));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_971));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_972:
+L_FOR1_START_969:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_971);
+JUMP_EQ(L_FOR1_END_968);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_972);
+ JUMP(L_FOR1_START_969);
 
-L_FOR1_END_971:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_968:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -17023,34 +14153,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_970:
+L_FOR2_START_967:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_969);
+JUMP_EQ(L_FOR2_END_966);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_970);
+ JUMP(L_FOR2_START_967);
 
-L_FOR2_END_969:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_966:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_973);
-L_CLOS_CODE_974: 
+JUMP(L_CLOS_EXIT_970);
+L_CLOS_CODE_971: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_968);
-printf("at JUMP_SIMPLE_968");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_968:
 
  //TC-APPLIC 
 
@@ -17068,14 +14187,6 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_977\n");
-JUMP_EQ(L_JUMP_977);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_977:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -17100,14 +14211,6 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_976\n");
-JUMP_EQ(L_JUMP_976);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_976:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -17123,21 +14226,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(608));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_975);
-printf("At L_JUMP_975\n");
-fflush(stdout);
-L_JUMP_975:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -17155,21 +14251,13 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_973:
+L_CLOS_EXIT_970:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_967\n");
-JUMP_EQ(L_JUMP_967);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_967:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -17183,7 +14271,7 @@ MOV(R1, INDD(IMM(731), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEchar-ci>=?
+ // DEFINE  char-ci>=?
 
  //APPLIC 
 
@@ -17200,25 +14288,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_963));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_960));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_961:
+L_FOR1_START_958:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_960);
+JUMP_EQ(L_FOR1_END_957);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_961);
+ JUMP(L_FOR1_START_958);
 
-L_FOR1_END_960:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_957:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -17229,34 +14314,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_959:
+L_FOR2_START_956:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_958);
+JUMP_EQ(L_FOR2_END_955);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_959);
+ JUMP(L_FOR2_START_956);
 
-L_FOR2_END_958:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_955:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_962);
-L_CLOS_CODE_963: 
+JUMP(L_CLOS_EXIT_959);
+L_CLOS_CODE_960: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_957);
-printf("at JUMP_SIMPLE_957");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_957:
 
  //TC-APPLIC 
 
@@ -17274,14 +14348,6 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_966\n");
-JUMP_EQ(L_JUMP_966);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_966:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -17306,14 +14372,6 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_965\n");
-JUMP_EQ(L_JUMP_965);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_965:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -17329,21 +14387,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(598));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_964);
-printf("At L_JUMP_964\n");
-fflush(stdout);
-L_JUMP_964:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -17361,21 +14412,13 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_962:
+L_CLOS_EXIT_959:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_956\n");
-JUMP_EQ(L_JUMP_956);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_956:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -17389,7 +14432,7 @@ MOV(R1, INDD(IMM(745), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEstring->list
+ // DEFINE  string->list
 
  //APPLIC 
 
@@ -17406,25 +14449,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_940));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_937));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_938:
+L_FOR1_START_935:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_937);
+JUMP_EQ(L_FOR1_END_934);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_938);
+ JUMP(L_FOR1_START_935);
 
-L_FOR1_END_937:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_934:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -17435,34 +14475,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_936:
+L_FOR2_START_933:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_935);
+JUMP_EQ(L_FOR2_END_932);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_936);
+ JUMP(L_FOR2_START_933);
 
-L_FOR2_END_935:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_932:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_939);
-L_CLOS_CODE_940: 
+JUMP(L_CLOS_EXIT_936);
+L_CLOS_CODE_937: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_934);
-printf("at JUMP_SIMPLE_934");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_934:
 
 //LAMBDA-SIMPLE
 
@@ -17475,25 +14504,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_947));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_944));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_945:
+L_FOR1_START_942:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_944);
+JUMP_EQ(L_FOR1_END_941);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_945);
+ JUMP(L_FOR1_START_942);
 
-L_FOR1_END_944:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_941:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -17504,40 +14530,29 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_943:
+L_FOR2_START_940:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_942);
+JUMP_EQ(L_FOR2_END_939);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_943);
+ JUMP(L_FOR2_START_940);
 
-L_FOR2_END_942:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_939:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_946);
-L_CLOS_CODE_947: 
+JUMP(L_CLOS_EXIT_943);
+L_CLOS_CODE_944: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(3));
-JUMP_EQ(JUMP_SIMPLE_941);
-printf("at JUMP_SIMPLE_941");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_941:
 //IF 
 
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1459));
+MOV(R0,IMM(1454));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -17549,14 +14564,6 @@ PUSH(R0);
 MOV(R0, IMM(1275));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_955\n");
-JUMP_EQ(L_JUMP_955);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_955:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -17568,16 +14575,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_950); 
+		    JUMP_NE(L_THEN_947); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_949);
-		    L_THEN_950:// PVAR 
+		    JUMP_EQ(L_ELSE_946);
+		    L_THEN_947:// PVAR 
 MOV(R1, IMM(2));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    JUMP(L_IF_EXIT_948);
-		    L_ELSE_949:
+		    JUMP(L_IF_EXIT_945);
+		    L_ELSE_946:
 		    
  //TC-APPLIC 
 
@@ -17606,17 +14613,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1473));
+MOV(R0, IMM(1468));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_954\n");
-JUMP_EQ(L_JUMP_954);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_954:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -17629,17 +14628,9 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1364));
+MOV(R0, IMM(1359));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_953\n");
-JUMP_EQ(L_JUMP_953);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_953:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -17654,7 +14645,7 @@ PUSH(R0); // finished evaluating arg
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -17666,14 +14657,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_952\n");
-JUMP_EQ(L_JUMP_952);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_952:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -17693,23 +14676,17 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_951);
-printf("At L_JUMP_951\n");
-fflush(stdout);
-L_JUMP_951:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
-MOV(R1,FPARG(1)); // start copying arg2
+MOV(R1,R4); // start copying arg2
 ADD(R1, IMM(0));
 MOV(FPARG(R1), LOCAL(IMM(2)));
 
@@ -17725,15 +14702,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_948:
+		    L_IF_EXIT_945:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_946:
+L_CLOS_EXIT_943:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_939:
+L_CLOS_EXIT_936:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -17747,25 +14724,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_923));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_920));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_921:
+L_FOR1_START_918:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_920);
+JUMP_EQ(L_FOR1_END_917);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_921);
+ JUMP(L_FOR1_START_918);
 
-L_FOR1_END_920:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_917:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -17776,34 +14750,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_919:
+L_FOR2_START_916:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_918);
+JUMP_EQ(L_FOR2_END_915);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_919);
+ JUMP(L_FOR2_START_916);
 
-L_FOR2_END_918:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_915:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_922);
-L_CLOS_CODE_923: 
+JUMP(L_CLOS_EXIT_919);
+L_CLOS_CODE_920: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_917);
-printf("at JUMP_SIMPLE_917");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_917:
 
 //LAMBDA-SIMPLE
 
@@ -17816,25 +14779,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_930));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_927));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_928:
+L_FOR1_START_925:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_927);
+JUMP_EQ(L_FOR1_END_924);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_928);
+ JUMP(L_FOR1_START_925);
 
-L_FOR1_END_927:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_924:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -17845,34 +14805,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_926:
+L_FOR2_START_923:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_925);
+JUMP_EQ(L_FOR2_END_922);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_926);
+ JUMP(L_FOR2_START_923);
 
-L_FOR2_END_925:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_922:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_929);
-L_CLOS_CODE_930: 
+JUMP(L_CLOS_EXIT_926);
+L_CLOS_CODE_927: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_924);
-printf("at JUMP_SIMPLE_924");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_924:
 
  //TC-APPLIC 
 
@@ -17882,7 +14831,7 @@ PUSH(R0); // finished evaluating arg
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0);
 
  //APPLIC 
@@ -17895,17 +14844,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1457));
+MOV(R0, IMM(1452));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_933\n");
-JUMP_EQ(L_JUMP_933);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_933:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -17921,14 +14862,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_932\n");
-JUMP_EQ(L_JUMP_932);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_932:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -17948,23 +14881,17 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_931);
-printf("At L_JUMP_931\n");
-fflush(stdout);
-L_JUMP_931:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
-MOV(R1,FPARG(1)); // start copying arg2
+MOV(R1,R4); // start copying arg2
 ADD(R1, IMM(0));
 MOV(FPARG(R1), LOCAL(IMM(2)));
 
@@ -17982,25 +14909,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_929:
+L_CLOS_EXIT_926:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_922:
+L_CLOS_EXIT_919:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_916\n");
-JUMP_EQ(L_JUMP_916);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_916:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -18014,7 +14933,7 @@ MOV(R1, INDD(IMM(761), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINElist->string
+ // DEFINE  list->string
 
 //LAMBDA-SIMPLE
 
@@ -18027,25 +14946,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_865));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_862));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_863:
+L_FOR1_START_860:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_862);
+JUMP_EQ(L_FOR1_END_859);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_863);
+ JUMP(L_FOR1_START_860);
 
-L_FOR1_END_862:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_859:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -18056,34 +14972,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_861:
+L_FOR2_START_858:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_860);
+JUMP_EQ(L_FOR2_END_857);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_861);
+ JUMP(L_FOR2_START_858);
 
-L_FOR2_END_860:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_857:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_864);
-L_CLOS_CODE_865: 
+JUMP(L_CLOS_EXIT_861);
+L_CLOS_CODE_862: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_859);
-printf("at JUMP_SIMPLE_859");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_859:
 
  //TC-APPLIC 
 
@@ -18101,14 +15006,6 @@ PUSH(R0);
 MOV(R0, IMM(93));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_915\n");
-JUMP_EQ(L_JUMP_915);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_915:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -18131,25 +15028,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_873));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_870));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_871:
+L_FOR1_START_868:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_870);
+JUMP_EQ(L_FOR1_END_867);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_871);
+ JUMP(L_FOR1_START_868);
 
-L_FOR1_END_870:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_867:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -18160,34 +15054,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_869:
+L_FOR2_START_866:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_868);
+JUMP_EQ(L_FOR2_END_865);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_869);
+ JUMP(L_FOR2_START_866);
 
-L_FOR2_END_868:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_865:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_872);
-L_CLOS_CODE_873: 
+JUMP(L_CLOS_EXIT_869);
+L_CLOS_CODE_870: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_867);
-printf("at JUMP_SIMPLE_867");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_867:
 
  //TC-APPLIC 
 
@@ -18202,17 +15085,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1503));
+MOV(R0, IMM(1498));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_914\n");
-JUMP_EQ(L_JUMP_914);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_914:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -18235,25 +15110,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_881));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_878));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_879:
+L_FOR1_START_876:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_878);
+JUMP_EQ(L_FOR1_END_875);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_879);
+ JUMP(L_FOR1_START_876);
 
-L_FOR1_END_878:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_875:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -18264,34 +15136,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_877:
+L_FOR2_START_874:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_876);
+JUMP_EQ(L_FOR2_END_873);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_877);
+ JUMP(L_FOR2_START_874);
 
-L_FOR2_END_876:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_873:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_880);
-L_CLOS_CODE_881: 
+JUMP(L_CLOS_EXIT_877);
+L_CLOS_CODE_878: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_875);
-printf("at JUMP_SIMPLE_875");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_875:
 
  //TC-APPLIC 
 
@@ -18307,25 +15168,22 @@ PUSH(IMM(5));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_897));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_894));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(4));
 
-L_FOR1_START_895:
+L_FOR1_START_892:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_894);
+JUMP_EQ(L_FOR1_END_891);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_895);
+ JUMP(L_FOR1_START_892);
 
-L_FOR1_END_894:
-//for (i = 0; i < 4; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_891:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -18336,34 +15194,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_893:
+L_FOR2_START_890:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_892);
+JUMP_EQ(L_FOR2_END_889);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_893);
+ JUMP(L_FOR2_START_890);
 
-L_FOR2_END_892:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_889:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_896);
-L_CLOS_CODE_897: 
+JUMP(L_CLOS_EXIT_893);
+L_CLOS_CODE_894: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_891);
-printf("at JUMP_SIMPLE_891");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_891:
 
 //LAMBDA-SIMPLE
 
@@ -18376,25 +15223,22 @@ PUSH(IMM(6));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_904));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_901));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(5));
 
-L_FOR1_START_902:
+L_FOR1_START_899:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_901);
+JUMP_EQ(L_FOR1_END_898);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_902);
+ JUMP(L_FOR1_START_899);
 
-L_FOR1_END_901:
-//for (i = 0; i < 5; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_898:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -18405,34 +15249,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_900:
+L_FOR2_START_897:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_899);
+JUMP_EQ(L_FOR2_END_896);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_900);
+ JUMP(L_FOR2_START_897);
 
-L_FOR2_END_899:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_896:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_903);
-L_CLOS_CODE_904: 
+JUMP(L_CLOS_EXIT_900);
+L_CLOS_CODE_901: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_898);
-printf("at JUMP_SIMPLE_898");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_898:
 //IF 
 
  //APPLIC 
@@ -18442,7 +15275,6 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 2));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -18454,14 +15286,6 @@ PUSH(R0);
 MOV(R0, IMM(1275));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_913\n");
-JUMP_EQ(L_JUMP_913);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_913:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -18473,17 +15297,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_907); 
+		    JUMP_NE(L_THEN_904); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_906);
-		    L_THEN_907:// BVAR 
+		    JUMP_EQ(L_ELSE_903);
+		    L_THEN_904:// BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 
-		    JUMP(L_IF_EXIT_905);
-		    L_ELSE_906:
+		    JUMP(L_IF_EXIT_902);
+		    L_ELSE_903:
 		    // SEQ 
 
  //APPLIC 
@@ -18500,17 +15323,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_912\n");
-JUMP_EQ(L_JUMP_912);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_912:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -18530,21 +15345,12 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1488));
+MOV(R0, IMM(1483));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_911\n");
-JUMP_EQ(L_JUMP_911);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_911:
 //APPLIC CONTINUE
 PUSH(IMM(3)); // pushing number of arguments 
 PUSH(IMM(3)); // pushing again for reference for frame removal 
@@ -18561,7 +15367,7 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -18573,14 +15379,6 @@ PUSH(R0);
 MOV(R0, IMM(137));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_910\n");
-JUMP_EQ(L_JUMP_910);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_910:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -18602,17 +15400,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_909\n");
-JUMP_EQ(L_JUMP_909);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_909:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -18627,20 +15417,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_908);
-printf("At L_JUMP_908\n");
-fflush(stdout);
-L_JUMP_908:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -18656,15 +15440,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_905:
+		    L_IF_EXIT_902:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_903:
+L_CLOS_EXIT_900:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_896:
+L_CLOS_EXIT_893:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -18678,25 +15462,22 @@ PUSH(IMM(5));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_889));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_886));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(4));
 
-L_FOR1_START_887:
+L_FOR1_START_884:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_886);
+JUMP_EQ(L_FOR1_END_883);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_887);
+ JUMP(L_FOR1_START_884);
 
-L_FOR1_END_886:
-//for (i = 0; i < 4; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_883:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -18707,62 +15488,45 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_885:
+L_FOR2_START_882:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_884);
+JUMP_EQ(L_FOR2_END_881);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_885);
+ JUMP(L_FOR2_START_882);
 
-L_FOR2_END_884:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_881:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_888);
-L_CLOS_CODE_889: 
+JUMP(L_CLOS_EXIT_885);
+L_CLOS_CODE_886: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_883);
-printf("at JUMP_SIMPLE_883");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_883:
 
  //TC-APPLIC 
 
-MOV(R0,IMM(1309));
+MOV(R0,IMM(1304));
 PUSH(R0); // finished evaluating arg 
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 2));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_890);
-printf("At L_JUMP_890\n");
-fflush(stdout);
-L_JUMP_890:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -18780,28 +15544,21 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_888:
+L_CLOS_EXIT_885:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_882);
-printf("At L_JUMP_882\n");
-fflush(stdout);
-L_JUMP_882:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -18819,17 +15576,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_880:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_874);
-printf("At L_JUMP_874\n");
-fflush(stdout);
-L_JUMP_874:
+L_CLOS_EXIT_877:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -18847,17 +15599,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_872:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_866);
-printf("At L_JUMP_866\n");
-fflush(stdout);
-L_JUMP_866:
+L_CLOS_EXIT_869:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -18875,12 +15622,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_864:
+L_CLOS_EXIT_861:
 MOV(R1, INDD(IMM(777), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEstring-upcase
+ // DEFINE  string-upcase
 
 //LAMBDA-SIMPLE
 
@@ -18893,25 +15640,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_855));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_852));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_853:
+L_FOR1_START_850:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_852);
+JUMP_EQ(L_FOR1_END_849);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_853);
+ JUMP(L_FOR1_START_850);
 
-L_FOR1_END_852:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_849:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -18922,34 +15666,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_851:
+L_FOR2_START_848:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_850);
+JUMP_EQ(L_FOR2_END_847);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_851);
+ JUMP(L_FOR2_START_848);
 
-L_FOR2_END_850:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_847:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_854);
-L_CLOS_CODE_855: 
+JUMP(L_CLOS_EXIT_851);
+L_CLOS_CODE_852: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_849);
-printf("at JUMP_SIMPLE_849");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_849:
 
  //TC-APPLIC 
 
@@ -18971,14 +15704,6 @@ PUSH(R0);
 MOV(R0, IMM(761));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_858\n");
-JUMP_EQ(L_JUMP_858);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_858:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -18994,22 +15719,12 @@ PUSH(R0);
 MOV(R0, IMM(661));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_857\n");
-JUMP_EQ(L_JUMP_857);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_857:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -19025,18 +15740,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(777));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_856);
-printf("At L_JUMP_856\n");
-fflush(stdout);
-L_JUMP_856:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -19054,12 +15762,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_854:
+L_CLOS_EXIT_851:
 MOV(R1, INDD(IMM(794), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEstring-downcase
+ // DEFINE  string-downcase
 
 //LAMBDA-SIMPLE
 
@@ -19072,25 +15780,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_845));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_842));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_843:
+L_FOR1_START_840:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_842);
+JUMP_EQ(L_FOR1_END_839);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_843);
+ JUMP(L_FOR1_START_840);
 
-L_FOR1_END_842:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_839:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -19101,34 +15806,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_841:
+L_FOR2_START_838:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_840);
+JUMP_EQ(L_FOR2_END_837);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_841);
+ JUMP(L_FOR2_START_838);
 
-L_FOR2_END_840:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_837:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_844);
-L_CLOS_CODE_845: 
+JUMP(L_CLOS_EXIT_841);
+L_CLOS_CODE_842: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_839);
-printf("at JUMP_SIMPLE_839");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_839:
 
  //TC-APPLIC 
 
@@ -19150,14 +15844,6 @@ PUSH(R0);
 MOV(R0, IMM(761));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_848\n");
-JUMP_EQ(L_JUMP_848);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_848:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -19173,22 +15859,12 @@ PUSH(R0);
 MOV(R0, IMM(678));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_847\n");
-JUMP_EQ(L_JUMP_847);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_847:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -19204,18 +15880,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(777));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_846);
-printf("At L_JUMP_846\n");
-fflush(stdout);
-L_JUMP_846:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -19233,12 +15902,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_844:
+L_CLOS_EXIT_841:
 MOV(R1, INDD(IMM(813), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINElist-ref
+ // DEFINE  list-ref
 
 //LAMBDA-SIMPLE
 
@@ -19251,25 +15920,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_830));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_827));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_828:
+L_FOR1_START_825:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_827);
+JUMP_EQ(L_FOR1_END_824);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_828);
+ JUMP(L_FOR1_START_825);
 
-L_FOR1_END_827:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_824:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -19280,34 +15946,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_826:
+L_FOR2_START_823:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_825);
+JUMP_EQ(L_FOR2_END_822);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_826);
+ JUMP(L_FOR2_START_823);
 
-L_FOR2_END_825:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_822:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_829);
-L_CLOS_CODE_830: 
+JUMP(L_CLOS_EXIT_826);
+L_CLOS_CODE_827: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_824);
-printf("at JUMP_SIMPLE_824");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_824:
 //IF 
 
  //APPLIC 
@@ -19323,14 +15978,6 @@ PUSH(R0);
 MOV(R0, IMM(83));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_838\n");
-JUMP_EQ(L_JUMP_838);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_838:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -19342,10 +15989,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_833); 
+		    JUMP_NE(L_THEN_830); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_832);
-		    L_THEN_833:
+		    JUMP_EQ(L_ELSE_829);
+		    L_THEN_830:
  //TC-APPLIC 
 
 // PVAR 
@@ -19355,21 +16002,14 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_837);
-printf("At L_JUMP_837\n");
-fflush(stdout);
-L_JUMP_837:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -19385,8 +16025,8 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_831);
-		    L_ELSE_832:
+		    JUMP(L_IF_EXIT_828);
+		    L_ELSE_829:
 		    
  //TC-APPLIC 
 
@@ -19394,7 +16034,7 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -19406,14 +16046,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_836\n");
-JUMP_EQ(L_JUMP_836);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_836:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -19435,17 +16067,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_835\n");
-JUMP_EQ(L_JUMP_835);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_835:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -19461,21 +16085,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(825));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_834);
-printf("At L_JUMP_834\n");
-fflush(stdout);
-L_JUMP_834:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -19491,16 +16108,16 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_831:
+		    L_IF_EXIT_828:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_829:
+L_CLOS_EXIT_826:
 MOV(R1, INDD(IMM(825), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINElist?
+ // DEFINE  list?
 
 //LAMBDA-SIMPLE
 
@@ -19513,25 +16130,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_815));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_812));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_813:
+L_FOR1_START_810:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_812);
+JUMP_EQ(L_FOR1_END_809);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_813);
+ JUMP(L_FOR1_START_810);
 
-L_FOR1_END_812:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_809:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -19542,34 +16156,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_811:
+L_FOR2_START_808:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_810);
+JUMP_EQ(L_FOR2_END_807);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_811);
+ JUMP(L_FOR2_START_808);
 
-L_FOR2_END_810:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_807:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_814);
-L_CLOS_CODE_815: 
+JUMP(L_CLOS_EXIT_811);
+L_CLOS_CODE_812: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_809);
-printf("at JUMP_SIMPLE_809");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_809:
 
  //APPLIC 
 
@@ -19581,17 +16184,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_823\n");
-JUMP_EQ(L_JUMP_823);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_823:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -19603,9 +16198,9 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_816);
+JUMP_NE(L_OR_END_813);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_816);
+JUMP_NE(L_OR_END_813);
 //IF 
 
  //APPLIC 
@@ -19618,17 +16213,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1334));
+MOV(R0, IMM(1329));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_822\n");
-JUMP_EQ(L_JUMP_822);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_822:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -19640,10 +16227,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_819); 
+		    JUMP_NE(L_THEN_816); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_818);
-		    L_THEN_819:
+		    JUMP_EQ(L_ELSE_815);
+		    L_THEN_816:
  //TC-APPLIC 
 
 
@@ -19657,17 +16244,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_821\n");
-JUMP_EQ(L_JUMP_821);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_821:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -19683,18 +16262,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(102));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_820);
-printf("At L_JUMP_820\n");
-fflush(stdout);
-L_JUMP_820:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -19710,26 +16282,26 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_817);
-		    L_ELSE_818:
+		    JUMP(L_IF_EXIT_814);
+		    L_ELSE_815:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_817:
+		    L_IF_EXIT_814:
 		    // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_816);
+JUMP_NE(L_OR_END_813);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_816);
-L_OR_END_816:
+JUMP_NE(L_OR_END_813);
+L_OR_END_813:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_814:
+L_CLOS_EXIT_811:
 MOV(R1, INDD(IMM(102), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEormap
+ // DEFINE  ormap
 
 //LAMBDA OPTIONAL
 PUSH(IMM(3));
@@ -19741,25 +16313,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_803));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_800));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_805:
+L_FOR1_START_802:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_806);
+JUMP_EQ(L_FOR1_END_803);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_805);
+ JUMP(L_FOR1_START_802);
 
-L_FOR1_END_806:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_803:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -19770,35 +16339,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_807:
+L_FOR2_START_804:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_808);
+JUMP_EQ(L_FOR2_END_805);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_807);
+ JUMP(L_FOR2_START_804);
 
-L_FOR2_END_808:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_805:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_804);
-L_CLOS_CODE_803: 
+JUMP(L_CLOS_EXIT_801);
+L_CLOS_CODE_800: 
 PUSH(FP);
-//print_stack("LAMBDA OPT before fixing the stack after PUSH(FP)");
 MOV(FP, SP);
-//checking number of arguments match the length of the lambda
-CMP(IMM(FPARG(1)), IMM(1));
-JUMP_LT(ERROR_WRONG_ARGUMENT_NUMBER);
 MOV(R1,IMM(1));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(4)),R0);
 MOV(FPARG(IMM(2)), IMM(2));
-//print_stack("LAMBDA OPT after fixing the stack ");
 
  //TC-APPLIC 
 
@@ -19814,25 +16375,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_785));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_782));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_783:
+L_FOR1_START_780:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_782);
+JUMP_EQ(L_FOR1_END_779);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_783);
+ JUMP(L_FOR1_START_780);
 
-L_FOR1_END_782:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_779:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -19843,34 +16401,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_781:
+L_FOR2_START_778:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_780);
+JUMP_EQ(L_FOR2_END_777);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_781);
+ JUMP(L_FOR2_START_778);
 
-L_FOR2_END_780:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_777:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_784);
-L_CLOS_CODE_785: 
+JUMP(L_CLOS_EXIT_781);
+L_CLOS_CODE_782: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_779);
-printf("at JUMP_SIMPLE_779");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_779:
 
 //LAMBDA-SIMPLE
 
@@ -19883,25 +16430,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_792));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_789));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_790:
+L_FOR1_START_787:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_789);
+JUMP_EQ(L_FOR1_END_786);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_790);
+ JUMP(L_FOR1_START_787);
 
-L_FOR1_END_789:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_786:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -19912,34 +16456,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_788:
+L_FOR2_START_785:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_787);
+JUMP_EQ(L_FOR2_END_784);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_788);
+ JUMP(L_FOR2_START_785);
 
-L_FOR2_END_787:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_784:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_791);
-L_CLOS_CODE_792: 
+JUMP(L_CLOS_EXIT_788);
+L_CLOS_CODE_789: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_786);
-printf("at JUMP_SIMPLE_786");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_786:
 //IF 
 
  //APPLIC 
@@ -19956,17 +16489,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_802\n");
-JUMP_EQ(L_JUMP_802);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_802:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -19979,17 +16504,9 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1334));
+MOV(R0, IMM(1329));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_801\n");
-JUMP_EQ(L_JUMP_801);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_801:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -20001,10 +16518,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_795); 
+		    JUMP_NE(L_THEN_792); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_794);
-		    L_THEN_795:
+		    JUMP_EQ(L_ELSE_791);
+		    L_THEN_792:
  //APPLIC 
 
 PUSH(IMM(0));
@@ -20019,25 +16536,15 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_800\n");
-JUMP_EQ(L_JUMP_800);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_800:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -20052,21 +16559,12 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_799\n");
-JUMP_EQ(L_JUMP_799);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_799:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -20078,9 +16576,9 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_796);
+JUMP_NE(L_OR_END_793);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_796);
+JUMP_NE(L_OR_END_793);
 
  //TC-APPLIC 
 
@@ -20095,25 +16593,15 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_798\n");
-JUMP_EQ(L_JUMP_798);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_798:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -20128,17 +16616,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_797);
-printf("At L_JUMP_797\n");
-fflush(stdout);
-L_JUMP_797:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -20155,24 +16637,24 @@ MOV(FP,R2); //update FP to the old FP
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 // OR
 CMP(ADDR(R0), IMM(T_BOOL));
-JUMP_NE(L_OR_END_796);
+JUMP_NE(L_OR_END_793);
 CMP(INDD(R0,1), IMM(0));
-JUMP_NE(L_OR_END_796);
-L_OR_END_796:
+JUMP_NE(L_OR_END_793);
+L_OR_END_793:
 
-		    JUMP(L_IF_EXIT_793);
-		    L_ELSE_794:
+		    JUMP(L_IF_EXIT_790);
+		    L_ELSE_791:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_793:
+		    L_IF_EXIT_790:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_791:
+L_CLOS_EXIT_788:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_784:
+L_CLOS_EXIT_781:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -20186,25 +16668,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_777));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_774));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_775:
+L_FOR1_START_772:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_774);
+JUMP_EQ(L_FOR1_END_771);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_775);
+ JUMP(L_FOR1_START_772);
 
-L_FOR1_END_774:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_771:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -20215,34 +16694,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_773:
+L_FOR2_START_770:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_772);
+JUMP_EQ(L_FOR2_END_769);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_773);
+ JUMP(L_FOR2_START_770);
 
-L_FOR2_END_772:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_769:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_776);
-L_CLOS_CODE_777: 
+JUMP(L_CLOS_EXIT_773);
+L_CLOS_CODE_774: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_771);
-printf("at JUMP_SIMPLE_771");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_771:
 
  //TC-APPLIC 
 
@@ -20250,22 +16718,16 @@ JUMP_SIMPLE_771:
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_778);
-printf("At L_JUMP_778\n");
-fflush(stdout);
-L_JUMP_778:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -20283,28 +16745,21 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_776:
+L_CLOS_EXIT_773:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_770);
-printf("At L_JUMP_770\n");
-fflush(stdout);
-L_JUMP_770:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -20322,12 +16777,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_804:
+L_CLOS_EXIT_801:
 MOV(R1, INDD(IMM(834), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEmember?
+ // DEFINE  member?
 
 //LAMBDA-SIMPLE
 
@@ -20340,25 +16795,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_760));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_757));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_758:
+L_FOR1_START_755:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_757);
+JUMP_EQ(L_FOR1_END_754);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_758);
+ JUMP(L_FOR1_START_755);
 
-L_FOR1_END_757:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_754:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -20369,34 +16821,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_756:
+L_FOR2_START_753:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_755);
+JUMP_EQ(L_FOR2_END_752);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_756);
+ JUMP(L_FOR2_START_753);
 
-L_FOR2_END_755:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_752:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_759);
-L_CLOS_CODE_760: 
+JUMP(L_CLOS_EXIT_756);
+L_CLOS_CODE_757: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_754);
-printf("at JUMP_SIMPLE_754");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_754:
 
  //TC-APPLIC 
 
@@ -20417,25 +16858,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_768));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_765));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_766:
+L_FOR1_START_763:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_765);
+JUMP_EQ(L_FOR1_END_762);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_766);
+ JUMP(L_FOR1_START_763);
 
-L_FOR1_END_765:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_762:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -20446,34 +16884,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_764:
+L_FOR2_START_761:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_763);
+JUMP_EQ(L_FOR2_END_760);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_764);
+ JUMP(L_FOR2_START_761);
 
-L_FOR2_END_763:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_760:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_767);
-L_CLOS_CODE_768: 
+JUMP(L_CLOS_EXIT_764);
+L_CLOS_CODE_765: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_762);
-printf("at JUMP_SIMPLE_762");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_762:
 
  //TC-APPLIC 
 
@@ -20486,28 +16913,20 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1510));
+MOV(R0, IMM(1505));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_769);
-printf("At L_JUMP_769\n");
-fflush(stdout);
-L_JUMP_769:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -20525,28 +16944,21 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_767:
+L_CLOS_EXIT_764:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(834));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_761);
-printf("At L_JUMP_761\n");
-fflush(stdout);
-L_JUMP_761:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -20564,12 +16976,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_759:
+L_CLOS_EXIT_756:
 MOV(R1, INDD(IMM(845), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEnegative?
+ // DEFINE  negative?
 
 //LAMBDA-SIMPLE
 
@@ -20582,25 +16994,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_752));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_749));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_750:
+L_FOR1_START_747:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_749);
+JUMP_EQ(L_FOR1_END_746);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_750);
+ JUMP(L_FOR1_START_747);
 
-L_FOR1_END_749:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_746:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -20611,38 +17020,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_748:
+L_FOR2_START_745:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_747);
+JUMP_EQ(L_FOR2_END_744);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_748);
+ JUMP(L_FOR2_START_745);
 
-L_FOR2_END_747:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_744:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_751);
-L_CLOS_CODE_752: 
+JUMP(L_CLOS_EXIT_748);
+L_CLOS_CODE_749: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_746);
-printf("at JUMP_SIMPLE_746");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_746:
 
  //TC-APPLIC 
 
-MOV(R0,IMM(1309));
+MOV(R0,IMM(1304));
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(0));
@@ -20654,21 +17052,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(539));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_753);
-printf("At L_JUMP_753\n");
-fflush(stdout);
-L_JUMP_753:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -20686,12 +17077,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_751:
+L_CLOS_EXIT_748:
 MOV(R1, INDD(IMM(858), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEpositive?
+ // DEFINE  positive?
 
 //LAMBDA-SIMPLE
 
@@ -20704,25 +17095,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_744));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_741));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_742:
+L_FOR1_START_739:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_741);
+JUMP_EQ(L_FOR1_END_738);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_742);
+ JUMP(L_FOR1_START_739);
 
-L_FOR1_END_741:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_738:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -20733,38 +17121,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_740:
+L_FOR2_START_737:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_739);
+JUMP_EQ(L_FOR2_END_736);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_740);
+ JUMP(L_FOR2_START_737);
 
-L_FOR2_END_739:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_736:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_743);
-L_CLOS_CODE_744: 
+JUMP(L_CLOS_EXIT_740);
+L_CLOS_CODE_741: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_738);
-printf("at JUMP_SIMPLE_738");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_738:
 
  //TC-APPLIC 
 
-MOV(R0,IMM(1309));
+MOV(R0,IMM(1304));
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(0));
@@ -20776,21 +17153,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(550));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_745);
-printf("At L_JUMP_745\n");
-fflush(stdout);
-L_JUMP_745:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -20808,12 +17178,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_743:
+L_CLOS_EXIT_740:
 MOV(R1, INDD(IMM(871), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINElist->vector
+ // DEFINE  list->vector
 
 //LAMBDA-SIMPLE
 
@@ -20826,25 +17196,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_687));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_684));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_685:
+L_FOR1_START_682:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_684);
+JUMP_EQ(L_FOR1_END_681);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_685);
+ JUMP(L_FOR1_START_682);
 
-L_FOR1_END_684:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_681:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -20855,34 +17222,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_683:
+L_FOR2_START_680:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_682);
+JUMP_EQ(L_FOR2_END_679);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_683);
+ JUMP(L_FOR2_START_680);
 
-L_FOR2_END_682:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_679:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_686);
-L_CLOS_CODE_687: 
+JUMP(L_CLOS_EXIT_683);
+L_CLOS_CODE_684: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_681);
-printf("at JUMP_SIMPLE_681");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_681:
 
  //TC-APPLIC 
 
@@ -20900,14 +17256,6 @@ PUSH(R0);
 MOV(R0, IMM(93));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_737\n");
-JUMP_EQ(L_JUMP_737);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_737:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -20930,25 +17278,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_695));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_692));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_693:
+L_FOR1_START_690:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_692);
+JUMP_EQ(L_FOR1_END_689);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_693);
+ JUMP(L_FOR1_START_690);
 
-L_FOR1_END_692:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_689:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -20959,34 +17304,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_691:
+L_FOR2_START_688:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_690);
+JUMP_EQ(L_FOR2_END_687);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_691);
+ JUMP(L_FOR2_START_688);
 
-L_FOR2_END_690:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_687:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_694);
-L_CLOS_CODE_695: 
+JUMP(L_CLOS_EXIT_691);
+L_CLOS_CODE_692: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_689);
-printf("at JUMP_SIMPLE_689");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_689:
 
  //TC-APPLIC 
 
@@ -21001,17 +17335,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1540));
+MOV(R0, IMM(1535));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_736\n");
-JUMP_EQ(L_JUMP_736);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_736:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -21034,25 +17360,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_703));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_700));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_701:
+L_FOR1_START_698:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_700);
+JUMP_EQ(L_FOR1_END_697);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_701);
+ JUMP(L_FOR1_START_698);
 
-L_FOR1_END_700:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_697:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -21063,34 +17386,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_699:
+L_FOR2_START_696:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_698);
+JUMP_EQ(L_FOR2_END_695);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_699);
+ JUMP(L_FOR2_START_696);
 
-L_FOR2_END_698:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_695:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_702);
-L_CLOS_CODE_703: 
+JUMP(L_CLOS_EXIT_699);
+L_CLOS_CODE_700: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_697);
-printf("at JUMP_SIMPLE_697");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_697:
 
  //TC-APPLIC 
 
@@ -21106,25 +17418,22 @@ PUSH(IMM(5));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_719));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_716));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(4));
 
-L_FOR1_START_717:
+L_FOR1_START_714:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_716);
+JUMP_EQ(L_FOR1_END_713);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_717);
+ JUMP(L_FOR1_START_714);
 
-L_FOR1_END_716:
-//for (i = 0; i < 4; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_713:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -21135,34 +17444,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_715:
+L_FOR2_START_712:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_714);
+JUMP_EQ(L_FOR2_END_711);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_715);
+ JUMP(L_FOR2_START_712);
 
-L_FOR2_END_714:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_711:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_718);
-L_CLOS_CODE_719: 
+JUMP(L_CLOS_EXIT_715);
+L_CLOS_CODE_716: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_713);
-printf("at JUMP_SIMPLE_713");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_713:
 
 //LAMBDA-SIMPLE
 
@@ -21175,25 +17473,22 @@ PUSH(IMM(6));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_726));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_723));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(5));
 
-L_FOR1_START_724:
+L_FOR1_START_721:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_723);
+JUMP_EQ(L_FOR1_END_720);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_724);
+ JUMP(L_FOR1_START_721);
 
-L_FOR1_END_723:
-//for (i = 0; i < 5; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_720:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -21204,34 +17499,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_722:
+L_FOR2_START_719:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_721);
+JUMP_EQ(L_FOR2_END_718);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_722);
+ JUMP(L_FOR2_START_719);
 
-L_FOR2_END_721:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_718:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_725);
-L_CLOS_CODE_726: 
+JUMP(L_CLOS_EXIT_722);
+L_CLOS_CODE_723: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_720);
-printf("at JUMP_SIMPLE_720");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_720:
 //IF 
 
  //APPLIC 
@@ -21241,7 +17525,6 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 2));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -21253,14 +17536,6 @@ PUSH(R0);
 MOV(R0, IMM(1275));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_735\n");
-JUMP_EQ(L_JUMP_735);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_735:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -21272,17 +17547,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_729); 
+		    JUMP_NE(L_THEN_726); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_728);
-		    L_THEN_729:// BVAR 
+		    JUMP_EQ(L_ELSE_725);
+		    L_THEN_726:// BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 
-		    JUMP(L_IF_EXIT_727);
-		    L_ELSE_728:
+		    JUMP(L_IF_EXIT_724);
+		    L_ELSE_725:
 		    // SEQ 
 
  //APPLIC 
@@ -21299,17 +17573,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_734\n");
-JUMP_EQ(L_JUMP_734);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_734:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -21329,21 +17595,12 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1525));
+MOV(R0, IMM(1520));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_733\n");
-JUMP_EQ(L_JUMP_733);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_733:
 //APPLIC CONTINUE
 PUSH(IMM(3)); // pushing number of arguments 
 PUSH(IMM(3)); // pushing again for reference for frame removal 
@@ -21360,7 +17617,7 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -21372,14 +17629,6 @@ PUSH(R0);
 MOV(R0, IMM(137));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_732\n");
-JUMP_EQ(L_JUMP_732);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_732:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -21401,17 +17650,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_731\n");
-JUMP_EQ(L_JUMP_731);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_731:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -21426,20 +17667,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_730);
-printf("At L_JUMP_730\n");
-fflush(stdout);
-L_JUMP_730:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -21455,15 +17690,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_727:
+		    L_IF_EXIT_724:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_725:
+L_CLOS_EXIT_722:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_718:
+L_CLOS_EXIT_715:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -21477,25 +17712,22 @@ PUSH(IMM(5));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_711));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_708));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(4));
 
-L_FOR1_START_709:
+L_FOR1_START_706:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_708);
+JUMP_EQ(L_FOR1_END_705);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_709);
+ JUMP(L_FOR1_START_706);
 
-L_FOR1_END_708:
-//for (i = 0; i < 4; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_705:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -21506,62 +17738,45 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_707:
+L_FOR2_START_704:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_706);
+JUMP_EQ(L_FOR2_END_703);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_707);
+ JUMP(L_FOR2_START_704);
 
-L_FOR2_END_706:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_703:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_710);
-L_CLOS_CODE_711: 
+JUMP(L_CLOS_EXIT_707);
+L_CLOS_CODE_708: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_705);
-printf("at JUMP_SIMPLE_705");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_705:
 
  //TC-APPLIC 
 
-MOV(R0,IMM(1309));
+MOV(R0,IMM(1304));
 PUSH(R0); // finished evaluating arg 
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 2));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_712);
-printf("At L_JUMP_712\n");
-fflush(stdout);
-L_JUMP_712:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -21579,28 +17794,21 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_710:
+L_CLOS_EXIT_707:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_704);
-printf("At L_JUMP_704\n");
-fflush(stdout);
-L_JUMP_704:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -21618,17 +17826,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_702:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_696);
-printf("At L_JUMP_696\n");
-fflush(stdout);
-L_JUMP_696:
+L_CLOS_EXIT_699:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -21646,17 +17849,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_694:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_688);
-printf("At L_JUMP_688\n");
-fflush(stdout);
-L_JUMP_688:
+L_CLOS_EXIT_691:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -21674,12 +17872,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_686:
+L_CLOS_EXIT_683:
 MOV(R1, INDD(IMM(887), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEvector
+ // DEFINE  vector
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -21691,25 +17889,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_679));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_676));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_677:
+L_FOR1_START_674:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_676);
+JUMP_EQ(L_FOR1_END_673);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_677);
+ JUMP(L_FOR1_START_674);
 
-L_FOR1_END_676:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_673:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -21721,33 +17916,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_675:
+L_FOR2_START_672:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_674);
+JUMP_EQ(L_FOR2_END_671);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_675);
+ JUMP(L_FOR2_START_672);
 
-L_FOR2_END_674:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_671:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_678);
-L_CLOS_CODE_679: 
+JUMP(L_CLOS_EXIT_675);
+L_CLOS_CODE_676: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -21762,18 +17952,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(887));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_680);
-printf("At L_JUMP_680\n");
-fflush(stdout);
-L_JUMP_680:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -21791,12 +17974,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_678:
+L_CLOS_EXIT_675:
 MOV(R1, INDD(IMM(897), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEbinary-string=?
+ // DEFINE  binary-string=?
 
 //LAMBDA-SIMPLE
 
@@ -21809,25 +17992,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_648));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_645));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_646:
+L_FOR1_START_643:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_645);
+JUMP_EQ(L_FOR1_END_642);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_646);
+ JUMP(L_FOR1_START_643);
 
-L_FOR1_END_645:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_642:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -21838,34 +18018,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_644:
+L_FOR2_START_641:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_643);
+JUMP_EQ(L_FOR2_END_640);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_644);
+ JUMP(L_FOR2_START_641);
 
-L_FOR2_END_643:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_640:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_647);
-L_CLOS_CODE_648: 
+JUMP(L_CLOS_EXIT_644);
+L_CLOS_CODE_645: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_642);
-printf("at JUMP_SIMPLE_642");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_642:
 
  //TC-APPLIC 
 
@@ -21880,17 +18049,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1457));
+MOV(R0, IMM(1452));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_673\n");
-JUMP_EQ(L_JUMP_673);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_673:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -21912,17 +18073,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1457));
+MOV(R0, IMM(1452));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_672\n");
-JUMP_EQ(L_JUMP_672);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_672:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -21945,25 +18098,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_656));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_653));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_654:
+L_FOR1_START_651:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_653);
+JUMP_EQ(L_FOR1_END_650);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_654);
+ JUMP(L_FOR1_START_651);
 
-L_FOR1_END_653:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_650:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -21974,34 +18124,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_652:
+L_FOR2_START_649:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_651);
+JUMP_EQ(L_FOR2_END_648);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_652);
+ JUMP(L_FOR2_START_649);
 
-L_FOR2_END_651:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_648:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_655);
-L_CLOS_CODE_656: 
+JUMP(L_CLOS_EXIT_652);
+L_CLOS_CODE_653: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_650);
-printf("at JUMP_SIMPLE_650");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_650:
 //IF 
 
  //APPLIC 
@@ -22022,14 +18161,6 @@ PUSH(R0);
 MOV(R0, IMM(1275));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_671\n");
-JUMP_EQ(L_JUMP_671);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_671:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -22041,10 +18172,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_659); 
+		    JUMP_NE(L_THEN_656); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_658);
-		    L_THEN_659:
+		    JUMP_EQ(L_ELSE_655);
+		    L_THEN_656:
  //TC-APPLIC 
 
 
@@ -22055,21 +18186,12 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(761));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_670\n");
-JUMP_EQ(L_JUMP_670);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_670:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -22088,21 +18210,12 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(761));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_669\n");
-JUMP_EQ(L_JUMP_669);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_669:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -22125,25 +18238,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_667));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_664));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_665:
+L_FOR1_START_662:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_664);
+JUMP_EQ(L_FOR1_END_661);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_665);
+ JUMP(L_FOR1_START_662);
 
-L_FOR1_END_664:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_661:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -22154,34 +18264,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_663:
+L_FOR2_START_660:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_662);
+JUMP_EQ(L_FOR2_END_659);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_663);
+ JUMP(L_FOR2_START_660);
 
-L_FOR2_END_662:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_659:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_666);
-L_CLOS_CODE_667: 
+JUMP(L_CLOS_EXIT_663);
+L_CLOS_CODE_664: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_661);
-printf("at JUMP_SIMPLE_661");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_661:
 
  //TC-APPLIC 
 
@@ -22200,32 +18299,23 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(566));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(171));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_668);
-printf("At L_JUMP_668\n");
-fflush(stdout);
-L_JUMP_668:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
-MOV(R1,FPARG(1)); // start copying arg2
+MOV(R1,R4); // start copying arg2
 ADD(R1, IMM(0));
 MOV(FPARG(R1), LOCAL(IMM(2)));
 
@@ -22243,20 +18333,15 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_666:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_660);
-printf("At L_JUMP_660\n");
-fflush(stdout);
-L_JUMP_660:
+L_CLOS_EXIT_663:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -22272,28 +18357,23 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_657);
-		    L_ELSE_658:
+		    JUMP(L_IF_EXIT_654);
+		    L_ELSE_655:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_657:
+		    L_IF_EXIT_654:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_655:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_649);
-printf("At L_JUMP_649\n");
-fflush(stdout);
-L_JUMP_649:
+L_CLOS_EXIT_652:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -22311,12 +18391,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_647:
+L_CLOS_EXIT_644:
 MOV(R1, INDD(IMM(916), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEbinary-string<?
+ // DEFINE  binary-string<?
 
 //LAMBDA-SIMPLE
 
@@ -22329,25 +18409,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_595));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_592));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_593:
+L_FOR1_START_590:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_592);
+JUMP_EQ(L_FOR1_END_589);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_593);
+ JUMP(L_FOR1_START_590);
 
-L_FOR1_END_592:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_589:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -22358,34 +18435,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_591:
+L_FOR2_START_588:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_590);
+JUMP_EQ(L_FOR2_END_587);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_591);
+ JUMP(L_FOR2_START_588);
 
-L_FOR2_END_590:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_587:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_594);
-L_CLOS_CODE_595: 
+JUMP(L_CLOS_EXIT_591);
+L_CLOS_CODE_592: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_589);
-printf("at JUMP_SIMPLE_589");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_589:
 
  //TC-APPLIC 
 
@@ -22401,25 +18467,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_613));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_610));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_611:
+L_FOR1_START_608:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_610);
+JUMP_EQ(L_FOR1_END_607);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_611);
+ JUMP(L_FOR1_START_608);
 
-L_FOR1_END_610:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_607:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -22430,34 +18493,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_609:
+L_FOR2_START_606:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_608);
+JUMP_EQ(L_FOR2_END_605);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_609);
+ JUMP(L_FOR2_START_606);
 
-L_FOR2_END_608:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_605:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_612);
-L_CLOS_CODE_613: 
+JUMP(L_CLOS_EXIT_609);
+L_CLOS_CODE_610: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_607);
-printf("at JUMP_SIMPLE_607");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_607:
 
 //LAMBDA-SIMPLE
 
@@ -22470,25 +18522,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_620));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_617));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_618:
+L_FOR1_START_615:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_617);
+JUMP_EQ(L_FOR1_END_614);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_618);
+ JUMP(L_FOR1_START_615);
 
-L_FOR1_END_617:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_614:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -22499,34 +18548,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_616:
+L_FOR2_START_613:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_615);
+JUMP_EQ(L_FOR2_END_612);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_616);
+ JUMP(L_FOR2_START_613);
 
-L_FOR2_END_615:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_612:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_619);
-L_CLOS_CODE_620: 
+JUMP(L_CLOS_EXIT_616);
+L_CLOS_CODE_617: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_614);
-printf("at JUMP_SIMPLE_614");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_614:
 //IF 
 
  //APPLIC 
@@ -22539,17 +18577,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_641\n");
-JUMP_EQ(L_JUMP_641);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_641:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -22561,10 +18591,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_623); 
+		    JUMP_NE(L_THEN_620); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_622);
-		    L_THEN_623:
+		    JUMP_EQ(L_ELSE_619);
+		    L_THEN_620:
  //TC-APPLIC 
 
 // PVAR 
@@ -22574,21 +18604,14 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1334));
+MOV(R0, IMM(1329));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_640);
-printf("At L_JUMP_640\n");
-fflush(stdout);
-L_JUMP_640:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -22604,8 +18627,8 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_621);
-		    L_ELSE_622:
+		    JUMP(L_IF_EXIT_618);
+		    L_ELSE_619:
 		    //IF 
 
  //APPLIC 
@@ -22618,17 +18641,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_639\n");
-JUMP_EQ(L_JUMP_639);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_639:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -22640,13 +18655,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_626); 
+		    JUMP_NE(L_THEN_623); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_625);
-		    L_THEN_626:MOV(R0,IMM(12));
+		    JUMP_EQ(L_ELSE_622);
+		    L_THEN_623:MOV(R0,IMM(12));
 
-		    JUMP(L_IF_EXIT_624);
-		    L_ELSE_625:
+		    JUMP(L_IF_EXIT_621);
+		    L_ELSE_622:
 		    //IF 
 
  //APPLIC 
@@ -22663,17 +18678,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_638\n");
-JUMP_EQ(L_JUMP_638);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_638:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -22695,17 +18702,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_637\n");
-JUMP_EQ(L_JUMP_637);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_637:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -22721,14 +18720,6 @@ PUSH(R0);
 MOV(R0, IMM(566));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_636\n");
-JUMP_EQ(L_JUMP_636);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_636:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -22740,10 +18731,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_629); 
+		    JUMP_NE(L_THEN_626); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_628);
-		    L_THEN_629:
+		    JUMP_EQ(L_ELSE_625);
+		    L_THEN_626:
  //TC-APPLIC 
 
 
@@ -22757,17 +18748,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_635\n");
-JUMP_EQ(L_JUMP_635);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_635:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -22789,17 +18772,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_634\n");
-JUMP_EQ(L_JUMP_634);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_634:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -22814,20 +18789,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_633);
-printf("At L_JUMP_633\n");
-fflush(stdout);
-L_JUMP_633:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -22843,8 +18812,8 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_627);
-		    L_ELSE_628:
+		    JUMP(L_IF_EXIT_624);
+		    L_ELSE_625:
 		    
  //TC-APPLIC 
 
@@ -22859,17 +18828,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_632\n");
-JUMP_EQ(L_JUMP_632);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_632:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -22891,17 +18852,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_631\n");
-JUMP_EQ(L_JUMP_631);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_631:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -22917,21 +18870,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(587));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_630);
-printf("At L_JUMP_630\n");
-fflush(stdout);
-L_JUMP_630:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -22947,19 +18893,19 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_627:
-		    
 		    L_IF_EXIT_624:
 		    
 		    L_IF_EXIT_621:
 		    
+		    L_IF_EXIT_618:
+		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_619:
+L_CLOS_EXIT_616:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_612:
+L_CLOS_EXIT_609:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -22973,25 +18919,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_603));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_600));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_601:
+L_FOR1_START_598:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_600);
+JUMP_EQ(L_FOR1_END_597);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_601);
+ JUMP(L_FOR1_START_598);
 
-L_FOR1_END_600:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_597:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -23002,34 +18945,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_599:
+L_FOR2_START_596:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_598);
+JUMP_EQ(L_FOR2_END_595);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_599);
+ JUMP(L_FOR2_START_596);
 
-L_FOR2_END_598:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_595:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_602);
-L_CLOS_CODE_603: 
+JUMP(L_CLOS_EXIT_599);
+L_CLOS_CODE_600: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_597);
-printf("at JUMP_SIMPLE_597");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_597:
 
  //TC-APPLIC 
 
@@ -23041,21 +18973,12 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(761));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_606\n");
-JUMP_EQ(L_JUMP_606);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_606:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -23074,21 +18997,12 @@ PUSH(IMM(0));
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(761));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_605\n");
-JUMP_EQ(L_JUMP_605);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_605:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -23103,19 +19017,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_604);
-printf("At L_JUMP_604\n");
-fflush(stdout);
-L_JUMP_604:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -23133,28 +19042,21 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_602:
+L_CLOS_EXIT_599:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_596);
-printf("At L_JUMP_596\n");
-fflush(stdout);
-L_JUMP_596:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -23172,12 +19074,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_594:
+L_CLOS_EXIT_591:
 MOV(R1, INDD(IMM(935), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEbinary-string>?
+ // DEFINE  binary-string>?
 
 //LAMBDA-SIMPLE
 
@@ -23190,25 +19092,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_587));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_584));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_585:
+L_FOR1_START_582:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_584);
+JUMP_EQ(L_FOR1_END_581);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_585);
+ JUMP(L_FOR1_START_582);
 
-L_FOR1_END_584:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_581:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -23219,34 +19118,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_583:
+L_FOR2_START_580:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_582);
+JUMP_EQ(L_FOR2_END_579);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_583);
+ JUMP(L_FOR2_START_580);
 
-L_FOR2_END_582:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_579:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_586);
-L_CLOS_CODE_587: 
+JUMP(L_CLOS_EXIT_583);
+L_CLOS_CODE_584: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_581);
-printf("at JUMP_SIMPLE_581");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_581:
 
  //TC-APPLIC 
 
@@ -23265,21 +19153,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(935));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_588);
-printf("At L_JUMP_588\n");
-fflush(stdout);
-L_JUMP_588:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -23297,12 +19178,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_586:
+L_CLOS_EXIT_583:
 MOV(R1, INDD(IMM(954), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEbinary-string<=?
+ // DEFINE  binary-string<=?
 
 //LAMBDA-SIMPLE
 
@@ -23315,25 +19196,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_578));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_575));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_576:
+L_FOR1_START_573:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_575);
+JUMP_EQ(L_FOR1_END_572);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_576);
+ JUMP(L_FOR1_START_573);
 
-L_FOR1_END_575:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_572:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -23344,34 +19222,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_574:
+L_FOR2_START_571:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_573);
+JUMP_EQ(L_FOR2_END_570);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_574);
+ JUMP(L_FOR2_START_571);
 
-L_FOR2_END_573:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_570:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_577);
-L_CLOS_CODE_578: 
+JUMP(L_CLOS_EXIT_574);
+L_CLOS_CODE_575: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_572);
-printf("at JUMP_SIMPLE_572");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_572:
 
  //TC-APPLIC 
 
@@ -23394,14 +19261,6 @@ PUSH(R0);
 MOV(R0, IMM(954));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_580\n");
-JUMP_EQ(L_JUMP_580);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_580:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -23417,18 +19276,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(21));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_579);
-printf("At L_JUMP_579\n");
-fflush(stdout);
-L_JUMP_579:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -23446,12 +19298,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_577:
+L_CLOS_EXIT_574:
 MOV(R1, INDD(IMM(974), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEbinary-string>=?
+ // DEFINE  binary-string>=?
 
 //LAMBDA-SIMPLE
 
@@ -23464,25 +19316,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_569));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_566));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_567:
+L_FOR1_START_564:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_566);
+JUMP_EQ(L_FOR1_END_563);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_567);
+ JUMP(L_FOR1_START_564);
 
-L_FOR1_END_566:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_563:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -23493,34 +19342,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_565:
+L_FOR2_START_562:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_564);
+JUMP_EQ(L_FOR2_END_561);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_565);
+ JUMP(L_FOR2_START_562);
 
-L_FOR2_END_564:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_561:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_568);
-L_CLOS_CODE_569: 
+JUMP(L_CLOS_EXIT_565);
+L_CLOS_CODE_566: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_563);
-printf("at JUMP_SIMPLE_563");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_563:
 
  //TC-APPLIC 
 
@@ -23543,14 +19381,6 @@ PUSH(R0);
 MOV(R0, IMM(935));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_571\n");
-JUMP_EQ(L_JUMP_571);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_571:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -23566,18 +19396,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(21));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_570);
-printf("At L_JUMP_570\n");
-fflush(stdout);
-L_JUMP_570:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -23595,12 +19418,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_568:
+L_CLOS_EXIT_565:
 MOV(R1, INDD(IMM(994), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEstring=?
+ // DEFINE  string=?
 
  //APPLIC 
 
@@ -23610,22 +19433,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(916));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_562\n");
-JUMP_EQ(L_JUMP_562);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_562:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -23639,7 +19452,7 @@ MOV(R1, INDD(IMM(1006), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEstring<?
+ // DEFINE  string<?
 
  //APPLIC 
 
@@ -23649,22 +19462,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(935));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_561\n");
-JUMP_EQ(L_JUMP_561);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_561:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -23678,7 +19481,7 @@ MOV(R1, INDD(IMM(1018), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEstring>?
+ // DEFINE  string>?
 
  //APPLIC 
 
@@ -23688,22 +19491,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(954));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_560\n");
-JUMP_EQ(L_JUMP_560);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_560:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -23717,7 +19510,7 @@ MOV(R1, INDD(IMM(1030), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEstring<=?
+ // DEFINE  string<=?
 
  //APPLIC 
 
@@ -23727,22 +19520,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(974));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_559\n");
-JUMP_EQ(L_JUMP_559);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_559:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -23756,7 +19539,7 @@ MOV(R1, INDD(IMM(1043), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEstring>=?
+ // DEFINE  string>=?
 
  //APPLIC 
 
@@ -23766,22 +19549,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(994));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(161));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_558\n");
-JUMP_EQ(L_JUMP_558);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_558:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -23795,7 +19568,7 @@ MOV(R1, INDD(IMM(1056), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEvector->list
+ // DEFINE  vector->list
 
  //APPLIC 
 
@@ -23812,25 +19585,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_542));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_539));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_540:
+L_FOR1_START_537:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_539);
+JUMP_EQ(L_FOR1_END_536);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_540);
+ JUMP(L_FOR1_START_537);
 
-L_FOR1_END_539:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_536:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -23841,34 +19611,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_538:
+L_FOR2_START_535:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_537);
+JUMP_EQ(L_FOR2_END_534);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_538);
+ JUMP(L_FOR2_START_535);
 
-L_FOR2_END_537:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_534:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_541);
-L_CLOS_CODE_542: 
+JUMP(L_CLOS_EXIT_538);
+L_CLOS_CODE_539: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_536);
-printf("at JUMP_SIMPLE_536");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_536:
 
 //LAMBDA-SIMPLE
 
@@ -23881,25 +19640,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_549));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_546));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_547:
+L_FOR1_START_544:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_546);
+JUMP_EQ(L_FOR1_END_543);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_547);
+ JUMP(L_FOR1_START_544);
 
-L_FOR1_END_546:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_543:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -23910,40 +19666,29 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_545:
+L_FOR2_START_542:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_544);
+JUMP_EQ(L_FOR2_END_541);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_545);
+ JUMP(L_FOR2_START_542);
 
-L_FOR2_END_544:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_541:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_548);
-L_CLOS_CODE_549: 
+JUMP(L_CLOS_EXIT_545);
+L_CLOS_CODE_546: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(3));
-JUMP_EQ(JUMP_SIMPLE_543);
-printf("at JUMP_SIMPLE_543");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_543:
 //IF 
 
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1459));
+MOV(R0,IMM(1454));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -23955,14 +19700,6 @@ PUSH(R0);
 MOV(R0, IMM(1275));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_557\n");
-JUMP_EQ(L_JUMP_557);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_557:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -23974,16 +19711,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_552); 
+		    JUMP_NE(L_THEN_549); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_551);
-		    L_THEN_552:// PVAR 
+		    JUMP_EQ(L_ELSE_548);
+		    L_THEN_549:// PVAR 
 MOV(R1, IMM(2));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    JUMP(L_IF_EXIT_550);
-		    L_ELSE_551:
+		    JUMP(L_IF_EXIT_547);
+		    L_ELSE_548:
 		    
  //TC-APPLIC 
 
@@ -24012,17 +19749,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1571));
+MOV(R0, IMM(1566));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_556\n");
-JUMP_EQ(L_JUMP_556);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_556:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -24035,17 +19764,9 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1364));
+MOV(R0, IMM(1359));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_555\n");
-JUMP_EQ(L_JUMP_555);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_555:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -24060,7 +19781,7 @@ PUSH(R0); // finished evaluating arg
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -24072,14 +19793,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_554\n");
-JUMP_EQ(L_JUMP_554);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_554:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -24099,23 +19812,17 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_553);
-printf("At L_JUMP_553\n");
-fflush(stdout);
-L_JUMP_553:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
-MOV(R1,FPARG(1)); // start copying arg2
+MOV(R1,R4); // start copying arg2
 ADD(R1, IMM(0));
 MOV(FPARG(R1), LOCAL(IMM(2)));
 
@@ -24131,15 +19838,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_550:
+		    L_IF_EXIT_547:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_548:
+L_CLOS_EXIT_545:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_541:
+L_CLOS_EXIT_538:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -24153,25 +19860,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_525));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_522));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_523:
+L_FOR1_START_520:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_522);
+JUMP_EQ(L_FOR1_END_519);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_523);
+ JUMP(L_FOR1_START_520);
 
-L_FOR1_END_522:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_519:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -24182,34 +19886,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_521:
+L_FOR2_START_518:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_520);
+JUMP_EQ(L_FOR2_END_517);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_521);
+ JUMP(L_FOR2_START_518);
 
-L_FOR2_END_520:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_517:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_524);
-L_CLOS_CODE_525: 
+JUMP(L_CLOS_EXIT_521);
+L_CLOS_CODE_522: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_519);
-printf("at JUMP_SIMPLE_519");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_519:
 
 //LAMBDA-SIMPLE
 
@@ -24222,25 +19915,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_532));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_529));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_530:
+L_FOR1_START_527:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_529);
+JUMP_EQ(L_FOR1_END_526);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_530);
+ JUMP(L_FOR1_START_527);
 
-L_FOR1_END_529:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_526:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -24251,34 +19941,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_528:
+L_FOR2_START_525:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_527);
+JUMP_EQ(L_FOR2_END_524);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_528);
+ JUMP(L_FOR2_START_525);
 
-L_FOR2_END_527:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_524:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_531);
-L_CLOS_CODE_532: 
+JUMP(L_CLOS_EXIT_528);
+L_CLOS_CODE_529: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_526);
-printf("at JUMP_SIMPLE_526");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_526:
 
  //TC-APPLIC 
 
@@ -24288,7 +19967,7 @@ PUSH(R0); // finished evaluating arg
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0);
 
  //APPLIC 
@@ -24301,17 +19980,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1557));
+MOV(R0, IMM(1552));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_535\n");
-JUMP_EQ(L_JUMP_535);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_535:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -24327,14 +19998,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_534\n");
-JUMP_EQ(L_JUMP_534);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_534:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -24354,23 +20017,17 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_533);
-printf("At L_JUMP_533\n");
-fflush(stdout);
-L_JUMP_533:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
-MOV(R1,FPARG(1)); // start copying arg2
+MOV(R1,R4); // start copying arg2
 ADD(R1, IMM(0));
 MOV(FPARG(R1), LOCAL(IMM(2)));
 
@@ -24388,25 +20045,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_531:
+L_CLOS_EXIT_528:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_524:
+L_CLOS_EXIT_521:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_518\n");
-JUMP_EQ(L_JUMP_518);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_518:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -24420,7 +20069,7 @@ MOV(R1, INDD(IMM(1072), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEboolean=?
+ // DEFINE  boolean=?
 
 //LAMBDA-SIMPLE
 
@@ -24433,25 +20082,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_505));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_502));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_503:
+L_FOR1_START_500:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_502);
+JUMP_EQ(L_FOR1_END_499);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_503);
+ JUMP(L_FOR1_START_500);
 
-L_FOR1_END_502:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_499:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -24462,34 +20108,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_501:
+L_FOR2_START_498:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_500);
+JUMP_EQ(L_FOR2_END_497);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_501);
+ JUMP(L_FOR2_START_498);
 
-L_FOR2_END_500:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_497:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_504);
-L_CLOS_CODE_505: 
+JUMP(L_CLOS_EXIT_501);
+L_CLOS_CODE_502: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_499);
-printf("at JUMP_SIMPLE_499");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_499:
 //IF 
 //IF 
 
@@ -24503,17 +20138,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1583));
+MOV(R0, IMM(1578));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_517\n");
-JUMP_EQ(L_JUMP_517);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_517:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -24525,10 +20152,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_515); 
+		    JUMP_NE(L_THEN_512); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_514);
-		    L_THEN_515:
+		    JUMP_EQ(L_ELSE_511);
+		    L_THEN_512:
  //APPLIC 
 
 PUSH(IMM(0));
@@ -24539,17 +20166,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1583));
+MOV(R0, IMM(1578));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_516\n");
-JUMP_EQ(L_JUMP_516);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_516:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -24560,33 +20179,33 @@ POP(R1); // get number of actual args
 DROP(R1); // drop args 
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
-		    JUMP(L_IF_EXIT_513);
-		    L_ELSE_514:
+		    JUMP(L_IF_EXIT_510);
+		    L_ELSE_511:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_513:
+		    L_IF_EXIT_510:
 		    
+		    CMP(ADDR(R0), T_BOOL);
+		    JUMP_NE(L_THEN_505); 
+		    CMP(INDD(R0, 1), 0);
+		    JUMP_EQ(L_ELSE_504);
+		    L_THEN_505://IF 
+// PVAR 
+MOV(R1, IMM(0));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+
 		    CMP(ADDR(R0), T_BOOL);
 		    JUMP_NE(L_THEN_508); 
 		    CMP(INDD(R0, 1), 0);
 		    JUMP_EQ(L_ELSE_507);
-		    L_THEN_508://IF 
-// PVAR 
-MOV(R1, IMM(0));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-
-		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_511); 
-		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_510);
-		    L_THEN_511:// PVAR 
+		    L_THEN_508:// PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    JUMP(L_IF_EXIT_509);
-		    L_ELSE_510:
+		    JUMP(L_IF_EXIT_506);
+		    L_ELSE_507:
 		    
  //TC-APPLIC 
 
@@ -24600,18 +20219,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(21));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_512);
-printf("At L_JUMP_512\n");
-fflush(stdout);
-L_JUMP_512:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -24627,22 +20239,22 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_509:
+		    L_IF_EXIT_506:
 		    
-		    JUMP(L_IF_EXIT_506);
-		    L_ELSE_507:
+		    JUMP(L_IF_EXIT_503);
+		    L_ELSE_504:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_506:
+		    L_IF_EXIT_503:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_504:
+L_CLOS_EXIT_501:
 MOV(R1, INDD(IMM(1085), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEequal?
+ // DEFINE  equal?
 
  //APPLIC 
 
@@ -24651,16 +20263,16 @@ PUSH(IMM(0));
 MOV(R0,IMM(12));
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_498); 
+		    JUMP_NE(L_THEN_495); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_497);
-		    L_THEN_498:MOV(R0,IMM(12));
+		    JUMP_EQ(L_ELSE_494);
+		    L_THEN_495:MOV(R0,IMM(12));
 
-		    JUMP(L_IF_EXIT_496);
-		    L_ELSE_497:
+		    JUMP(L_IF_EXIT_493);
+		    L_ELSE_494:
 		    MOV(R0,IMM(10));
 
-		    L_IF_EXIT_496:
+		    L_IF_EXIT_493:
 		    PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -24674,25 +20286,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_384));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_381));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_382:
+L_FOR1_START_379:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_381);
+JUMP_EQ(L_FOR1_END_378);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_382);
+ JUMP(L_FOR1_START_379);
 
-L_FOR1_END_381:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_378:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -24703,34 +20312,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_380:
+L_FOR2_START_377:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_379);
+JUMP_EQ(L_FOR2_END_376);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_380);
+ JUMP(L_FOR2_START_377);
 
-L_FOR2_END_379:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_376:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_383);
-L_CLOS_CODE_384: 
+JUMP(L_CLOS_EXIT_380);
+L_CLOS_CODE_381: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_378);
-printf("at JUMP_SIMPLE_378");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_378:
 
  //TC-APPLIC 
 
@@ -24746,25 +20344,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_399));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_396));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_397:
+L_FOR1_START_394:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_396);
+JUMP_EQ(L_FOR1_END_393);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_397);
+ JUMP(L_FOR1_START_394);
 
-L_FOR1_END_396:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_393:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -24775,34 +20370,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_395:
+L_FOR2_START_392:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_394);
+JUMP_EQ(L_FOR2_END_391);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_395);
+ JUMP(L_FOR2_START_392);
 
-L_FOR2_END_394:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_391:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_398);
-L_CLOS_CODE_399: 
+JUMP(L_CLOS_EXIT_395);
+L_CLOS_CODE_396: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_393);
-printf("at JUMP_SIMPLE_393");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_393:
 
 //LAMBDA-SIMPLE
 
@@ -24815,25 +20399,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_406));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_403));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_404:
+L_FOR1_START_401:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_403);
+JUMP_EQ(L_FOR1_END_400);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_404);
+ JUMP(L_FOR1_START_401);
 
-L_FOR1_END_403:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_400:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -24844,34 +20425,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_402:
+L_FOR2_START_399:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_401);
+JUMP_EQ(L_FOR2_END_398);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_402);
+ JUMP(L_FOR2_START_399);
 
-L_FOR2_END_401:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_398:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_405);
-L_CLOS_CODE_406: 
+JUMP(L_CLOS_EXIT_402);
+L_CLOS_CODE_403: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_400);
-printf("at JUMP_SIMPLE_400");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_400:
 //IF 
 //IF 
 
@@ -24885,17 +20455,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1583));
+MOV(R0, IMM(1578));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_495\n");
-JUMP_EQ(L_JUMP_495);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_495:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -24907,10 +20469,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_493); 
+		    JUMP_NE(L_THEN_490); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_492);
-		    L_THEN_493:
+		    JUMP_EQ(L_ELSE_489);
+		    L_THEN_490:
  //APPLIC 
 
 PUSH(IMM(0));
@@ -24921,17 +20483,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1583));
+MOV(R0, IMM(1578));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_494\n");
-JUMP_EQ(L_JUMP_494);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_494:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -24942,11 +20496,118 @@ POP(R1); // get number of actual args
 DROP(R1); // drop args 
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
-		    JUMP(L_IF_EXIT_491);
-		    L_ELSE_492:
+		    JUMP(L_IF_EXIT_488);
+		    L_ELSE_489:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_491:
+		    L_IF_EXIT_488:
+		    
+		    CMP(ADDR(R0), T_BOOL);
+		    JUMP_NE(L_THEN_406); 
+		    CMP(INDD(R0, 1), 0);
+		    JUMP_EQ(L_ELSE_405);
+		    L_THEN_406:
+ //TC-APPLIC 
+
+// PVAR 
+MOV(R1, IMM(1));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+PUSH(R0); // finished evaluating arg 
+// PVAR 
+MOV(R1, IMM(0));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+PUSH(R0); // finished evaluating arg 
+
+ //FVAR 
+MOV(R0, IMM(1085));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//TC-APPLIC CONTINUE 
+MOV(R2,FPARG(-2)); // save old FP 
+MOV(R3,FPARG(-1)); // save old RET 
+MOV(R4,FPARG(1)); // save actual number of current args 
+MOV(R1,R4); // start copying arg0
+ADD(R1, IMM(2));
+MOV(FPARG(R1), LOCAL(IMM(0)));
+MOV(R1,R4); // start copying arg1
+ADD(R1, IMM(1));
+MOV(FPARG(R1), LOCAL(IMM(1)));
+
+ //done copying args 
+MOV(R5,FP);
+SUB(R5,R4); //R5 should point to the lowest arg 
+SUB(R5, IMM(3)); // R5 should hold the correct place for SP 
+MOV(SP,R5);
+PUSH(IMM(2)); //push number of params 
+PUSH(IMM(2)); //push indicator 
+PUSH(INDD(R0,IMM(1))); //push the ENV 
+PUSH(R3); //push the old RET 
+MOV(FP,R2); //update FP to the old FP 
+JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
+
+		    JUMP(L_IF_EXIT_404);
+		    L_ELSE_405:
+		    //IF 
+//IF 
+
+ //APPLIC 
+
+PUSH(IMM(0));
+// PVAR 
+MOV(R1, IMM(0));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1587));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+
+		    CMP(ADDR(R0), T_BOOL);
+		    JUMP_NE(L_THEN_484); 
+		    CMP(INDD(R0, 1), 0);
+		    JUMP_EQ(L_ELSE_483);
+		    L_THEN_484:
+ //APPLIC 
+
+PUSH(IMM(0));
+// PVAR 
+MOV(R1, IMM(1));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1587));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+
+		    JUMP(L_IF_EXIT_482);
+		    L_ELSE_483:
+		    MOV(R0,IMM(12));
+
+		    L_IF_EXIT_482:
 		    
 		    CMP(ADDR(R0), T_BOOL);
 		    JUMP_NE(L_THEN_409); 
@@ -24967,24 +20628,17 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1085));
+MOV(R0, IMM(566));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_490);
-printf("At L_JUMP_490\n");
-fflush(stdout);
-L_JUMP_490:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -25003,7 +20657,6 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 		    JUMP(L_IF_EXIT_407);
 		    L_ELSE_408:
 		    //IF 
-//IF 
 
  //APPLIC 
 
@@ -25015,17 +20668,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1592));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_489\n");
-JUMP_EQ(L_JUMP_489);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_489:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -25036,48 +20681,6 @@ POP(R1); // get number of actual args
 DROP(R1); // drop args 
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
-		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_487); 
-		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_486);
-		    L_THEN_487:
- //APPLIC 
-
-PUSH(IMM(0));
-// PVAR 
-MOV(R1, IMM(1));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1592));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_488\n");
-JUMP_EQ(L_JUMP_488);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_488:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-
-		    JUMP(L_IF_EXIT_485);
-		    L_ELSE_486:
-		    MOV(R0,IMM(12));
-
-		    L_IF_EXIT_485:
-		    
 		    CMP(ADDR(R0), T_BOOL);
 		    JUMP_NE(L_THEN_412); 
 		    CMP(INDD(R0, 1), 0);
@@ -25090,41 +20693,26 @@ MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
-// PVAR 
-MOV(R1, IMM(0));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(566));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_484);
-printf("At L_JUMP_484\n");
-fflush(stdout);
-L_JUMP_484:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
-ADD(R1, IMM(1));
-MOV(FPARG(R1), LOCAL(IMM(1)));
 
  //done copying args 
 MOV(R5,FP);
 SUB(R5,R4); //R5 should point to the lowest arg 
-SUB(R5, IMM(3)); // R5 should hold the correct place for SP 
+SUB(R5, IMM(4)); // R5 should hold the correct place for SP 
 MOV(SP,R5);
-PUSH(IMM(2)); //push number of params 
-PUSH(IMM(2)); //push indicator 
+PUSH(IMM(1)); //push number of params 
+PUSH(IMM(1)); //push indicator 
 PUSH(INDD(R0,IMM(1))); //push the ENV 
 PUSH(R3); //push the old RET 
 MOV(FP,R2); //update FP to the old FP 
@@ -25133,6 +20721,7 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 		    JUMP(L_IF_EXIT_410);
 		    L_ELSE_411:
 		    //IF 
+//IF 
 
  //APPLIC 
 
@@ -25144,17 +20733,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1598));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_483\n");
-JUMP_EQ(L_JUMP_483);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_483:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -25165,6 +20746,40 @@ POP(R1); // get number of actual args
 DROP(R1); // drop args 
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
+		    CMP(ADDR(R0), T_BOOL);
+		    JUMP_NE(L_THEN_476); 
+		    CMP(INDD(R0, 1), 0);
+		    JUMP_EQ(L_ELSE_475);
+		    L_THEN_476:
+ //APPLIC 
+
+PUSH(IMM(0));
+// PVAR 
+MOV(R1, IMM(1));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1598));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+
+		    JUMP(L_IF_EXIT_474);
+		    L_ELSE_475:
+		    MOV(R0,IMM(12));
+
+		    L_IF_EXIT_474:
+		    
 		    CMP(ADDR(R0), T_BOOL);
 		    JUMP_NE(L_THEN_415); 
 		    CMP(INDD(R0, 1), 0);
@@ -25177,33 +20792,34 @@ MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
+// PVAR 
+MOV(R1, IMM(0));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1275));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_482);
-printf("At L_JUMP_482\n");
-fflush(stdout);
-L_JUMP_482:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
+MOV(R1,R4); // start copying arg1
+ADD(R1, IMM(1));
+MOV(FPARG(R1), LOCAL(IMM(1)));
 
  //done copying args 
 MOV(R5,FP);
 SUB(R5,R4); //R5 should point to the lowest arg 
-SUB(R5, IMM(4)); // R5 should hold the correct place for SP 
+SUB(R5, IMM(3)); // R5 should hold the correct place for SP 
 MOV(SP,R5);
-PUSH(IMM(1)); //push number of params 
-PUSH(IMM(1)); //push indicator 
+PUSH(IMM(2)); //push number of params 
+PUSH(IMM(2)); //push indicator 
 PUSH(INDD(R0,IMM(1))); //push the ENV 
 PUSH(R3); //push the old RET 
 MOV(FP,R2); //update FP to the old FP 
@@ -25224,17 +20840,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1603));
+MOV(R0, IMM(1329));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_481\n");
-JUMP_EQ(L_JUMP_481);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_481:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -25246,10 +20854,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_479); 
+		    JUMP_NE(L_THEN_470); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_478);
-		    L_THEN_479:
+		    JUMP_EQ(L_ELSE_469);
+		    L_THEN_470:
  //APPLIC 
 
 PUSH(IMM(0));
@@ -25260,17 +20868,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1603));
+MOV(R0, IMM(1329));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_480\n");
-JUMP_EQ(L_JUMP_480);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_480:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -25281,49 +20881,150 @@ POP(R1); // get number of actual args
 DROP(R1); // drop args 
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
-		    JUMP(L_IF_EXIT_477);
-		    L_ELSE_478:
+		    JUMP(L_IF_EXIT_468);
+		    L_ELSE_469:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_477:
+		    L_IF_EXIT_468:
 		    
 		    CMP(ADDR(R0), T_BOOL);
 		    JUMP_NE(L_THEN_418); 
 		    CMP(INDD(R0, 1), 0);
 		    JUMP_EQ(L_ELSE_417);
-		    L_THEN_418:
- //TC-APPLIC 
+		    L_THEN_418://IF 
 
+ //APPLIC 
+
+PUSH(IMM(0));
+
+ //APPLIC 
+
+PUSH(IMM(0));
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-PUSH(R0); // finished evaluating arg 
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1351));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+PUSH(R0);
+
+ //APPLIC 
+
+PUSH(IMM(0));
 // PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-PUSH(R0); // finished evaluating arg 
+PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1275));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_476);
-printf("At L_JUMP_476\n");
-fflush(stdout);
-L_JUMP_476:
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+PUSH(R0);
+// BVAR 
+MOV(R0, FPARG(0));
+MOV(R0, INDD(R0, 0));
+MOV(R0, INDD(R0, 1));
+//APPLIC CONTINUE
+PUSH(IMM(2)); // pushing number of arguments 
+PUSH(IMM(2)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+
+		    CMP(ADDR(R0), T_BOOL);
+		    JUMP_NE(L_THEN_461); 
+		    CMP(INDD(R0, 1), 0);
+		    JUMP_EQ(L_ELSE_460);
+		    L_THEN_461:
+ //TC-APPLIC 
+
+
+ //APPLIC 
+
+PUSH(IMM(0));
+// PVAR 
+MOV(R1, IMM(1));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1320));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+PUSH(R0); // finished evaluating arg 
+
+ //APPLIC 
+
+PUSH(IMM(0));
+// PVAR 
+MOV(R1, IMM(0));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1320));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+PUSH(R0); // finished evaluating arg 
+// BVAR 
+MOV(R0, FPARG(0));
+MOV(R0, INDD(R0, 0));
+MOV(R0, INDD(R0, 1));
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -25339,6 +21040,12 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
+		    JUMP(L_IF_EXIT_459);
+		    L_ELSE_460:
+		    MOV(R0,IMM(12));
+
+		    L_IF_EXIT_459:
+		    
 		    JUMP(L_IF_EXIT_416);
 		    L_ELSE_417:
 		    //IF 
@@ -25354,17 +21061,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1334));
+MOV(R0, IMM(1609));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_475\n");
-JUMP_EQ(L_JUMP_475);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_475:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -25376,10 +21075,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_473); 
+		    JUMP_NE(L_THEN_456); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_472);
-		    L_THEN_473:
+		    JUMP_EQ(L_ELSE_455);
+		    L_THEN_456:
  //APPLIC 
 
 PUSH(IMM(0));
@@ -25390,17 +21089,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1334));
+MOV(R0, IMM(1609));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_474\n");
-JUMP_EQ(L_JUMP_474);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_474:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -25411,195 +21102,42 @@ POP(R1); // get number of actual args
 DROP(R1); // drop args 
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
-		    JUMP(L_IF_EXIT_471);
-		    L_ELSE_472:
+		    JUMP(L_IF_EXIT_454);
+		    L_ELSE_455:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_471:
+		    L_IF_EXIT_454:
 		    
 		    CMP(ADDR(R0), T_BOOL);
 		    JUMP_NE(L_THEN_421); 
 		    CMP(INDD(R0, 1), 0);
 		    JUMP_EQ(L_ELSE_420);
-		    L_THEN_421://IF 
-
- //APPLIC 
-
-PUSH(IMM(0));
-
- //APPLIC 
-
-PUSH(IMM(0));
-// PVAR 
-MOV(R1, IMM(1));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1356));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_470\n");
-JUMP_EQ(L_JUMP_470);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_470:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-PUSH(R0);
-
- //APPLIC 
-
-PUSH(IMM(0));
-// PVAR 
-MOV(R1, IMM(0));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1356));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_469\n");
-JUMP_EQ(L_JUMP_469);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_469:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-PUSH(R0);
-// BVAR 
-MOV(R0, FPARG(0));
-MOV(R0, INDD(R0, 0));
-MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_468\n");
-JUMP_EQ(L_JUMP_468);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_468:
-//APPLIC CONTINUE
-PUSH(IMM(2)); // pushing number of arguments 
-PUSH(IMM(2)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-
-		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_464); 
-		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_463);
-		    L_THEN_464:
+		    L_THEN_421:
  //TC-APPLIC 
 
-
- //APPLIC 
-
-PUSH(IMM(0));
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1325));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_467\n");
-JUMP_EQ(L_JUMP_467);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_467:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
 PUSH(R0); // finished evaluating arg 
-
- //APPLIC 
-
-PUSH(IMM(0));
 // PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-PUSH(R0);
+PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1006));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_466\n");
-JUMP_EQ(L_JUMP_466);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_466:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-PUSH(R0); // finished evaluating arg 
-// BVAR 
-MOV(R0, FPARG(0));
-MOV(R0, INDD(R0, 0));
-MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_465);
-printf("At L_JUMP_465\n");
-fflush(stdout);
-L_JUMP_465:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -25615,12 +21153,6 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_462);
-		    L_ELSE_463:
-		    MOV(R0,IMM(12));
-
-		    L_IF_EXIT_462:
-		    
 		    JUMP(L_IF_EXIT_419);
 		    L_ELSE_420:
 		    //IF 
@@ -25636,17 +21168,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1614));
+MOV(R0, IMM(1620));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_461\n");
-JUMP_EQ(L_JUMP_461);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_461:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -25658,10 +21182,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_459); 
+		    JUMP_NE(L_THEN_450); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_458);
-		    L_THEN_459:
+		    JUMP_EQ(L_ELSE_449);
+		    L_THEN_450:
  //APPLIC 
 
 PUSH(IMM(0));
@@ -25672,17 +21196,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1614));
+MOV(R0, IMM(1620));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_460\n");
-JUMP_EQ(L_JUMP_460);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_460:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -25693,11 +21209,11 @@ POP(R1); // get number of actual args
 DROP(R1); // drop args 
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
-		    JUMP(L_IF_EXIT_457);
-		    L_ELSE_458:
+		    JUMP(L_IF_EXIT_448);
+		    L_ELSE_449:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_457:
+		    L_IF_EXIT_448:
 		    
 		    CMP(ADDR(R0), T_BOOL);
 		    JUMP_NE(L_THEN_424); 
@@ -25718,24 +21234,17 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1006));
+MOV(R0, IMM(1505));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_456);
-printf("At L_JUMP_456\n");
-fflush(stdout);
-L_JUMP_456:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -25766,17 +21275,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1625));
+MOV(R0, IMM(1631));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_455\n");
-JUMP_EQ(L_JUMP_455);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_455:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -25788,10 +21289,11 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_453); 
+		    JUMP_NE(L_THEN_438); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_452);
-		    L_THEN_453:
+		    JUMP_EQ(L_ELSE_437);
+		    L_THEN_438://IF 
+
  //APPLIC 
 
 PUSH(IMM(0));
@@ -25802,17 +21304,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1625));
+MOV(R0, IMM(1631));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_454\n");
-JUMP_EQ(L_JUMP_454);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_454:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -25823,11 +21317,88 @@ POP(R1); // get number of actual args
 DROP(R1); // drop args 
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
-		    JUMP(L_IF_EXIT_451);
-		    L_ELSE_452:
+		    CMP(ADDR(R0), T_BOOL);
+		    JUMP_NE(L_THEN_441); 
+		    CMP(INDD(R0, 1), 0);
+		    JUMP_EQ(L_ELSE_440);
+		    L_THEN_441:
+ //APPLIC 
+
+PUSH(IMM(0));
+
+ //APPLIC 
+
+PUSH(IMM(0));
+// PVAR 
+MOV(R1, IMM(1));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1552));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+PUSH(R0);
+
+ //APPLIC 
+
+PUSH(IMM(0));
+// PVAR 
+MOV(R1, IMM(0));
+ADD(R1, IMM(3));
+MOV(R0, FPARG(R1));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1552));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1275));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(2)); // pushing number of arguments 
+PUSH(IMM(2)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+
+		    JUMP(L_IF_EXIT_439);
+		    L_ELSE_440:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_451:
+		    L_IF_EXIT_439:
+		    
+		    JUMP(L_IF_EXIT_436);
+		    L_ELSE_437:
+		    MOV(R0,IMM(12));
+
+		    L_IF_EXIT_436:
 		    
 		    CMP(ADDR(R0), T_BOOL);
 		    JUMP_NE(L_THEN_427); 
@@ -25836,36 +21407,66 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 		    L_THEN_427:
  //TC-APPLIC 
 
+
+ //APPLIC 
+
+PUSH(IMM(0));
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1072));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
 PUSH(R0); // finished evaluating arg 
+
+ //APPLIC 
+
+PUSH(IMM(0));
 // PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-PUSH(R0); // finished evaluating arg 
+PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1510));
+MOV(R0, IMM(1072));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_450);
-printf("At L_JUMP_450\n");
-fflush(stdout);
-L_JUMP_450:
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+PUSH(R0); // finished evaluating arg 
+// BVAR 
+MOV(R0, FPARG(0));
+MOV(R0, INDD(R0, 0));
+MOV(R0, INDD(R0, 1));
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -25884,11 +21485,15 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 		    JUMP(L_IF_EXIT_425);
 		    L_ELSE_426:
 		    //IF 
-//IF 
 
  //APPLIC 
 
 PUSH(IMM(0));
+// BVAR 
+MOV(R0, FPARG(0));
+MOV(R0, INDD(R0, 1));
+MOV(R0, INDD(R0, 0));
+PUSH(R0);
 // PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
@@ -25896,149 +21501,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1636));
+MOV(R0, IMM(1505));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_449\n");
-JUMP_EQ(L_JUMP_449);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_449:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-
-		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_441); 
-		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_440);
-		    L_THEN_441://IF 
-
- //APPLIC 
-
-PUSH(IMM(0));
-// PVAR 
-MOV(R1, IMM(1));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1636));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_448\n");
-JUMP_EQ(L_JUMP_448);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_448:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-
-		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_444); 
-		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_443);
-		    L_THEN_444:
- //APPLIC 
-
-PUSH(IMM(0));
-
- //APPLIC 
-
-PUSH(IMM(0));
-// PVAR 
-MOV(R1, IMM(1));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1557));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_447\n");
-JUMP_EQ(L_JUMP_447);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_447:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-PUSH(R0);
-
- //APPLIC 
-
-PUSH(IMM(0));
-// PVAR 
-MOV(R1, IMM(0));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1557));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_446\n");
-JUMP_EQ(L_JUMP_446);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_446:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1275));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_445\n");
-JUMP_EQ(L_JUMP_445);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_445:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -26049,18 +21514,6 @@ POP(R1); // get number of actual args
 DROP(R1); // drop args 
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
-		    JUMP(L_IF_EXIT_442);
-		    L_ELSE_443:
-		    MOV(R0,IMM(12));
-
-		    L_IF_EXIT_442:
-		    
-		    JUMP(L_IF_EXIT_439);
-		    L_ELSE_440:
-		    MOV(R0,IMM(12));
-
-		    L_IF_EXIT_439:
-		    
 		    CMP(ADDR(R0), T_BOOL);
 		    JUMP_NE(L_THEN_430); 
 		    CMP(INDD(R0, 1), 0);
@@ -26068,88 +21521,29 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 		    L_THEN_430:
  //TC-APPLIC 
 
-
- //APPLIC 
-
-PUSH(IMM(0));
+// BVAR 
+MOV(R0, FPARG(0));
+MOV(R0, INDD(R0, 1));
+MOV(R0, INDD(R0, 0));
+PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1072));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_438\n");
-JUMP_EQ(L_JUMP_438);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_438:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
 PUSH(R0); // finished evaluating arg 
 
- //APPLIC 
-
-PUSH(IMM(0));
-// PVAR 
-MOV(R1, IMM(0));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-PUSH(R0);
-
  //FVAR 
-MOV(R0, IMM(1072));
+MOV(R0, IMM(1505));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_437\n");
-JUMP_EQ(L_JUMP_437);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_437:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-PUSH(R0); // finished evaluating arg 
-// BVAR 
-MOV(R0, FPARG(0));
-MOV(R0, INDD(R0, 0));
-MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_436);
-printf("At L_JUMP_436\n");
-fflush(stdout);
-L_JUMP_436:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -26167,104 +21561,8 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 		    JUMP(L_IF_EXIT_428);
 		    L_ELSE_429:
-		    //IF 
-
- //APPLIC 
-
-PUSH(IMM(0));
-// BVAR 
-MOV(R0, FPARG(0));
-MOV(R0, INDD(R0, 1));
-MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-PUSH(R0);
-// PVAR 
-MOV(R1, IMM(0));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1510));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_435\n");
-JUMP_EQ(L_JUMP_435);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_435:
-//APPLIC CONTINUE
-PUSH(IMM(2)); // pushing number of arguments 
-PUSH(IMM(2)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-
-		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_433); 
-		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_432);
-		    L_THEN_433:
- //TC-APPLIC 
-
-// BVAR 
-MOV(R0, FPARG(0));
-MOV(R0, INDD(R0, 1));
-MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-PUSH(R0); // finished evaluating arg 
-// PVAR 
-MOV(R1, IMM(1));
-ADD(R1, IMM(3));
-MOV(R0, FPARG(R1));
-PUSH(R0); // finished evaluating arg 
-
- //FVAR 
-MOV(R0, IMM(1510));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_434);
-printf("At L_JUMP_434\n");
-fflush(stdout);
-L_JUMP_434:
-//TC-APPLIC CONTINUE 
-MOV(R2,FPARG(-2)); // save old FP 
-MOV(R3,FPARG(-1)); // save old RET 
-MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
-ADD(R1, IMM(2));
-MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
-ADD(R1, IMM(1));
-MOV(FPARG(R1), LOCAL(IMM(1)));
-
- //done copying args 
-MOV(R5,FP);
-SUB(R5,R4); //R5 should point to the lowest arg 
-SUB(R5, IMM(3)); // R5 should hold the correct place for SP 
-MOV(SP,R5);
-PUSH(IMM(2)); //push number of params 
-PUSH(IMM(2)); //push indicator 
-PUSH(INDD(R0,IMM(1))); //push the ENV 
-PUSH(R3); //push the old RET 
-MOV(FP,R2); //update FP to the old FP 
-JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
-
-		    JUMP(L_IF_EXIT_431);
-		    L_ELSE_432:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_431:
-		    
 		    L_IF_EXIT_428:
 		    
 		    L_IF_EXIT_425:
@@ -26281,13 +21579,15 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 		    
 		    L_IF_EXIT_407:
 		    
+		    L_IF_EXIT_404:
+		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_405:
+L_CLOS_EXIT_402:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_398:
+L_CLOS_EXIT_395:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -26301,25 +21601,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_392));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_389));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_390:
+L_FOR1_START_387:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_389);
+JUMP_EQ(L_FOR1_END_386);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_390);
+ JUMP(L_FOR1_START_387);
 
-L_FOR1_END_389:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_386:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -26330,34 +21627,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_388:
+L_FOR2_START_385:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_387);
+JUMP_EQ(L_FOR2_END_384);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_388);
+ JUMP(L_FOR2_START_385);
 
-L_FOR2_END_387:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_384:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_391);
-L_CLOS_CODE_392: 
+JUMP(L_CLOS_EXIT_388);
+L_CLOS_CODE_389: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_386);
-printf("at JUMP_SIMPLE_386");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_386:
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
@@ -26365,28 +21651,21 @@ MOV(R0, FPARG(R1));
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_391:
+L_CLOS_EXIT_388:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_385);
-printf("At L_JUMP_385\n");
-fflush(stdout);
-L_JUMP_385:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -26404,13 +21683,7 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_383:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_377\n");
-JUMP_EQ(L_JUMP_377);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_377:
+L_CLOS_EXIT_380:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -26424,7 +21697,7 @@ MOV(R1, INDD(IMM(1095), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE^associate
+ // DEFINE  ^associate
 
 //LAMBDA-SIMPLE
 
@@ -26437,25 +21710,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_342));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_339));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_340:
+L_FOR1_START_337:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_339);
+JUMP_EQ(L_FOR1_END_336);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_340);
+ JUMP(L_FOR1_START_337);
 
-L_FOR1_END_339:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_336:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -26466,34 +21736,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_338:
+L_FOR2_START_335:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_337);
+JUMP_EQ(L_FOR2_END_334);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_338);
+ JUMP(L_FOR2_START_335);
 
-L_FOR2_END_337:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_334:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_341);
-L_CLOS_CODE_342: 
+JUMP(L_CLOS_EXIT_338);
+L_CLOS_CODE_339: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_336);
-printf("at JUMP_SIMPLE_336");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_336:
 
  //TC-APPLIC 
 
@@ -26509,25 +21768,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_357));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_354));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_355:
+L_FOR1_START_352:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_354);
+JUMP_EQ(L_FOR1_END_351);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_355);
+ JUMP(L_FOR1_START_352);
 
-L_FOR1_END_354:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_351:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -26538,34 +21794,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_353:
+L_FOR2_START_350:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_352);
+JUMP_EQ(L_FOR2_END_349);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_353);
+ JUMP(L_FOR2_START_350);
 
-L_FOR2_END_352:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_349:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_356);
-L_CLOS_CODE_357: 
+JUMP(L_CLOS_EXIT_353);
+L_CLOS_CODE_354: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_351);
-printf("at JUMP_SIMPLE_351");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_351:
 
 //LAMBDA-SIMPLE
 
@@ -26578,25 +21823,22 @@ PUSH(IMM(4));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_364));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_361));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(3));
 
-L_FOR1_START_362:
+L_FOR1_START_359:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_361);
+JUMP_EQ(L_FOR1_END_358);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_362);
+ JUMP(L_FOR1_START_359);
 
-L_FOR1_END_361:
-//for (i = 0; i < 3; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_358:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -26607,34 +21849,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_360:
+L_FOR2_START_357:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_359);
+JUMP_EQ(L_FOR2_END_356);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_360);
+ JUMP(L_FOR2_START_357);
 
-L_FOR2_END_359:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_356:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_363);
-L_CLOS_CODE_364: 
+JUMP(L_CLOS_EXIT_360);
+L_CLOS_CODE_361: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_358);
-printf("at JUMP_SIMPLE_358");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_358:
 //IF 
 
  //APPLIC 
@@ -26647,17 +21878,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_376\n");
-JUMP_EQ(L_JUMP_376);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_376:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -26669,13 +21892,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_367); 
+		    JUMP_NE(L_THEN_364); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_366);
-		    L_THEN_367:MOV(R0,IMM(12));
+		    JUMP_EQ(L_ELSE_363);
+		    L_THEN_364:MOV(R0,IMM(12));
 
-		    JUMP(L_IF_EXIT_365);
-		    L_ELSE_366:
+		    JUMP(L_IF_EXIT_362);
+		    L_ELSE_363:
 		    //IF 
 
  //APPLIC 
@@ -26700,14 +21923,6 @@ PUSH(R0);
 MOV(R0, IMM(205));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_375\n");
-JUMP_EQ(L_JUMP_375);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_375:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -26722,13 +21937,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 1));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_374\n");
-JUMP_EQ(L_JUMP_374);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_374:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -26740,10 +21948,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_370); 
+		    JUMP_NE(L_THEN_367); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_369);
-		    L_THEN_370:
+		    JUMP_EQ(L_ELSE_366);
+		    L_THEN_367:
  //TC-APPLIC 
 
 // PVAR 
@@ -26753,21 +21961,14 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_373);
-printf("At L_JUMP_373\n");
-fflush(stdout);
-L_JUMP_373:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -26783,8 +21984,8 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_368);
-		    L_ELSE_369:
+		    JUMP(L_IF_EXIT_365);
+		    L_ELSE_366:
 		    
  //TC-APPLIC 
 
@@ -26799,17 +22000,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_372\n");
-JUMP_EQ(L_JUMP_372);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_372:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -26829,20 +22022,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_371);
-printf("At L_JUMP_371\n");
-fflush(stdout);
-L_JUMP_371:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -26858,17 +22045,17 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_368:
-		    
 		    L_IF_EXIT_365:
+		    
+		    L_IF_EXIT_362:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_363:
+L_CLOS_EXIT_360:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_356:
+L_CLOS_EXIT_353:
 PUSH(R0); // finished evaluating arg 
 
 //LAMBDA-SIMPLE
@@ -26882,25 +22069,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_350));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_347));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_348:
+L_FOR1_START_345:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_347);
+JUMP_EQ(L_FOR1_END_344);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_348);
+ JUMP(L_FOR1_START_345);
 
-L_FOR1_END_347:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_344:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -26911,34 +22095,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_346:
+L_FOR2_START_343:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_345);
+JUMP_EQ(L_FOR2_END_342);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_346);
+ JUMP(L_FOR2_START_343);
 
-L_FOR2_END_345:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_342:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_349);
-L_CLOS_CODE_350: 
+JUMP(L_CLOS_EXIT_346);
+L_CLOS_CODE_347: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_344);
-printf("at JUMP_SIMPLE_344");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_344:
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
@@ -26946,28 +22119,21 @@ MOV(R0, FPARG(R1));
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_349:
+L_CLOS_EXIT_346:
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_343);
-printf("At L_JUMP_343\n");
-fflush(stdout);
-L_JUMP_343:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -26985,12 +22151,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_341:
+L_CLOS_EXIT_338:
 MOV(R1, INDD(IMM(1109), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEassoc
+ // DEFINE  assoc
 
  //APPLIC 
 
@@ -27000,22 +22166,12 @@ PUSH(IMM(0));
 MOV(R0, IMM(1095));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(1109));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_335\n");
-JUMP_EQ(L_JUMP_335);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_335:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -27029,32 +22185,22 @@ MOV(R1, INDD(IMM(1118), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEassq
+ // DEFINE  assq
 
  //APPLIC 
 
 PUSH(IMM(0));
 
  //FVAR 
-MOV(R0, IMM(1510));
+MOV(R0, IMM(1505));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(1109));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_334\n");
-JUMP_EQ(L_JUMP_334);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_334:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -27068,7 +22214,7 @@ MOV(R1, INDD(IMM(1126), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEvoid
+ // DEFINE  void
 
  //APPLIC 
 
@@ -27077,16 +22223,16 @@ PUSH(IMM(0));
 MOV(R0,IMM(12));
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_333); 
+		    JUMP_NE(L_THEN_330); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_332);
-		    L_THEN_333:MOV(R0,IMM(12));
+		    JUMP_EQ(L_ELSE_329);
+		    L_THEN_330:MOV(R0,IMM(12));
 
-		    JUMP(L_IF_EXIT_331);
-		    L_ELSE_332:
+		    JUMP(L_IF_EXIT_328);
+		    L_ELSE_329:
 		    MOV(R0,IMM(10));
 
-		    L_IF_EXIT_331:
+		    L_IF_EXIT_328:
 		    PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -27100,25 +22246,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_323));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_320));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_321:
+L_FOR1_START_318:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_320);
+JUMP_EQ(L_FOR1_END_317);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_321);
+ JUMP(L_FOR1_START_318);
 
-L_FOR1_END_320:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_317:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -27129,34 +22272,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_319:
+L_FOR2_START_316:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_318);
+JUMP_EQ(L_FOR2_END_315);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_319);
+ JUMP(L_FOR2_START_316);
 
-L_FOR2_END_318:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_315:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_322);
-L_CLOS_CODE_323: 
+JUMP(L_CLOS_EXIT_319);
+L_CLOS_CODE_320: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_317);
-printf("at JUMP_SIMPLE_317");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_317:
 
 //LAMBDA-SIMPLE
 
@@ -27169,25 +22301,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_330));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_327));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_328:
+L_FOR1_START_325:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_327);
+JUMP_EQ(L_FOR1_END_324);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_328);
+ JUMP(L_FOR1_START_325);
 
-L_FOR1_END_327:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_324:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -27198,53 +22327,35 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_326:
+L_FOR2_START_323:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_325);
+JUMP_EQ(L_FOR2_END_322);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_326);
+ JUMP(L_FOR2_START_323);
 
-L_FOR2_END_325:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_322:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_329);
-L_CLOS_CODE_330: 
+JUMP(L_CLOS_EXIT_326);
+L_CLOS_CODE_327: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(0));
-JUMP_EQ(JUMP_SIMPLE_324);
-printf("at JUMP_SIMPLE_324");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_324:
 // BVAR 
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_329:
+L_CLOS_EXIT_326:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_322:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_316\n");
-JUMP_EQ(L_JUMP_316);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_316:
+L_CLOS_EXIT_319:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -27258,7 +22369,7 @@ MOV(R1, INDD(IMM(1134), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEvoid?
+ // DEFINE  void?
 
  //APPLIC 
 
@@ -27272,14 +22383,6 @@ PUSH(IMM(0));
 MOV(R0, IMM(1134));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_315\n");
-JUMP_EQ(L_JUMP_315);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_315:
 //APPLIC CONTINUE
 PUSH(IMM(0)); // pushing number of arguments 
 PUSH(IMM(0)); // pushing again for reference for frame removal 
@@ -27302,25 +22405,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_306));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_303));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_304:
+L_FOR1_START_301:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_303);
+JUMP_EQ(L_FOR1_END_300);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_304);
+ JUMP(L_FOR1_START_301);
 
-L_FOR1_END_303:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_300:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -27331,34 +22431,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_302:
+L_FOR2_START_299:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_301);
+JUMP_EQ(L_FOR2_END_298);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_302);
+ JUMP(L_FOR2_START_299);
 
-L_FOR2_END_301:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_298:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_305);
-L_CLOS_CODE_306: 
+JUMP(L_CLOS_EXIT_302);
+L_CLOS_CODE_303: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_300);
-printf("at JUMP_SIMPLE_300");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_300:
 
 //LAMBDA-SIMPLE
 
@@ -27371,25 +22460,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_313));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_310));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_311:
+L_FOR1_START_308:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_310);
+JUMP_EQ(L_FOR1_END_307);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_311);
+ JUMP(L_FOR1_START_308);
 
-L_FOR1_END_310:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_307:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -27400,34 +22486,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_309:
+L_FOR2_START_306:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_308);
+JUMP_EQ(L_FOR2_END_305);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_309);
+ JUMP(L_FOR2_START_306);
 
-L_FOR2_END_308:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_305:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_312);
-L_CLOS_CODE_313: 
+JUMP(L_CLOS_EXIT_309);
+L_CLOS_CODE_310: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_307);
-printf("at JUMP_SIMPLE_307");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_307:
 
  //TC-APPLIC 
 
@@ -27435,7 +22510,6 @@ JUMP_SIMPLE_307:
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 // PVAR 
 MOV(R1, IMM(0));
@@ -27444,24 +22518,17 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1510));
+MOV(R0, IMM(1505));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_314);
-printf("At L_JUMP_314\n");
-fflush(stdout);
-L_JUMP_314:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -27479,17 +22546,11 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_312:
+L_CLOS_EXIT_309:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_305:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_299\n");
-JUMP_EQ(L_JUMP_299);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_299:
+L_CLOS_EXIT_302:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -27503,7 +22564,7 @@ MOV(R1, INDD(IMM(1143), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEappend
+ // DEFINE  append
 
  //APPLIC 
 
@@ -27520,25 +22581,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_283));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_280));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_281:
+L_FOR1_START_278:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_280);
+JUMP_EQ(L_FOR1_END_277);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_281);
+ JUMP(L_FOR1_START_278);
 
-L_FOR1_END_280:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_277:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -27549,34 +22607,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_279:
+L_FOR2_START_276:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_278);
+JUMP_EQ(L_FOR2_END_275);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_279);
+ JUMP(L_FOR2_START_276);
 
-L_FOR2_END_278:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_275:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_282);
-L_CLOS_CODE_283: 
+JUMP(L_CLOS_EXIT_279);
+L_CLOS_CODE_280: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(3));
-JUMP_EQ(JUMP_SIMPLE_277);
-printf("at JUMP_SIMPLE_277");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_277:
 
 //LAMBDA-SIMPLE
 
@@ -27589,25 +22636,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_290));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_287));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_288:
+L_FOR1_START_285:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_287);
+JUMP_EQ(L_FOR1_END_284);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_288);
+ JUMP(L_FOR1_START_285);
 
-L_FOR1_END_287:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_284:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -27618,34 +22662,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_286:
+L_FOR2_START_283:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_285);
+JUMP_EQ(L_FOR2_END_282);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_286);
+ JUMP(L_FOR2_START_283);
 
-L_FOR2_END_285:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_282:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_289);
-L_CLOS_CODE_290: 
+JUMP(L_CLOS_EXIT_286);
+L_CLOS_CODE_287: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_284);
-printf("at JUMP_SIMPLE_284");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_284:
 //IF 
 
  //APPLIC 
@@ -27658,17 +22691,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_298\n");
-JUMP_EQ(L_JUMP_298);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_298:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -27680,16 +22705,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_293); 
+		    JUMP_NE(L_THEN_290); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_292);
-		    L_THEN_293:// PVAR 
+		    JUMP_EQ(L_ELSE_289);
+		    L_THEN_290:// PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    JUMP(L_IF_EXIT_291);
-		    L_ELSE_292:
+		    JUMP(L_IF_EXIT_288);
+		    L_ELSE_289:
 		    
  //TC-APPLIC 
 
@@ -27708,17 +22733,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_297\n");
-JUMP_EQ(L_JUMP_297);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_297:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -27740,17 +22757,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_296\n");
-JUMP_EQ(L_JUMP_296);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_296:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -27765,13 +22774,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 2));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_295\n");
-JUMP_EQ(L_JUMP_295);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_295:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -27791,20 +22793,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_294);
-printf("At L_JUMP_294\n");
-fflush(stdout);
-L_JUMP_294:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -27820,15 +22816,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_291:
+		    L_IF_EXIT_288:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_289:
+L_CLOS_EXIT_286:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_282:
+L_CLOS_EXIT_279:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -27842,25 +22838,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_261));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_258));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_259:
+L_FOR1_START_256:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_258);
+JUMP_EQ(L_FOR1_END_255);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_259);
+ JUMP(L_FOR1_START_256);
 
-L_FOR1_END_258:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_255:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -27871,34 +22864,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_257:
+L_FOR2_START_254:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_256);
+JUMP_EQ(L_FOR2_END_253);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_257);
+ JUMP(L_FOR2_START_254);
 
-L_FOR2_END_256:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_253:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_260);
-L_CLOS_CODE_261: 
+JUMP(L_CLOS_EXIT_257);
+L_CLOS_CODE_258: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(3));
-JUMP_EQ(JUMP_SIMPLE_255);
-printf("at JUMP_SIMPLE_255");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_255:
 
 //LAMBDA-SIMPLE
 
@@ -27911,25 +22893,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_268));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_265));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_266:
+L_FOR1_START_263:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_265);
+JUMP_EQ(L_FOR1_END_262);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_266);
+ JUMP(L_FOR1_START_263);
 
-L_FOR1_END_265:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_262:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -27940,34 +22919,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_264:
+L_FOR2_START_261:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_263);
+JUMP_EQ(L_FOR2_END_260);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_264);
+ JUMP(L_FOR2_START_261);
 
-L_FOR2_END_263:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_260:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_267);
-L_CLOS_CODE_268: 
+JUMP(L_CLOS_EXIT_264);
+L_CLOS_CODE_265: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_262);
-printf("at JUMP_SIMPLE_262");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_262:
 //IF 
 
  //APPLIC 
@@ -27980,17 +22948,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_276\n");
-JUMP_EQ(L_JUMP_276);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_276:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -28002,16 +22962,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_271); 
+		    JUMP_NE(L_THEN_268); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_270);
-		    L_THEN_271:// PVAR 
+		    JUMP_EQ(L_ELSE_267);
+		    L_THEN_268:// PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    JUMP(L_IF_EXIT_269);
-		    L_ELSE_270:
+		    JUMP(L_IF_EXIT_266);
+		    L_ELSE_267:
 		    
  //TC-APPLIC 
 
@@ -28035,17 +22995,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_275\n");
-JUMP_EQ(L_JUMP_275);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_275:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -28060,13 +23012,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_274\n");
-JUMP_EQ(L_JUMP_274);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_274:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -28088,17 +23033,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_273\n");
-JUMP_EQ(L_JUMP_273);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_273:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -28111,24 +23048,17 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1364));
+MOV(R0, IMM(1359));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_272);
-printf("At L_JUMP_272\n");
-fflush(stdout);
-L_JUMP_272:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -28144,15 +23074,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_269:
+		    L_IF_EXIT_266:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_267:
+L_CLOS_EXIT_264:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_260:
+L_CLOS_EXIT_257:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -28166,25 +23096,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_241));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_238));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_239:
+L_FOR1_START_236:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_238);
+JUMP_EQ(L_FOR1_END_235);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_239);
+ JUMP(L_FOR1_START_236);
 
-L_FOR1_END_238:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_235:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -28195,34 +23122,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_237:
+L_FOR2_START_234:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_236);
+JUMP_EQ(L_FOR2_END_233);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_237);
+ JUMP(L_FOR2_START_234);
 
-L_FOR2_END_236:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_233:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_240);
-L_CLOS_CODE_241: 
+JUMP(L_CLOS_EXIT_237);
+L_CLOS_CODE_238: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(3));
-JUMP_EQ(JUMP_SIMPLE_235);
-printf("at JUMP_SIMPLE_235");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_235:
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -28234,25 +23150,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_247));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_244));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_245:
+L_FOR1_START_242:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_244);
+JUMP_EQ(L_FOR1_END_241);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_245);
+ JUMP(L_FOR1_START_242);
 
-L_FOR1_END_244:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_241:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -28264,33 +23177,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_243:
+L_FOR2_START_240:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_242);
+JUMP_EQ(L_FOR2_END_239);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_243);
+ JUMP(L_FOR2_START_240);
 
-L_FOR2_END_242:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_239:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_246);
-L_CLOS_CODE_247: 
+JUMP(L_CLOS_EXIT_243);
+L_CLOS_CODE_244: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 //IF 
 
@@ -28304,17 +23212,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_254\n");
-JUMP_EQ(L_JUMP_254);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_254:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -28326,13 +23226,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_250); 
+		    JUMP_NE(L_THEN_247); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_249);
-		    L_THEN_250:MOV(R0,IMM(11));
+		    JUMP_EQ(L_ELSE_246);
+		    L_THEN_247:MOV(R0,IMM(11));
 
-		    JUMP(L_IF_EXIT_248);
-		    L_ELSE_249:
+		    JUMP(L_IF_EXIT_245);
+		    L_ELSE_246:
 		    
  //TC-APPLIC 
 
@@ -28347,17 +23247,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_253\n");
-JUMP_EQ(L_JUMP_253);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_253:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -28379,17 +23271,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_252\n");
-JUMP_EQ(L_JUMP_252);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_252:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -28404,20 +23288,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 2));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_251);
-printf("At L_JUMP_251\n");
-fflush(stdout);
-L_JUMP_251:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -28433,29 +23311,21 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_248:
+		    L_IF_EXIT_245:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_246:
+L_CLOS_EXIT_243:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_240:
+L_CLOS_EXIT_237:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_234\n");
-JUMP_EQ(L_JUMP_234);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_234:
 //APPLIC CONTINUE
 PUSH(IMM(3)); // pushing number of arguments 
 PUSH(IMM(3)); // pushing again for reference for frame removal 
@@ -28469,7 +23339,7 @@ MOV(R1, INDD(IMM(1153), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEstring-append
+ // DEFINE  string-append
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -28481,25 +23351,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_230));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_227));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_228:
+L_FOR1_START_225:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_227);
+JUMP_EQ(L_FOR1_END_224);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_228);
+ JUMP(L_FOR1_START_225);
 
-L_FOR1_END_227:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_224:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -28511,33 +23378,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_226:
+L_FOR2_START_223:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_225);
+JUMP_EQ(L_FOR2_END_222);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_226);
+ JUMP(L_FOR2_START_223);
 
-L_FOR2_END_225:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_222:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_229);
-L_CLOS_CODE_230: 
+JUMP(L_CLOS_EXIT_226);
+L_CLOS_CODE_227: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -28560,22 +23422,12 @@ PUSH(R0);
 MOV(R0, IMM(761));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_233\n");
-JUMP_EQ(L_JUMP_233);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_233:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -28591,22 +23443,12 @@ PUSH(R0);
 MOV(R0, IMM(1153));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_232\n");
-JUMP_EQ(L_JUMP_232);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_232:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -28622,18 +23464,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(777));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_231);
-printf("At L_JUMP_231\n");
-fflush(stdout);
-L_JUMP_231:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -28651,12 +23486,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_229:
+L_CLOS_EXIT_226:
 MOV(R1, INDD(IMM(1170), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEvector-append
+ // DEFINE  vector-append
 
 //LAMBDA VARIADIC
 PUSH(IMM(3));
@@ -28668,25 +23503,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_221));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_218));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_219:
+L_FOR1_START_216:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_218);
+JUMP_EQ(L_FOR1_END_215);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_219);
+ JUMP(L_FOR1_START_216);
 
-L_FOR1_END_218:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_215:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -28698,33 +23530,28 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_217:
+L_FOR2_START_214:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_216);
+JUMP_EQ(L_FOR2_END_213);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_217);
+ JUMP(L_FOR2_START_214);
 
-L_FOR2_END_216:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_213:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_220);
-L_CLOS_CODE_221: 
+JUMP(L_CLOS_EXIT_217);
+L_CLOS_CODE_218: 
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("LAMBDA VAR before fixing the stack but after PUSH(FP)");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack("LAMBDA VAR after fixing the stack");
 //body of the lambda goes here
 
  //TC-APPLIC 
@@ -28747,22 +23574,12 @@ PUSH(R0);
 MOV(R0, IMM(1072));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_224\n");
-JUMP_EQ(L_JUMP_224);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_224:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -28778,22 +23595,12 @@ PUSH(R0);
 MOV(R0, IMM(1153));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1373));
+MOV(R0, IMM(1368));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_223\n");
-JUMP_EQ(L_JUMP_223);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_223:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -28809,18 +23616,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(887));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_222);
-printf("At L_JUMP_222\n");
-fflush(stdout);
-L_JUMP_222:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -28838,12 +23638,12 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_220:
+L_CLOS_EXIT_217:
 MOV(R1, INDD(IMM(1187), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEreverse
+ // DEFINE  reverse
 
  //APPLIC 
 
@@ -28860,25 +23660,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_200));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_197));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_198:
+L_FOR1_START_195:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_197);
+JUMP_EQ(L_FOR1_END_194);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_198);
+ JUMP(L_FOR1_START_195);
 
-L_FOR1_END_197:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_194:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -28889,34 +23686,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_196:
+L_FOR2_START_193:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_195);
+JUMP_EQ(L_FOR2_END_192);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_196);
+ JUMP(L_FOR2_START_193);
 
-L_FOR2_END_195:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_192:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_199);
-L_CLOS_CODE_200: 
+JUMP(L_CLOS_EXIT_196);
+L_CLOS_CODE_197: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_194);
-printf("at JUMP_SIMPLE_194");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_194:
 
 //LAMBDA-SIMPLE
 
@@ -28929,25 +23715,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_207));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_204));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_205:
+L_FOR1_START_202:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_204);
+JUMP_EQ(L_FOR1_END_201);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_205);
+ JUMP(L_FOR1_START_202);
 
-L_FOR1_END_204:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_201:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -28958,34 +23741,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_203:
+L_FOR2_START_200:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_202);
+JUMP_EQ(L_FOR2_END_199);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_203);
+ JUMP(L_FOR2_START_200);
 
-L_FOR2_END_202:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_199:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_206);
-L_CLOS_CODE_207: 
+JUMP(L_CLOS_EXIT_203);
+L_CLOS_CODE_204: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_201);
-printf("at JUMP_SIMPLE_201");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_201:
 //IF 
 
  //APPLIC 
@@ -28998,17 +23770,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_215\n");
-JUMP_EQ(L_JUMP_215);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_215:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -29020,16 +23784,16 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_210); 
+		    JUMP_NE(L_THEN_207); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_209);
-		    L_THEN_210:// PVAR 
+		    JUMP_EQ(L_ELSE_206);
+		    L_THEN_207:// PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    JUMP(L_IF_EXIT_208);
-		    L_ELSE_209:
+		    JUMP(L_IF_EXIT_205);
+		    L_ELSE_206:
 		    
  //TC-APPLIC 
 
@@ -29053,17 +23817,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_214\n");
-JUMP_EQ(L_JUMP_214);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_214:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -29076,17 +23832,9 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1364));
+MOV(R0, IMM(1359));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_213\n");
-JUMP_EQ(L_JUMP_213);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_213:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -29108,17 +23856,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_212\n");
-JUMP_EQ(L_JUMP_212);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_212:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -29133,20 +23873,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_211);
-printf("At L_JUMP_211\n");
-fflush(stdout);
-L_JUMP_211:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -29162,15 +23896,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_208:
+		    L_IF_EXIT_205:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_206:
+L_CLOS_EXIT_203:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_199:
+L_CLOS_EXIT_196:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -29184,25 +23918,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_185));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_182));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_183:
+L_FOR1_START_180:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_182);
+JUMP_EQ(L_FOR1_END_179);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_183);
+ JUMP(L_FOR1_START_180);
 
-L_FOR1_END_182:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_179:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -29213,34 +23944,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_181:
+L_FOR2_START_178:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_180);
+JUMP_EQ(L_FOR2_END_177);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_181);
+ JUMP(L_FOR2_START_178);
 
-L_FOR2_END_180:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_177:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_184);
-L_CLOS_CODE_185: 
+JUMP(L_CLOS_EXIT_181);
+L_CLOS_CODE_182: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_179);
-printf("at JUMP_SIMPLE_179");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_179:
 
 //LAMBDA-SIMPLE
 
@@ -29253,25 +23973,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_192));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_189));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_190:
+L_FOR1_START_187:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_189);
+JUMP_EQ(L_FOR1_END_186);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_190);
+ JUMP(L_FOR1_START_187);
 
-L_FOR1_END_189:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_186:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -29282,34 +23999,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_188:
+L_FOR2_START_185:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_187);
+JUMP_EQ(L_FOR2_END_184);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_188);
+ JUMP(L_FOR2_START_185);
 
-L_FOR2_END_187:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_184:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_191);
-L_CLOS_CODE_192: 
+JUMP(L_CLOS_EXIT_188);
+L_CLOS_CODE_189: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_186);
-printf("at JUMP_SIMPLE_186");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_186:
 
  //TC-APPLIC 
 
@@ -29324,20 +24030,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_193);
-printf("At L_JUMP_193\n");
-fflush(stdout);
-L_JUMP_193:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -29355,25 +24055,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_191:
+L_CLOS_EXIT_188:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_184:
+L_CLOS_EXIT_181:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_178\n");
-JUMP_EQ(L_JUMP_178);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_178:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -29387,7 +24079,7 @@ MOV(R1, INDD(IMM(1198), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEstring-reverse
+ // DEFINE  string-reverse
 
  //APPLIC 
 
@@ -29397,38 +24089,24 @@ PUSH(IMM(0));
 MOV(R0, IMM(761));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(1198));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(777));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(197));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_177\n");
-JUMP_EQ(L_JUMP_177);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_177:
 //APPLIC CONTINUE
 PUSH(IMM(3)); // pushing number of arguments 
 PUSH(IMM(3)); // pushing again for reference for frame removal 
@@ -29442,7 +24120,7 @@ MOV(R1, INDD(IMM(1216), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINElist-ref
+ // DEFINE  list-ref
 
 //LAMBDA-SIMPLE
 
@@ -29455,25 +24133,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_168));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_165));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_166:
+L_FOR1_START_163:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_165);
+JUMP_EQ(L_FOR1_END_162);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_166);
+ JUMP(L_FOR1_START_163);
 
-L_FOR1_END_165:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_162:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -29484,34 +24159,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_164:
+L_FOR2_START_161:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_163);
+JUMP_EQ(L_FOR2_END_160);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_164);
+ JUMP(L_FOR2_START_161);
 
-L_FOR2_END_163:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_160:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_167);
-L_CLOS_CODE_168: 
+JUMP(L_CLOS_EXIT_164);
+L_CLOS_CODE_165: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_162);
-printf("at JUMP_SIMPLE_162");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_162:
 //IF 
 
  //APPLIC 
@@ -29527,14 +24191,6 @@ PUSH(R0);
 MOV(R0, IMM(83));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_176\n");
-JUMP_EQ(L_JUMP_176);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_176:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -29546,10 +24202,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_171); 
+		    JUMP_NE(L_THEN_168); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_170);
-		    L_THEN_171:
+		    JUMP_EQ(L_ELSE_167);
+		    L_THEN_168:
  //TC-APPLIC 
 
 // PVAR 
@@ -29559,21 +24215,14 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_175);
-printf("At L_JUMP_175\n");
-fflush(stdout);
-L_JUMP_175:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -29589,8 +24238,8 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_169);
-		    L_ELSE_170:
+		    JUMP(L_IF_EXIT_166);
+		    L_ELSE_167:
 		    
  //TC-APPLIC 
 
@@ -29598,7 +24247,7 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -29610,14 +24259,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_174\n");
-JUMP_EQ(L_JUMP_174);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_174:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -29639,17 +24280,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_173\n");
-JUMP_EQ(L_JUMP_173);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_173:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -29665,21 +24298,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(825));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_172);
-printf("At L_JUMP_172\n");
-fflush(stdout);
-L_JUMP_172:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -29695,16 +24321,16 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_169:
+		    L_IF_EXIT_166:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_167:
+L_CLOS_EXIT_164:
 MOV(R1, INDD(IMM(825), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINElist-set!
+ // DEFINE  list-set!
 
 //LAMBDA-SIMPLE
 
@@ -29717,25 +24343,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_153));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_150));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_151:
+L_FOR1_START_148:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_150);
+JUMP_EQ(L_FOR1_END_147);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_151);
+ JUMP(L_FOR1_START_148);
 
-L_FOR1_END_150:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_147:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -29746,34 +24369,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_149:
+L_FOR2_START_146:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_148);
+JUMP_EQ(L_FOR2_END_145);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_149);
+ JUMP(L_FOR2_START_146);
 
-L_FOR2_END_148:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_145:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_152);
-L_CLOS_CODE_153: 
+JUMP(L_CLOS_EXIT_149);
+L_CLOS_CODE_150: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(3));
-JUMP_EQ(JUMP_SIMPLE_147);
-printf("at JUMP_SIMPLE_147");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_147:
 //IF 
 
  //APPLIC 
@@ -29789,14 +24401,6 @@ PUSH(R0);
 MOV(R0, IMM(83));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_161\n");
-JUMP_EQ(L_JUMP_161);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_161:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -29808,10 +24412,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_156); 
+		    JUMP_NE(L_THEN_153); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_155);
-		    L_THEN_156:
+		    JUMP_EQ(L_ELSE_152);
+		    L_THEN_153:
  //TC-APPLIC 
 
 // PVAR 
@@ -29826,24 +24430,17 @@ MOV(R0, FPARG(R1));
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1648));
+MOV(R0, IMM(1643));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_160);
-printf("At L_JUMP_160\n");
-fflush(stdout);
-L_JUMP_160:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -29859,8 +24456,8 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_154);
-		    L_ELSE_155:
+		    JUMP(L_IF_EXIT_151);
+		    L_ELSE_152:
 		    
  //TC-APPLIC 
 
@@ -29873,7 +24470,7 @@ PUSH(R0); // finished evaluating arg
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1290));
+MOV(R0,IMM(1285));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
@@ -29885,14 +24482,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_159\n");
-JUMP_EQ(L_JUMP_159);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_159:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -29914,17 +24503,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_158\n");
-JUMP_EQ(L_JUMP_158);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_158:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -29940,24 +24521,17 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(1229));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_157);
-printf("At L_JUMP_157\n");
-fflush(stdout);
-L_JUMP_157:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
-MOV(R1,FPARG(1)); // start copying arg2
+MOV(R1,R4); // start copying arg2
 ADD(R1, IMM(0));
 MOV(FPARG(R1), LOCAL(IMM(2)));
 
@@ -29973,16 +24547,16 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_154:
+		    L_IF_EXIT_151:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_152:
+L_CLOS_EXIT_149:
 MOV(R1, INDD(IMM(1229), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEmax
+ // DEFINE  max
 
  //APPLIC 
 
@@ -29999,25 +24573,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_142));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_139));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_140:
+L_FOR1_START_137:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_139);
+JUMP_EQ(L_FOR1_END_136);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_140);
+ JUMP(L_FOR1_START_137);
 
-L_FOR1_END_139:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_136:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -30028,34 +24599,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_138:
+L_FOR2_START_135:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_137);
+JUMP_EQ(L_FOR2_END_134);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_138);
+ JUMP(L_FOR2_START_135);
 
-L_FOR2_END_137:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_134:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_141);
-L_CLOS_CODE_142: 
+JUMP(L_CLOS_EXIT_138);
+L_CLOS_CODE_139: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_136);
-printf("at JUMP_SIMPLE_136");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_136:
 //IF 
 
  //APPLIC 
@@ -30076,14 +24636,6 @@ PUSH(R0);
 MOV(R0, IMM(550));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_146\n");
-JUMP_EQ(L_JUMP_146);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_146:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -30095,26 +24647,26 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_145); 
+		    JUMP_NE(L_THEN_142); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_144);
-		    L_THEN_145:// PVAR 
+		    JUMP_EQ(L_ELSE_141);
+		    L_THEN_142:// PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    JUMP(L_IF_EXIT_143);
-		    L_ELSE_144:
+		    JUMP(L_IF_EXIT_140);
+		    L_ELSE_141:
 		    // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    L_IF_EXIT_143:
+		    L_IF_EXIT_140:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_141:
+L_CLOS_EXIT_138:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -30128,25 +24680,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_128));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_125));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_126:
+L_FOR1_START_123:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_125);
+JUMP_EQ(L_FOR1_END_122);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_126);
+ JUMP(L_FOR1_START_123);
 
-L_FOR1_END_125:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_122:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -30157,34 +24706,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_124:
+L_FOR2_START_121:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_123);
+JUMP_EQ(L_FOR2_END_120);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_124);
+ JUMP(L_FOR2_START_121);
 
-L_FOR2_END_123:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_120:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_127);
-L_CLOS_CODE_128: 
+JUMP(L_CLOS_EXIT_124);
+L_CLOS_CODE_125: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_122);
-printf("at JUMP_SIMPLE_122");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_122:
 
 //LAMBDA OPTIONAL
 PUSH(IMM(3));
@@ -30196,25 +24734,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_130));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_127));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_132:
+L_FOR1_START_129:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_133);
+JUMP_EQ(L_FOR1_END_130);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_132);
+ JUMP(L_FOR1_START_129);
 
-L_FOR1_END_133:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_130:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -30225,35 +24760,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_134:
+L_FOR2_START_131:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_135);
+JUMP_EQ(L_FOR2_END_132);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_134);
+ JUMP(L_FOR2_START_131);
 
-L_FOR2_END_135:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_132:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_131);
-L_CLOS_CODE_130: 
+JUMP(L_CLOS_EXIT_128);
+L_CLOS_CODE_127: 
 PUSH(FP);
-//print_stack("LAMBDA OPT before fixing the stack after PUSH(FP)");
 MOV(FP, SP);
-//checking number of arguments match the length of the lambda
-CMP(IMM(FPARG(1)), IMM(1));
-JUMP_LT(ERROR_WRONG_ARGUMENT_NUMBER);
 MOV(R1,IMM(1));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(4)),R0);
 MOV(FPARG(IMM(2)), IMM(2));
-//print_stack("LAMBDA OPT after fixing the stack ");
 
  //TC-APPLIC 
 
@@ -30271,31 +24798,23 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(186));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_129);
-printf("At L_JUMP_129\n");
-fflush(stdout);
-L_JUMP_129:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
-MOV(R1,FPARG(1)); // start copying arg2
+MOV(R1,R4); // start copying arg2
 ADD(R1, IMM(0));
 MOV(FPARG(R1), LOCAL(IMM(2)));
 
@@ -30313,17 +24832,11 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_131:
+L_CLOS_EXIT_128:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_127:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_121\n");
-JUMP_EQ(L_JUMP_121);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_121:
+L_CLOS_EXIT_124:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -30337,7 +24850,7 @@ MOV(R1, INDD(IMM(1236), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEmin
+ // DEFINE  min
 
  //APPLIC 
 
@@ -30354,25 +24867,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_116));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_113));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_114:
+L_FOR1_START_111:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_113);
+JUMP_EQ(L_FOR1_END_110);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_114);
+ JUMP(L_FOR1_START_111);
 
-L_FOR1_END_113:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_110:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -30383,34 +24893,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_112:
+L_FOR2_START_109:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_111);
+JUMP_EQ(L_FOR2_END_108);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_112);
+ JUMP(L_FOR2_START_109);
 
-L_FOR2_END_111:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_108:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_115);
-L_CLOS_CODE_116: 
+JUMP(L_CLOS_EXIT_112);
+L_CLOS_CODE_113: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_110);
-printf("at JUMP_SIMPLE_110");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_110:
 //IF 
 
  //APPLIC 
@@ -30431,14 +24930,6 @@ PUSH(R0);
 MOV(R0, IMM(539));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_120\n");
-JUMP_EQ(L_JUMP_120);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_120:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -30450,26 +24941,26 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_119); 
+		    JUMP_NE(L_THEN_116); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_118);
-		    L_THEN_119:// PVAR 
+		    JUMP_EQ(L_ELSE_115);
+		    L_THEN_116:// PVAR 
 MOV(R1, IMM(0));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    JUMP(L_IF_EXIT_117);
-		    L_ELSE_118:
+		    JUMP(L_IF_EXIT_114);
+		    L_ELSE_115:
 		    // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
 
-		    L_IF_EXIT_117:
+		    L_IF_EXIT_114:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_115:
+L_CLOS_EXIT_112:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -30483,25 +24974,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_102));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_99));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_100:
+L_FOR1_START_97:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_99);
+JUMP_EQ(L_FOR1_END_96);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_100);
+ JUMP(L_FOR1_START_97);
 
-L_FOR1_END_99:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_96:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -30512,34 +25000,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_98:
+L_FOR2_START_95:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_97);
+JUMP_EQ(L_FOR2_END_94);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_98);
+ JUMP(L_FOR2_START_95);
 
-L_FOR2_END_97:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_94:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_101);
-L_CLOS_CODE_102: 
+JUMP(L_CLOS_EXIT_98);
+L_CLOS_CODE_99: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_96);
-printf("at JUMP_SIMPLE_96");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_96:
 
 //LAMBDA OPTIONAL
 PUSH(IMM(3));
@@ -30551,25 +25028,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_104));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_101));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_106:
+L_FOR1_START_103:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_107);
+JUMP_EQ(L_FOR1_END_104);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_106);
+ JUMP(L_FOR1_START_103);
 
-L_FOR1_END_107:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_104:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -30580,35 +25054,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_108:
+L_FOR2_START_105:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_109);
+JUMP_EQ(L_FOR2_END_106);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_108);
+ JUMP(L_FOR2_START_105);
 
-L_FOR2_END_109:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_106:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_105);
-L_CLOS_CODE_104: 
+JUMP(L_CLOS_EXIT_102);
+L_CLOS_CODE_101: 
 PUSH(FP);
-//print_stack("LAMBDA OPT before fixing the stack after PUSH(FP)");
 MOV(FP, SP);
-//checking number of arguments match the length of the lambda
-CMP(IMM(FPARG(1)), IMM(1));
-JUMP_LT(ERROR_WRONG_ARGUMENT_NUMBER);
 MOV(R1,IMM(1));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(4)),R0);
 MOV(FPARG(IMM(2)), IMM(2));
-//print_stack("LAMBDA OPT after fixing the stack ");
 
  //TC-APPLIC 
 
@@ -30626,31 +25092,23 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 0));
-SHOW("bvar", R0);
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
 MOV(R0, IMM(186));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_103);
-printf("At L_JUMP_103\n");
-fflush(stdout);
-L_JUMP_103:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
-MOV(R1,FPARG(1)); // start copying arg2
+MOV(R1,R4); // start copying arg2
 ADD(R1, IMM(0));
 MOV(FPARG(R1), LOCAL(IMM(2)));
 
@@ -30668,17 +25126,11 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_105:
+L_CLOS_EXIT_102:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_101:
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_95\n");
-JUMP_EQ(L_JUMP_95);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_95:
+L_CLOS_EXIT_98:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -30692,13 +25144,13 @@ MOV(R1, INDD(IMM(1243), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEerror
-MOV(R0,IMM(1290));
+ // DEFINE  error
+MOV(R0,IMM(1285));
 MOV(R1, INDD(IMM(1252), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEnumber->string
+ // DEFINE  number->string
 
  //APPLIC 
 
@@ -30715,25 +25167,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_75));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_72));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_73:
+L_FOR1_START_70:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_72);
+JUMP_EQ(L_FOR1_END_69);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_73);
+ JUMP(L_FOR1_START_70);
 
-L_FOR1_END_72:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_69:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -30744,34 +25193,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_71:
+L_FOR2_START_68:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_70);
+JUMP_EQ(L_FOR2_END_67);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_71);
+ JUMP(L_FOR2_START_68);
 
-L_FOR2_END_70:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_67:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_74);
-L_CLOS_CODE_75: 
+JUMP(L_CLOS_EXIT_71);
+L_CLOS_CODE_72: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_69);
-printf("at JUMP_SIMPLE_69");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_69:
 
 //LAMBDA-SIMPLE
 
@@ -30784,25 +25222,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_82));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_79));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_80:
+L_FOR1_START_77:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_79);
+JUMP_EQ(L_FOR1_END_76);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_80);
+ JUMP(L_FOR1_START_77);
 
-L_FOR1_END_79:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_76:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -30813,40 +25248,29 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_78:
+L_FOR2_START_75:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_77);
+JUMP_EQ(L_FOR2_END_74);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_78);
+ JUMP(L_FOR2_START_75);
 
-L_FOR2_END_77:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_74:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_81);
-L_CLOS_CODE_82: 
+JUMP(L_CLOS_EXIT_78);
+L_CLOS_CODE_79: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_76);
-printf("at JUMP_SIMPLE_76");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_76:
 //IF 
 
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1654));
+MOV(R0,IMM(1649));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(0));
@@ -30858,14 +25282,6 @@ PUSH(R0);
 MOV(R0, IMM(539));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_94\n");
-JUMP_EQ(L_JUMP_94);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_94:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -30877,10 +25293,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_85); 
+		    JUMP_NE(L_THEN_82); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_84);
-		    L_THEN_85:
+		    JUMP_EQ(L_ELSE_81);
+		    L_THEN_82:
  //TC-APPLIC 
 
 // PVAR 
@@ -30893,18 +25309,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(29));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_93);
-printf("At L_JUMP_93\n");
-fflush(stdout);
-L_JUMP_93:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -30920,8 +25329,8 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_83);
-		    L_ELSE_84:
+		    JUMP(L_IF_EXIT_80);
+		    L_ELSE_81:
 		    
  //TC-APPLIC 
 
@@ -30933,7 +25342,7 @@ PUSH(IMM(0));
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1654));
+MOV(R0,IMM(1649));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(0));
@@ -30942,17 +25351,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1347));
+MOV(R0, IMM(1342));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_92\n");
-JUMP_EQ(L_JUMP_92);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_92:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -30968,14 +25369,6 @@ PUSH(R0);
 MOV(R0, IMM(29));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_91\n");
-JUMP_EQ(L_JUMP_91);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_91:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -30994,7 +25387,7 @@ PUSH(IMM(0));
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1654));
+MOV(R0,IMM(1649));
 PUSH(R0);
 
  //APPLIC 
@@ -31004,7 +25397,7 @@ PUSH(IMM(0));
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1654));
+MOV(R0,IMM(1649));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(0));
@@ -31013,17 +25406,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1347));
+MOV(R0, IMM(1342));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_90\n");
-JUMP_EQ(L_JUMP_90);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_90:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -31044,14 +25429,6 @@ PUSH(R0);
 MOV(R0, IMM(147));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_89\n");
-JUMP_EQ(L_JUMP_89);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_89:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -31067,14 +25444,6 @@ PUSH(R0);
 MOV(R0, IMM(152));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_88\n");
-JUMP_EQ(L_JUMP_88);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_88:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -31089,13 +25458,6 @@ PUSH(R0);
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_87\n");
-JUMP_EQ(L_JUMP_87);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_87:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -31111,21 +25473,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(1153));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_86);
-printf("At L_JUMP_86\n");
-fflush(stdout);
-L_JUMP_86:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -31141,15 +25496,15 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    L_IF_EXIT_83:
+		    L_IF_EXIT_80:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_81:
+L_CLOS_EXIT_78:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_74:
+L_CLOS_EXIT_71:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -31163,25 +25518,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_56));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_53));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_54:
+L_FOR1_START_51:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_53);
+JUMP_EQ(L_FOR1_END_50);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_54);
+ JUMP(L_FOR1_START_51);
 
-L_FOR1_END_53:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_50:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -31192,34 +25544,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_52:
+L_FOR2_START_49:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_51);
+JUMP_EQ(L_FOR2_END_48);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_52);
+ JUMP(L_FOR2_START_49);
 
-L_FOR2_END_51:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_48:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_55);
-L_CLOS_CODE_56: 
+JUMP(L_CLOS_EXIT_52);
+L_CLOS_CODE_53: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_50);
-printf("at JUMP_SIMPLE_50");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_50:
 
  //TC-APPLIC 
 
@@ -31231,18 +25572,12 @@ PUSH(IMM(0));
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1652));
+MOV(R0,IMM(1647));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(1));
 ADD(R1, IMM(3));
 MOV(R0, FPARG(R1));
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_68\n");
-JUMP_EQ(L_JUMP_68);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_68:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -31265,25 +25600,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_65));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_62));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_63:
+L_FOR1_START_60:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_62);
+JUMP_EQ(L_FOR1_END_59);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_63);
+ JUMP(L_FOR1_START_60);
 
-L_FOR1_END_62:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_59:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -31294,34 +25626,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_61:
+L_FOR2_START_58:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_60);
+JUMP_EQ(L_FOR2_END_57);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_61);
+ JUMP(L_FOR2_START_58);
 
-L_FOR2_END_60:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_57:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_64);
-L_CLOS_CODE_65: 
+JUMP(L_CLOS_EXIT_61);
+L_CLOS_CODE_62: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(1));
-JUMP_EQ(JUMP_SIMPLE_59);
-printf("at JUMP_SIMPLE_59");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_59:
 
  //TC-APPLIC 
 
@@ -31329,7 +25650,7 @@ JUMP_SIMPLE_59:
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1650));
+MOV(R0,IMM(1645));
 PUSH(R0);
 // PVAR 
 MOV(R1, IMM(0));
@@ -31341,14 +25662,6 @@ PUSH(R0);
 MOV(R0, IMM(137));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_67\n");
-JUMP_EQ(L_JUMP_67);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_67:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -31361,21 +25674,14 @@ DROP(IMM(2)); // drop (possibly false) args count and magic number
 PUSH(R0); // finished evaluating arg 
 
  //FVAR 
-MOV(R0, IMM(1440));
+MOV(R0, IMM(1435));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_66);
-printf("At L_JUMP_66\n");
-fflush(stdout);
-L_JUMP_66:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -31393,21 +25699,13 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_64:
+L_CLOS_EXIT_61:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(126));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_58\n");
-JUMP_EQ(L_JUMP_58);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_58:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -31423,18 +25721,11 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, IMM(777));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_57);
-printf("At L_JUMP_57\n");
-fflush(stdout);
-L_JUMP_57:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
 
@@ -31452,21 +25743,13 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_55:
+L_CLOS_EXIT_52:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_49\n");
-JUMP_EQ(L_JUMP_49);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_49:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -31480,7 +25763,7 @@ MOV(R1, INDD(IMM(1270), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINE=
+ // DEFINE  =
 
  //APPLIC 
 
@@ -31497,25 +25780,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_29));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_26));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_27:
+L_FOR1_START_24:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_26);
+JUMP_EQ(L_FOR1_END_23);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_27);
+ JUMP(L_FOR1_START_24);
 
-L_FOR1_END_26:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_23:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -31526,34 +25806,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_25:
+L_FOR2_START_22:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_24);
+JUMP_EQ(L_FOR2_END_21);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_25);
+ JUMP(L_FOR2_START_22);
 
-L_FOR2_END_24:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_21:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_28);
-L_CLOS_CODE_29: 
+JUMP(L_CLOS_EXIT_25);
+L_CLOS_CODE_26: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_23);
-printf("at JUMP_SIMPLE_23");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_23:
 
 //LAMBDA-SIMPLE
 
@@ -31566,25 +25835,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_36));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_33));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_34:
+L_FOR1_START_31:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_33);
+JUMP_EQ(L_FOR1_END_30);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_34);
+ JUMP(L_FOR1_START_31);
 
-L_FOR1_END_33:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_30:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -31595,34 +25861,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_32:
+L_FOR2_START_29:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_31);
+JUMP_EQ(L_FOR2_END_28);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_32);
+ JUMP(L_FOR2_START_29);
 
-L_FOR2_END_31:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_28:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_35);
-L_CLOS_CODE_36: 
+JUMP(L_CLOS_EXIT_32);
+L_CLOS_CODE_33: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_30);
-printf("at JUMP_SIMPLE_30");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_30:
 //IF 
 
  //APPLIC 
@@ -31635,17 +25890,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1318));
+MOV(R0, IMM(1313));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_48\n");
-JUMP_EQ(L_JUMP_48);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_48:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -31657,13 +25904,13 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_39); 
+		    JUMP_NE(L_THEN_36); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_38);
-		    L_THEN_39:MOV(R0,IMM(14));
+		    JUMP_EQ(L_ELSE_35);
+		    L_THEN_36:MOV(R0,IMM(14));
 
-		    JUMP(L_IF_EXIT_37);
-		    L_ELSE_38:
+		    JUMP(L_IF_EXIT_34);
+		    L_ELSE_35:
 		    //IF 
 
  //APPLIC 
@@ -31680,17 +25927,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_47\n");
-JUMP_EQ(L_JUMP_47);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_47:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -31708,17 +25947,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1415));
+MOV(R0, IMM(1410));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_46\n");
-JUMP_EQ(L_JUMP_46);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_46:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -31730,10 +25961,10 @@ DROP(R1); // drop args
 DROP(IMM(2)); // drop (possibly false) args count and magic number 
 
 		    CMP(ADDR(R0), T_BOOL);
-		    JUMP_NE(L_THEN_42); 
+		    JUMP_NE(L_THEN_39); 
 		    CMP(INDD(R0, 1), 0);
-		    JUMP_EQ(L_ELSE_41);
-		    L_THEN_42:
+		    JUMP_EQ(L_ELSE_38);
+		    L_THEN_39:
  //TC-APPLIC 
 
 
@@ -31747,17 +25978,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1325));
+MOV(R0, IMM(1320));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_45\n");
-JUMP_EQ(L_JUMP_45);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_45:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -31779,17 +26002,9 @@ MOV(R0, FPARG(R1));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1356));
+MOV(R0, IMM(1351));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_44\n");
-JUMP_EQ(L_JUMP_44);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_44:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
@@ -31804,20 +26019,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_43);
-printf("At L_JUMP_43\n");
-fflush(stdout);
-L_JUMP_43:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -31833,21 +26042,21 @@ PUSH(R3); //push the old RET
 MOV(FP,R2); //update FP to the old FP 
 JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place
 
-		    JUMP(L_IF_EXIT_40);
-		    L_ELSE_41:
+		    JUMP(L_IF_EXIT_37);
+		    L_ELSE_38:
 		    MOV(R0,IMM(12));
 
-		    L_IF_EXIT_40:
-		    
 		    L_IF_EXIT_37:
+		    
+		    L_IF_EXIT_34:
 		    
 POP(FP);
 RETURN;
-L_CLOS_EXIT_35:
+L_CLOS_EXIT_32:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_28:
+L_CLOS_EXIT_25:
 PUSH(R0);
 
 //LAMBDA-SIMPLE
@@ -31861,25 +26070,22 @@ PUSH(IMM(2));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_15));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_12));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(1));
 
-L_FOR1_START_13:
+L_FOR1_START_10:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_12);
+JUMP_EQ(L_FOR1_END_9);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_13);
+ JUMP(L_FOR1_START_10);
 
-L_FOR1_END_12:
-//for (i = 0; i < 1; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_9:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -31890,34 +26096,23 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_11:
+L_FOR2_START_8:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_10);
+JUMP_EQ(L_FOR2_END_7);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+3)
   INCR(R5);
- JUMP(L_FOR2_START_11);
+ JUMP(L_FOR2_START_8);
 
-L_FOR2_END_10:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_7:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_14);
-L_CLOS_CODE_15: 
+JUMP(L_CLOS_EXIT_11);
+L_CLOS_CODE_12: 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack("THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP");
-CMP(FPARG(1), IMM(2));
-JUMP_EQ(JUMP_SIMPLE_9);
-printf("at JUMP_SIMPLE_9");
-SHOW("expected number of args:", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-JUMP_SIMPLE_9:
 
 //LAMBDA OPTIONAL
 PUSH(IMM(3));
@@ -31929,25 +26124,22 @@ PUSH(IMM(3));
 CALL(MALLOC);
 DROP(IMM(1));
 MOV(INDD(R1, 1), R0);
-MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_17));       //put the closure_code_start at cell number 3 (2) of the new SOB
+MOV(INDD(R1, 2), LABEL(L_CLOS_CODE_14));       //put the closure_code_start at cell number 3 (2) of the new SOB
 //begining of the for loop
 MOV(R5, IMM(0));
 MOV(R6, IMM(2));
 
-L_FOR1_START_19:
+L_FOR1_START_16:
 CMP(R5,R6);
-JUMP_EQ(L_FOR1_END_20);
+JUMP_EQ(L_FOR1_END_17);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(1));
   MOV(INDD(R0, R7),INDD(FPARG(0), R5));
   INCR(R5);
- JUMP(L_FOR1_START_19);
+ JUMP(L_FOR1_START_16);
 
-L_FOR1_END_20:
-//for (i = 0; i < 2; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
+L_FOR1_END_17:
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -31958,35 +26150,27 @@ MOV(ADDR(R2), R0);
 MOV(R5, IMM(0));
 MOV(R6, FPARG(IMM(2)));
 
-L_FOR2_START_21:
+L_FOR2_START_18:
 CMP(R5,R6);
-JUMP_EQ(L_FOR2_END_22);
+JUMP_EQ(L_FOR2_END_19);
 //for statement body
   MOV(R7, R5);
   ADD(R7, IMM(3));
    MOV(INDD(R0, R5), FPARG(R7));                //R0[i] <- FPARG(i+2)
   INCR(R5);
- JUMP(L_FOR2_START_21);
+ JUMP(L_FOR2_START_18);
 
-L_FOR2_END_22:
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
+L_FOR2_END_19:
 //ending of the 2nd for loop
 MOV(R0, R1);
-JUMP(L_CLOS_EXIT_18);
-L_CLOS_CODE_17: 
+JUMP(L_CLOS_EXIT_15);
+L_CLOS_CODE_14: 
 PUSH(FP);
-//print_stack("LAMBDA OPT before fixing the stack after PUSH(FP)");
 MOV(FP, SP);
-//checking number of arguments match the length of the lambda
-CMP(IMM(FPARG(1)), IMM(1));
-JUMP_LT(ERROR_WRONG_ARGUMENT_NUMBER);
 MOV(R1,IMM(1));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(4)),R0);
 MOV(FPARG(IMM(2)), IMM(2));
-//print_stack("LAMBDA OPT after fixing the stack ");
 
  //TC-APPLIC 
 
@@ -32004,20 +26188,14 @@ PUSH(R0); // finished evaluating arg
 MOV(R0, FPARG(0));
 MOV(R0, INDD(R0, 0));
 MOV(R0, INDD(R0, 1));
-SHOW("bvar", R0);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-JUMP_EQ(L_JUMP_16);
-printf("At L_JUMP_16\n");
-fflush(stdout);
-L_JUMP_16:
 //TC-APPLIC CONTINUE 
 MOV(R2,FPARG(-2)); // save old FP 
 MOV(R3,FPARG(-1)); // save old RET 
 MOV(R4,FPARG(1)); // save actual number of current args 
-MOV(R1,FPARG(1)); // start copying arg0
+MOV(R1,R4); // start copying arg0
 ADD(R1, IMM(2));
 MOV(FPARG(R1), LOCAL(IMM(0)));
-MOV(R1,FPARG(1)); // start copying arg1
+MOV(R1,R4); // start copying arg1
 ADD(R1, IMM(1));
 MOV(FPARG(R1), LOCAL(IMM(1)));
 
@@ -32035,25 +26213,17 @@ JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the re
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_18:
+L_CLOS_EXIT_15:
 
 POP(FP);
 RETURN;
-L_CLOS_EXIT_14:
+L_CLOS_EXIT_11:
 PUSH(R0);
 
  //FVAR 
 MOV(R0, IMM(132));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_8\n");
-JUMP_EQ(L_JUMP_8);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_8:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
@@ -32067,97 +26237,19 @@ MOV(R1, INDD(IMM(1275), IMM(1)));
 MOV(INDD(R1,IMM(1)), R0);
 MOV(R0, IMM(IMM(10)));
 
- // DEFINEs
-
  //APPLIC 
 
 PUSH(IMM(0));
-MOV(R0,IMM(1349));
+MOV(R0,IMM(1651));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1503));
+MOV(R0, IMM(1498));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_7\n");
-JUMP_EQ(L_JUMP_7);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_7:
 //APPLIC CONTINUE
 PUSH(IMM(1)); // pushing number of arguments 
 PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-MOV(R1, INDD(IMM(1280), IMM(1)));
-MOV(INDD(R1,IMM(1)), R0);
-MOV(R0, IMM(IMM(10)));
-
- //APPLIC 
-
-PUSH(IMM(0));
-
- //APPLIC 
-
-PUSH(IMM(0));
-MOV(R0,IMM(1656));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1440));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_6\n");
-JUMP_EQ(L_JUMP_6);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_6:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-PUSH(R0);
-MOV(R0,IMM(1309));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1280));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1488));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_5\n");
-JUMP_EQ(L_JUMP_5);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_5:
-//APPLIC CONTINUE
-PUSH(IMM(3)); // pushing number of arguments 
-PUSH(IMM(3)); // pushing again for reference for frame removal 
 PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
 CALLA(INDD(R0,IMM(2))); // calling the procedure body 
 DROP(IMM(1)); // dropping the environment 
@@ -32172,128 +26264,61 @@ PUSH(R0);
  //APPLIC 
 
 PUSH(IMM(0));
-
- //APPLIC 
-
-PUSH(IMM(0));
-MOV(R0,IMM(1658));
+MOV(R0,IMM(1416));
+PUSH(R0);
+MOV(R0,IMM(1651));
 PUSH(R0);
 
  //FVAR 
-MOV(R0, IMM(1440));
+MOV(R0, IMM(1498));
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
 MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_4\n");
-JUMP_EQ(L_JUMP_4);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_4:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-PUSH(R0);
-MOV(R0,IMM(1290));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1280));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1488));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_3\n");
-JUMP_EQ(L_JUMP_3);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_3:
-//APPLIC CONTINUE
-PUSH(IMM(3)); // pushing number of arguments 
-PUSH(IMM(3)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-PUSH(R0);
-        CALL(WRITE_SOB);    
-        DROP(IMM(1));
-        OUT(IMM(2), IMM('\n'));
-
- //APPLIC 
-
-PUSH(IMM(0));
-
- //APPLIC 
-
-PUSH(IMM(0));
-
- //FVAR 
-MOV(R0, IMM(1280));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1682));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_2\n");
-JUMP_EQ(L_JUMP_2);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_2:
-//APPLIC CONTINUE
-PUSH(IMM(1)); // pushing number of arguments 
-PUSH(IMM(1)); // pushing again for reference for frame removal 
-PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
-CALLA(INDD(R0,IMM(2))); // calling the procedure body 
-DROP(IMM(1)); // dropping the environment 
-POP(R1); // get number of actual args 
-DROP(R1); // drop args 
-DROP(IMM(2)); // drop (possibly false) args count and magic number 
-PUSH(R0);
-MOV(R0,IMM(1664));
-PUSH(R0);
-
- //FVAR 
-MOV(R0, IMM(1510));
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
-MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
-CMP(R0, IMM(0));
-JUMP_EQ(ERROR_UNDEFINED);
-CMP(ADDR(R0), IMM(T_CLOSURE));
-printf("At L_JUMP_1\n");
-JUMP_EQ(L_JUMP_1);
-JUMP(ERROR_NOT_A_CLOSURE);
-fflush(stdout);
-L_JUMP_1:
 //APPLIC CONTINUE
 PUSH(IMM(2)); // pushing number of arguments 
 PUSH(IMM(2)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+PUSH(R0);
+        CALL(WRITE_SOB);    
+        DROP(IMM(1));
+        OUT(IMM(2), IMM('\n'));
+
+ //APPLIC 
+
+PUSH(IMM(0));
+
+ //APPLIC 
+
+PUSH(IMM(0));
+MOV(R0,IMM(1651));
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1498));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
+PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
+CALLA(INDD(R0,IMM(2))); // calling the procedure body 
+DROP(IMM(1)); // dropping the environment 
+POP(R1); // get number of actual args 
+DROP(R1); // drop args 
+DROP(IMM(2)); // drop (possibly false) args count and magic number 
+PUSH(R0);
+
+ //FVAR 
+MOV(R0, IMM(1452));
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address 
+MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address 
+//APPLIC CONTINUE
+PUSH(IMM(1)); // pushing number of arguments 
+PUSH(IMM(1)); // pushing again for reference for frame removal 
 PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure 
 CALLA(INDD(R0,IMM(2))); // calling the procedure body 
 DROP(IMM(1)); // dropping the environment 

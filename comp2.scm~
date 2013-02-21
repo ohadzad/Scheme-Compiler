@@ -325,7 +325,7 @@ RETURN;
 ")
 
 
-;CISC function for getting the last
+;CISC function for getting the last bucket in the symbol table
 (define get_last_bucket
 (sa
 "GET_LAST_BUCKET:
@@ -371,37 +371,9 @@ RETURN;
 "
 ))
 
-(define print_memory
-	"
-void print_memory(int from, int to){
-int i;
-printf(\"printing memory, FP: %d SP: %d R0: %d\\n\", (int)(FP), (int)(SP), (int)R0);
-for(i=from;i<to; ++i){
-printf(\"%d \", i);
-SHOW(\"\", M(mem)[i]);
-}
-}
-")
-
-(define print-stack
-        "void print_stack(char* comment){
-        int i;
-        printf(\"printing stack, FP: %d SP: %d %s\\n\", (int)(FP), (int)(SP), comment);
-        for(i=SP+5; i>=0; --i){
-        if(SP == i){
-                printf(\"SP \");
-        }
-        if(FP == i){
-                printf(\"FP\");
-        }
-        printf(\"\telement %d: \", i);
-        SHOW(\" \", STACK(i));
-        }
-}")
-
 ;Groups all support methods.
 (define define_support_methods
-        (sa make-list print_memory print-stack get_last_bucket compare_strings copy_string))
+        (sa make-list get_last_bucket compare_strings copy_string))
 
 
 ;******************************************************************************
@@ -425,8 +397,9 @@ SHOW(\"\", M(mem)[i]);
 						(map parse 
 							(tokens->sexprs 
 								(append 
-									(string->token support_code)
-									(file->tokens input-name)))))))
+									(string->tokens support_code)
+									(file->tokens input-name))))))
+									)
                         (code (generate parsed-exp-list))
                         (port (open-output-file output-name)))
                 (display "\n-----constants_table-----\n")
@@ -458,8 +431,6 @@ SHOW(\"\", M(mem)[i]);
                         "\n // starting code \n"
                         start-of-file 
                         "JUMP(L_END_DEFS);\n"
-                        "\n // methods for error handling \n"
-                        define-errors 
                         "\n // support methods \n"
                         define_support_methods 
                        "\n //Primiteves Procedures"
@@ -479,7 +450,6 @@ SHOW(\"\", M(mem)[i]);
 				(map 
 					(lambda (x) 
 						(sa
-						;"print_stack(\"for \");\n"
 						(if	(pe_define? x)
 							(code-gen x '() '(()) )
 							(sa (code-gen x '() '(()) ) print-sob-code)))) 
@@ -500,23 +470,9 @@ SHOW(\"\", M(mem)[i]);
                 "PUSH(IMM(9999)); // dummy return address \n"
                 "PUSH(IMM(9999)); //just like the beginning of a function body \n"
                 "MOV(FP,SP);\n"
-                ;"print_stack(\"THIS IS THE STACK AT THE BEGINNING\");\n"
                 ))
 
-;CISC code for error handling.
-(define define-errors
-        (sa
-                "ERROR_NOT_A_CLOSURE:\n"
-                "printf(\"Not a closure.\\n\");\n"
-                "JUMP(L_END_OF_PROGRAM);\n"
-                "ERROR_WRONG_ARGUMENT_NUMBER:\n"
-                "printf(\"Wrong number of parameters.\");\n"
-                "JUMP(L_END_OF_PROGRAM);\n"
-                "ERROR_UNDEFINED:\n"
-                "printf(\"Variable undefined.\");\n"
-                "JUMP(L_END_OF_PROGRAM);\n"
-                ))
-                
+
 ;CISC code for the beginning of the file.
 (define start-of-file
         "#include <stdio.h>
@@ -632,7 +588,7 @@ return 0;
 (define code_gen_define
 	(lambda(pe params env)
 		(let ((sym (cadadr pe))(val (caddr pe)))
-			(sa	"\n // DEFINE" (symbol->string sym) "\n"
+			(sa	"\n // DEFINE  " (symbol->string sym) "\n"
 				(code-gen val params env)
 				"MOV(R1, INDD(IMM(" (number->string (get_const_address sym))"), IMM(1)));\n"
 				"MOV(INDD(R1,IMM(1)), R0);\n"
@@ -655,8 +611,6 @@ return 0;
 				"MOV(R0, IMM(" (number->string (get_const_address sym))"));\n"
 				"MOV(R0, INDD(R0,IMM(1))); // R0 holds the bucket address \n"
 				"MOV(R0, INDD(R0,IMM(1))); // R0 holds the value address \n"
-				"CMP(R0, IMM(0));\n"
-				"JUMP_EQ(ERROR_UNDEFINED);\n"
 			))))
 
 ;TAIL-CALL APPLICATION
@@ -677,7 +631,7 @@ return 0;
                                                 (let 
                                                 ((si (number->string i)))
                                                 (sa
-                                                        "MOV(R1,FPARG(1)); // start copying arg" si "\n"
+                                                        "MOV(R1,R4); // start copying arg" si "\n"
                                                         "ADD(R1, IMM(" (number->string (- 2 i)) "));\n"
                                                         "MOV(FPARG(R1), LOCAL(IMM(" si ")));\n"
                                                         (copyargs n (+ i 1)))
@@ -689,14 +643,6 @@ return 0;
                         (apply sa (map (lambda (e) (sa (code-gen e params env) "PUSH(R0); // finished evaluating arg \n")) (reverse (caddr pe))))               ;pushing the arguments in reverse
                         ;"print_stack(\"after pushing args\");\n"
                         (code-gen (cadr pe) params env) ;evaluating  the procedure
-                        "CMP(ADDR(R0), IMM(T_CLOSURE));\n"      ;checking for errors
-                        "JUMP_EQ(" jump-label ");\n"
-                        "printf(\"At " jump-label "\\n\");\n"
-                        "fflush(stdout);\n"
-                        ;"PUSH(R0);\n"
-                        ;"CALL(WRITE_SOB);\n"
-                        ;"POP(R0);\n"
-                        jump-label ":\n"
                         "//TC-APPLIC CONTINUE \n"
                         "MOV(R2,FPARG(-2)); // save old FP \n"
                         "MOV(R3,FPARG(-1)); // save old RET \n"
@@ -706,13 +652,11 @@ return 0;
                         "SUB(R5,R4); //R5 should point to the lowest arg \n"
                         "SUB(R5, IMM(" (number->string (- 5 param-num-num)) ")); // R5 should hold the correct place for SP \n"
                         "MOV(SP,R5);\n"
-                        ;"print_stack(\"sp should be just above the copied args\");\n"
                         "PUSH(IMM(" param-num ")); //push number of params \n"
                         "PUSH(IMM(" param-num ")); //push indicator \n"
                         "PUSH(INDD(R0,IMM(1))); //push the ENV \n"
                         "PUSH(R3); //push the old RET \n"
                         "MOV(FP,R2); //update FP to the old FP \n"
-                        ;"print_stack(\"STACK AFTER TC-APPLIC REPAIR\");\n"
                         "JUMPA(INDD(R0,IMM(2))); //we jump instead of call because we already have the return address in place\n"
 ))))
 
@@ -766,9 +710,6 @@ JUMP_EQ(" L_FOR1_END ");
  JUMP(" L_FOR1_START ");
 
 " L_FOR1_END ":
-//for (i = 0; i < " (number->string ENV_SIZE) "; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(IMM(2)));
@@ -790,23 +731,12 @@ JUMP_EQ(" L_FOR2_END ");
  JUMP(" L_FOR2_START ");
 
 " L_FOR2_END ":
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
 //ending of the 2nd for loop
 MOV(R0, R1);
 JUMP(" L_CLOS_EXIT ");
 " L_CLOS_CODE ": 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack(\"THIS IS THE STACK AFTER GOING INTO FUNCTION BODY AND PUSHING FP\");
-CMP(FPARG(1), IMM(" par-len "));
-JUMP_EQ("jump_label");
-printf(\"at " jump_label "\");
-SHOW(\"expected number of args:\", FPARG(1));
-JUMP_NE(ERROR_WRONG_ARGUMENT_NUMBER);
-//checking number of arguments match the length of the lambda
-"jump_label":
 " body "
 POP(FP);
 RETURN;
@@ -825,7 +755,6 @@ RETURN;
         (lambda (pe params env)
           (let  (
                 (body   (code-gen (caddr pe) (cadr pe) (cons params env))) ; fix body
-                ;(par   (code-gen (cadr pe) params env))
                 (ENV_SIZE (length env))
                 (L_CLOS_CODE (label-maker "L_CLOS_CODE"))
                 (L_CLOS_EXIT (label-maker "L_CLOS_EXIT"))
@@ -862,9 +791,6 @@ JUMP_EQ(" L_FOR1_END ");
  JUMP(" L_FOR1_START ");
 
 " L_FOR1_END ":
-//for (i = 0; i < " (number->string ENV_SIZE) "; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -887,9 +813,6 @@ JUMP_EQ(" L_FOR2_END ");
  JUMP(" L_FOR2_START ");
 
 " L_FOR2_END ":
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
 //ending of the 2nd for loop
 MOV(R0, R1);
 JUMP(" L_CLOS_EXIT ");
@@ -897,19 +820,17 @@ JUMP(" L_CLOS_EXIT ");
 
 PUSH(FP);
 MOV(FP, SP);
-//print_stack(\"LAMBDA VAR before fixing the stack but after PUSH(FP)\");
 MOV(R1, IMM(0));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM(3)), R0);
 MOV(FPARG(2), IMM(1));
-//print_stack(\"LAMBDA VAR after fixing the stack\");
 //body of the lambda goes here
 " body "
 POP(FP);
 RETURN;
 " L_CLOS_EXIT ":\n"
 
-                ))))            
+))))
                 
 
 ;LAMBDA OPTIONAL
@@ -961,9 +882,6 @@ JUMP_EQ(" L_FOR1_END ");
  JUMP(" L_FOR1_START ");
 
 " L_FOR1_END ":
-//for (i = 0; i < " (number->string ENV_SIZE) "; i++){          //here we copy the old environments step by step
-//    MOV(INDD(R0, IMM(i+1)),INDD(FPARG(0), IMM(i)));
-//}
 //end of for loop
 MOV(R2, R0)     //R2 has the location of the new Env
 PUSH(FPARG(2));
@@ -985,24 +903,16 @@ JUMP_EQ(" L_FOR2_END ");
  JUMP(" L_FOR2_START ");
 
 " L_FOR2_END ":
-//for (i = 0 ; i < FPARG(IMM(1)); i++){         //now we should copy the new params from the stack
-//    MOV(INDD(R0, IMM(i)), FPARG(IMM(i+2)));           //R0[i] <- FPARG(i+2)
-//}
 //ending of the 2nd for loop
 MOV(R0, R1);
 JUMP(" L_CLOS_EXIT ");
 " L_CLOS_CODE ": 
 PUSH(FP);
-//print_stack(\"LAMBDA OPT before fixing the stack after PUSH(FP)\");
 MOV(FP, SP);
-//checking number of arguments match the length of the lambda
-CMP(IMM(FPARG(1)), IMM(" (number->string (- par-len 1)) "));
-JUMP_LT(ERROR_WRONG_ARGUMENT_NUMBER);
 MOV(R1,IMM(" (number->string (- par-len 1)) "));
 CALL(MAKE_LIST);
 MOV(FPARG(IMM("(number->string (+ par-len 2)) ")),R0);
 MOV(FPARG(IMM(2)), IMM(" (number->string par-len) "));
-//print_stack(\"LAMBDA OPT after fixing the stack \");
 " body "
 POP(FP);
 RETURN;
@@ -1059,17 +969,10 @@ RETURN;
                         "PUSH(IMM(0));\n"       ;pushing the magic number
                         (apply sa (map (lambda (e) (sa (code-gen e params env) "PUSH(R0);\n")) (reverse (caddr pe))))           ;pushing the arguments in reverse
                         (code-gen (cadr pe) params env) ;evaluating  the procedure
-                        "CMP(ADDR(R0), IMM(T_CLOSURE));\n"      ;checking for errors
-                        "printf(\"At " jump-label "\\n\");\n"
-                        "JUMP_EQ(" jump-label ");\n"
-                        "JUMP(ERROR_NOT_A_CLOSURE);\n"
-                        "fflush(stdout);\n"
-                        jump-label ":\n"
                         "//APPLIC CONTINUE\n"
                         "PUSH(IMM(" param-num ")); // pushing number of arguments \n"   ;
                         "PUSH(IMM(" param-num ")); // pushing again for reference for frame removal \n"
                         "PUSH(INDD(R0,IMM(1))); // pushing the environment from the closure \n" ;
-                        ;"print_stack(\"normal applic just before function call\");\n"
                         "CALLA(INDD(R0,IMM(2))); // calling the procedure body \n"              ;
                         "DROP(IMM(1)); // dropping the environment \n"  ;
                         "POP(R1); // get number of actual args \n"              
