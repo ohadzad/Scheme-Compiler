@@ -1,0 +1,5 @@
+(string? 'sym)
+(string? #t)
+(string? 1)
+(string? "a")
+(string? 1233443)

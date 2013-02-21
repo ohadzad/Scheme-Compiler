@@ -1,0 +1,6 @@
+(number? 'sym)
+(number? #t)
+(number? 1) 
+(number? "a")
+(number? 1233443)
+(number? #\a)

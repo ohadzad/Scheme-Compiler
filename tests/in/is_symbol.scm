@@ -1,0 +1,5 @@
+(symbol? 'sym)
+(symbol? #t)
+(symbol? 1)
+(symbol? "a")
+(symbol? 1233443)

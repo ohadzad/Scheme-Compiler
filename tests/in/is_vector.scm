@@ -1,0 +1,5 @@
+(vector? '#(1 2 3)) 
+(vector? 1)
+(vector? 'a)
+(vector? "a")
+(vector? #t)

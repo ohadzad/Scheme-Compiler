@@ -1,0 +1,43 @@
+import os
+import subprocess
+
+
+def test_file(file_str):
+    if file_str.endswith(".scm"):
+	#print file_str
+	srcFile = "./tests/in/" + file_str
+	outFile = "./tests/out/" + file_str
+	logFile = "./tests/log/" + file_str
+	#print "\ntest-make.sh " +  srcFile + " " + outFile + " " + logFile
+	#subprocess.call(["./test-make.sh ", srcFile +" " +  outFile +" " + logFile])
+	proc = subprocess.Popen( args=["./test-make.sh " + srcFile + " " + outFile + " " + logFile], shell=True, )
+	proc.wait() 
+
+def check_log_file(log_file):
+    if log_file.endswith(".scm"):
+	data = log_file.read()
+	print data
+	#if (data != "")
+	 #   print "diff in: " + log_file
+
+inloc = './tests/in'
+outloc = './tests/out'
+for subdir, dirs, files in os.walk(inloc):
+    for file in files:
+      test_file(file)
+      print file
+
+print "------------------------------------------------\n"
+
+inloc = './tests/log' 
+
+for subdir, dirs, files in os.walk(inloc):
+    for file in files:
+      if file.endswith(".scm"):
+	filename = inloc + '/' + file
+	#print filename
+	f = open(filename, 'r')
+	
+	data = f.read()
+	if (data != ""):
+	  print "diff in: " + file

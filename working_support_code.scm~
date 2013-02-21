@@ -1,0 +1,25 @@
+(define bin<=? (lambda (a b) (not (bin>? a b))))
+(define bin>=? (lambda (a b) (not (bin<? a b))))
+(define zero? (lambda (x) (= x 0)))
+(define length
+  (lambda (s)
+    (if (null? s) 0
+	(add1 (length (cdr s))))))
+(define list?
+  (lambda (e)
+    (or (null? e)
+	(and (pair? e)
+	     (list? (cdr e))))))
+(define even?
+  (lambda (n)
+    (zero? (remainder n 2))))
+(define odd?
+  (lambda (n)
+    (not (zero? (remainder n 2)))))
+(define map
+	(lambda (f s)
+		(if 
+			(null? s)
+			s
+			(cons (f (car s)) (map f (cdr s))))))
+(map (lambda (x) (bin+ 1 x)) '(1 1 1))

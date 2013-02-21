@@ -1,0 +1,3 @@
+(load "compt.scm")
+(display "Compiling main.scm\n")
+(exit)

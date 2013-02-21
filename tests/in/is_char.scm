@@ -1,0 +1,6 @@
+(char? 'sym)
+(char? #t)
+(char? 1)
+(char? "a")
+(char? 1233443)
+(char? #\a)

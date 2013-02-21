@@ -1,0 +1,10 @@
+old FP					- FPARG(-2)
+RET address 				- FPARG(-1)
+ENVironment 				- FPARG(0)
+Number of arguments indicator		- FPARG(1)
+Number of arguments (real)		- FPARG(2)
+Argument 1				- FPARG(3)
+...
+Argument n				- FPARG(n+2)
+Magic number				- FPARG(n+3
+)
