@@ -1,6 +1,6 @@
 ;;; compiler.scm
 ;;;
-;;; Programmer: ???
+;;; Programmers: Ohad Zadok, Tsah Weiss, Hadar Oz
 
 ;;; general support routines
 
@@ -2273,6 +2273,172 @@ RETURN;
 		))))
 	(lambda (a . s)
 		(loop a s))))
+		
+
+
+(define format
+  (letrec ((st0
+	    (lambda (fs args)
+	      (cond ((null? fs)
+		     (if (null? args)
+			 '()
+			 (error 'format \"Too many arguments\" args)))
+		    ((char=? (car fs) #\\~) (st1 (cdr fs) args))
+		    (else (cons (car fs) (st0 (cdr fs) args))))))
+	   (st1
+	    (lambda (fs args)
+	      (cond ((null? fs) (st0 fs args))
+		    ((char=? (car fs) #\\a)
+		     (append (string->list
+			      (sexpr->display-string
+			       (car args)))
+			     (st0 (cdr fs) (cdr args))))
+		    ((char=? (car fs) #\\s)
+		     (append (string->list (sexpr->string (car args)))
+			     (st0 (cdr fs) (cdr args))))
+		    ((char=? (car fs) #\\%)
+		     (cons #\\newline (st0 (cdr fs) args)))
+		    ((char=? (car fs) #\\~)
+		     (cons #\\~ (st0 (cdr fs) args)))
+		    (else (error 'format
+				 \"Unrecognized meta-character\"
+				 (car fs)))))))
+    (lambda (format-string . args)
+      (list->string (st0 (string->list format-string) args)))))
+
+(define sexpr->string
+  (letrec ((run
+	    (lambda (e)
+	      (cond ((null? e) \"()\")
+		    ((boolean? e) (if e \"#t\" \"#f\"))
+		    ((char? e) (char->string e))
+		    ((number? e) (number->string e))
+		    ((symbol? e) (symbol->string e))
+		    ((pair? e)
+		     (string-append \"(\" (pair->string (car e) (cdr e)) \")\"))
+		    ((string? e) (string->string e))
+		    ((vector? e) (vector->string e))
+		    ((void? e) \"#<void>\")
+		    ((procedure? e) \"#<procedure>\")
+		    (else (error 'sexpr->string \"What's this\" e)))))
+	   (vector->string
+	    (lambda (v)
+	      (let ((n (vector-length v))
+		    (s (vector->list v)))
+		(string-append
+		 \"#\"
+		 (run n)
+		 (run s)))))
+	   (string->string
+	    (letrec ((st0
+		      (lambda (s)
+			(cond ((null? s) '())
+			      ((char=? (car s) #\\newline)
+			       (append '(#\\\\ #\\n)
+				       (st0 (cdr s))))
+			      ((char=? (car s) #\\return)
+			       (append '(#\\\\ #\\r)
+				       (st0 (cdr s))))
+			      ((char=? (car s) #\\\\)
+			       (append '(#\\\\ #\\\\)
+				       (st0 (cdr s))))
+			      ((char=? (car s) #\\\")
+			       (append '(#\\\\ #\\\")
+				       (st0 (cdr s))))
+			      ((char<? (car s) #\\space)
+			       (append '(#\\\\)
+				       (octal-chars (char->integer (car s)))
+				       (st0 (cdr s))))
+			      (else (cons (car s) (st0 (cdr s))))))))
+	      (lambda (string)
+		(list->string
+		 (append '(#\\\")
+			 (st0 (string->list string))
+			 '(#\\\"))))))
+	   (octal-chars
+		      (lambda (m)
+			(let* ((o3 (digit (remainder m 8)))
+			       (n (quotient m 8))
+			       (o2 (digit (remainder n 8)))
+			       (n (quotient n 8))
+			       (o1 (digit (remainder n 8)))
+			       (n (quotient n 8)))
+			  (if (zero? n)
+			      (list o1 o2 o3)
+			      (error 'octal-chars \"Not an octal char\" m)))))
+	   (digit
+	    (let ((ascii0 (char->integer #\\0)))
+	      (lambda (n)
+		(integer->char (+ ascii0 n)))))
+	   (pair->string
+	    (lambda (a d)
+	      (let ((string-a (run a)))
+		(cond ((null? d) string-a)
+		      ((pair? d)
+		       (let ((string-d (pair->string (car d) (cdr d))))
+			 (string-append string-a \" \" string-d)))
+		      (else (let ((string-d (run d)))
+			      (string-append string-a \" . \" string-d)))))))
+	   (char->string
+	    (lambda (ch)
+	      (cond ((char=? ch #\\newline) \"#\\\\newline\")
+		    ((char=? ch #\\space) \"#\\\\space\")
+		    ((char=? ch #\\tab) \"#\\\\tab\")
+		    ((char=? ch #\\return) \"#\\return\")
+		    ((char<? ch #\\space)
+		     (list->string
+		      (append '(#\\# #\\\\)
+			      (octal-chars (char->integer ch)))))
+		    (else (list->string
+			   (list #\\# #\\\\ ch)))))))
+    (lambda (e)
+      (if (void? e)
+	  \"\"
+	  (run e)))))
+
+(define sexpr->display-string
+  (letrec ((run
+	    (lambda (e)
+	      (cond ((null? e) \"()\")
+		    ((boolean? e) (if e \"#t\" \"#f\"))
+		    ((char? e) (char->string e))
+		    ((number? e) (number->string e))
+		    ((symbol? e) (symbol->string e))
+		    ((pair? e)
+		     (string-append \"(\" (pair->string (car e) (cdr e)) \")\"))
+		    ((string? e) e)
+		    ((vector? e) (vector->string e))
+		    ((void? e) \"#<void>\")
+		    ((procedure? e) \"#<procedure>\")
+		    (else (error 'sexpr->string \"What's this\" e)))))
+	   (vector->string
+	    (lambda (v)
+	      (let ((n (vector-length v))
+		    (s (vector->list v)))
+		(string-append
+		 \"#\"
+		 (run n)
+		 (run s)))))
+	   (pair->string
+	    (lambda (a d)
+	      (let ((string-a (run a)))
+		(cond ((null? d) string-a)
+		      ((pair? d)
+		       (let ((string-d (pair->string (car d) (cdr d))))
+			 (string-append string-a \" \" string-d)))
+		      (else (let ((string-d (run d)))
+			      (string-append string-a \" . \" string-d)))))))
+	   (char->string
+	    (lambda (ch)
+	      (list->string
+	       (list ch)))))
+    (lambda (e)
+      (if (void? e)
+	  \"\"
+	  (run e)))))
+
+
+
 ")
 
 ;******************************************************************************
