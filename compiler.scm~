@@ -1196,11 +1196,7 @@ RETURN;
                         (apply 
 				sa 
 				(map 
-					(lambda (x) 
-						(sa
-						(if	(pe_define? x)
-							(code-gen x '() '(()) )
-							(sa (code-gen x '() '(()) ) print-sob-code)))) 
+					(lambda (x) (sa (code-gen x '() '(()) ) print-sob-code))
 					lst))
                         end-of-file
 ))))
@@ -1265,10 +1261,17 @@ return 0;
 
 ;CISC code for printing a scheme object.
 (define print-sob-code
-        "PUSH(R0);
-        CALL(WRITE_SOB);    
+	(lambda () (let ((label (label-maker "L_JUMP_VOID")))
+	(sa 
+"	CMP(IND(R0),T_VOID);
+	JUMP_EQ("label");
+	PUSH(R0);
+        CALL(WRITE_SOB);
         DROP(IMM(1));
-        OUT(IMM(2), IMM('\\n'));\n")
+        OUT(IMM(2), IMM('\\n'));
+        "label":
+
+"))))
 
 ;Creates a 1 based counter.
 (define counter
@@ -2376,9 +2379,9 @@ RETURN;
 		(cond ((null? d) string-a)
 		      ((pair? d)
 		       (let ((string-d (pair->string (car d) (cdr d))))
-			 (string-append string-a " " string-d)))
+			 (string-append string-a \" \" string-d)))
 		      (else (let ((string-d (run d)))
-			      (string-append string-a " . " string-d)))))))
+			      (string-append string-a \" . \" string-d)))))))
 	   (char->string
 	    (lambda (ch)
 	      (cond ((char=? ch #\\newline) \"#\\\\newline\")
